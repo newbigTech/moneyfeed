@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.pay.dal.dao.PayBillDataExceptionDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.pay.api.bean.PayBillDataExceptionModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="pay_order_no" jdbcType="VARCHAR" property="payOrderNo" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="platformId" jdbcType="VARCHAR" property="platformid" />
+    <result column="merchNo" jdbcType="VARCHAR" property="merchno" />
+    <result column="bank_order_no" jdbcType="VARCHAR" property="bankOrderNo" />
+    <result column="trade_time" jdbcType="TIMESTAMP" property="tradeTime" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="bank_amount" jdbcType="DECIMAL" property="bankAmount" />
+    <result column="fee" jdbcType="DECIMAL" property="fee" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="bank_trade_time" jdbcType="TIMESTAMP" property="bankTradeTime" />
+    <result column="bill_status" jdbcType="VARCHAR" property="billStatus" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="reason" jdbcType="VARCHAR" property="reason" />
+    <result column="reason_type" jdbcType="VARCHAR" property="reasonType" />
+    <result column="fix_flag" jdbcType="BIT" property="fixFlag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gmt_created, gmt_modified, creator, modifier, version, pay_order_no, order_no, 
+    platformId, merchNo, bank_order_no, trade_time, amount, bank_amount, fee, remark, 
+    bank_trade_time, bill_status, status, reason, reason_type, fix_flag
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.pay.api.bean.PayBillDataExceptionModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.pay_bill_data_exception
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="payOrderNo != null">
+         and pay_order_no = #{payOrderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="orderNo != null">
+         and order_no = #{orderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="platformid != null">
+         and platformId = #{platformid,jdbcType=VARCHAR}
+      </if>
+      <if test="merchno != null">
+         and merchNo = #{merchno,jdbcType=VARCHAR}
+      </if>
+      <if test="bankOrderNo != null">
+         and bank_order_no = #{bankOrderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="tradeTime != null">
+         and trade_time = #{tradeTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="amount != null">
+         and amount = #{amount,jdbcType=DECIMAL}
+      </if>
+      <if test="bankAmount != null">
+         and bank_amount = #{bankAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="fee != null">
+         and fee = #{fee,jdbcType=DECIMAL}
+      </if>
+      <if test="remark != null">
+         and remark = #{remark,jdbcType=VARCHAR}
+      </if>
+      <if test="bankTradeTime != null">
+         and bank_trade_time = #{bankTradeTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="billStatus != null">
+         and bill_status = #{billStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null">
+         and status = #{status,jdbcType=VARCHAR}
+      </if>
+      <if test="reason != null">
+         and reason = #{reason,jdbcType=VARCHAR}
+      </if>
+      <if test="reasonType != null">
+         and reason_type = #{reasonType,jdbcType=VARCHAR}
+      </if>
+      <if test="fixFlag != null">
+         and fix_flag = #{fixFlag,jdbcType=BIT}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.pay_bill_data_exception (gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      pay_order_no, 
+      order_no, 
+      platformId, 
+      merchNo, 
+      bank_order_no, 
+      trade_time, 
+      amount, 
+      bank_amount, 
+      fee, 
+      remark, 
+      bank_trade_time, 
+      bill_status, 
+      status, 
+      reason, 
+      reason_type, 
+      fix_flag
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.payOrderNo,jdbcType=VARCHAR}, #{model.orderNo,jdbcType=VARCHAR}, #{model.platformid,jdbcType=VARCHAR}, 
+      #{model.merchno,jdbcType=VARCHAR}, #{model.bankOrderNo,jdbcType=VARCHAR}, #{model.tradeTime,jdbcType=TIMESTAMP}, 
+      #{model.amount,jdbcType=DECIMAL}, #{model.bankAmount,jdbcType=DECIMAL}, #{model.fee,jdbcType=DECIMAL}, 
+      #{model.remark,jdbcType=VARCHAR}, #{model.bankTradeTime,jdbcType=TIMESTAMP}, #{model.billStatus,jdbcType=VARCHAR}, 
+      #{model.status,jdbcType=VARCHAR}, #{model.reason,jdbcType=VARCHAR}, #{model.reasonType,jdbcType=VARCHAR}, 
+      #{model.fixFlag,jdbcType=BIT}	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.pay_bill_data_exception
+    <set>
+      <if test="newModel.payOrderNo != null">
+        pay_order_no = #{newModel.payOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.orderNo != null">
+        order_no = #{newModel.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.platformid != null">
+        platformId = #{newModel.platformid,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.merchno != null">
+        merchNo = #{newModel.merchno,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.bankOrderNo != null">
+        bank_order_no = #{newModel.bankOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.tradeTime != null">
+        trade_time = #{newModel.tradeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newModel.amount != null">
+        amount = #{newModel.amount,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.bankAmount != null">
+        bank_amount = #{newModel.bankAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.fee != null">
+        fee = #{newModel.fee,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.remark != null">
+        remark = #{newModel.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.bankTradeTime != null">
+        bank_trade_time = #{newModel.bankTradeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newModel.billStatus != null">
+        bill_status = #{newModel.billStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.status != null">
+        status = #{newModel.status,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.reason != null">
+        reason = #{newModel.reason,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.reasonType != null">
+        reason_type = #{newModel.reasonType,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.fixFlag != null">
+        fix_flag = #{newModel.fixFlag,jdbcType=BIT},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.payOrderNo != null">
+         and pay_order_no = #{oldModel.payOrderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.orderNo != null">
+         and order_no = #{oldModel.orderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.platformid != null">
+         and platformId = #{oldModel.platformid,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.merchno != null">
+         and merchNo = #{oldModel.merchno,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.bankOrderNo != null">
+         and bank_order_no = #{oldModel.bankOrderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.tradeTime != null">
+         and trade_time = #{oldModel.tradeTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="oldModel.amount != null">
+         and amount = #{oldModel.amount,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.bankAmount != null">
+         and bank_amount = #{oldModel.bankAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.fee != null">
+         and fee = #{oldModel.fee,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.remark != null">
+         and remark = #{oldModel.remark,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.bankTradeTime != null">
+         and bank_trade_time = #{oldModel.bankTradeTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="oldModel.billStatus != null">
+         and bill_status = #{oldModel.billStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.status != null">
+         and status = #{oldModel.status,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.reason != null">
+         and reason = #{oldModel.reason,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.reasonType != null">
+         and reason_type = #{oldModel.reasonType,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.fixFlag != null">
+         and fix_flag = #{oldModel.fixFlag,jdbcType=BIT}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.pay.api.bean.PayBillDataExceptionModel">
+    delete from moneyfeed.pay_bill_data_exception
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="payOrderNo != null">
+         and pay_order_no = #{payOrderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="orderNo != null">
+         and order_no = #{orderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="platformid != null">
+         and platformId = #{platformid,jdbcType=VARCHAR}
+      </if>
+      <if test="merchno != null">
+         and merchNo = #{merchno,jdbcType=VARCHAR}
+      </if>
+      <if test="bankOrderNo != null">
+         and bank_order_no = #{bankOrderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="tradeTime != null">
+         and trade_time = #{tradeTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="amount != null">
+         and amount = #{amount,jdbcType=DECIMAL}
+      </if>
+      <if test="bankAmount != null">
+         and bank_amount = #{bankAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="fee != null">
+         and fee = #{fee,jdbcType=DECIMAL}
+      </if>
+      <if test="remark != null">
+         and remark = #{remark,jdbcType=VARCHAR}
+      </if>
+      <if test="bankTradeTime != null">
+         and bank_trade_time = #{bankTradeTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="billStatus != null">
+         and bill_status = #{billStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null">
+         and status = #{status,jdbcType=VARCHAR}
+      </if>
+      <if test="reason != null">
+         and reason = #{reason,jdbcType=VARCHAR}
+      </if>
+      <if test="reasonType != null">
+         and reason_type = #{reasonType,jdbcType=VARCHAR}
+      </if>
+      <if test="fixFlag != null">
+         and fix_flag = #{fixFlag,jdbcType=BIT}
+      </if>
+    </where>
+  </delete>
+</mapper>

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.pay.dal.dao.PayBillDataDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.pay.api.bean.PayBillDataModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="pay_order_no" jdbcType="VARCHAR" property="payOrderNo" />
+    <result column="bank_order_no" jdbcType="VARCHAR" property="bankOrderNo" />
+    <result column="bank_amount" jdbcType="DECIMAL" property="bankAmount" />
+    <result column="fee" jdbcType="DECIMAL" property="fee" />
+    <result column="trade_type" jdbcType="VARCHAR" property="tradeType" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="bank_trade_time" jdbcType="TIMESTAMP" property="bankTradeTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gmt_created, gmt_modified, creator, modifier, version, pay_order_no, bank_order_no, 
+    bank_amount, fee, trade_type, status, bank_trade_time, remark
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.pay.api.bean.PayBillDataModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.pay_bill_data
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="payOrderNo != null">
+         and pay_order_no = #{payOrderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="bankOrderNo != null">
+         and bank_order_no = #{bankOrderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="bankAmount != null">
+         and bank_amount = #{bankAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="fee != null">
+         and fee = #{fee,jdbcType=DECIMAL}
+      </if>
+      <if test="tradeType != null">
+         and trade_type = #{tradeType,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null">
+         and status = #{status,jdbcType=VARCHAR}
+      </if>
+      <if test="bankTradeTime != null">
+         and bank_trade_time = #{bankTradeTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="remark != null">
+         and remark = #{remark,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.pay_bill_data (gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      pay_order_no, 
+      bank_order_no, 
+      bank_amount, 
+      fee, 
+      trade_type, 
+      status, 
+      bank_trade_time, 
+      remark
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.payOrderNo,jdbcType=VARCHAR}, #{model.bankOrderNo,jdbcType=VARCHAR}, 
+      #{model.bankAmount,jdbcType=DECIMAL}, #{model.fee,jdbcType=DECIMAL}, #{model.tradeType,jdbcType=VARCHAR}, 
+      #{model.status,jdbcType=VARCHAR}, #{model.bankTradeTime,jdbcType=TIMESTAMP}, #{model.remark,jdbcType=VARCHAR}
+      	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.pay_bill_data
+    <set>
+      <if test="newModel.payOrderNo != null">
+        pay_order_no = #{newModel.payOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.bankOrderNo != null">
+        bank_order_no = #{newModel.bankOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.bankAmount != null">
+        bank_amount = #{newModel.bankAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.fee != null">
+        fee = #{newModel.fee,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.tradeType != null">
+        trade_type = #{newModel.tradeType,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.status != null">
+        status = #{newModel.status,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.bankTradeTime != null">
+        bank_trade_time = #{newModel.bankTradeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newModel.remark != null">
+        remark = #{newModel.remark,jdbcType=VARCHAR},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.payOrderNo != null">
+         and pay_order_no = #{oldModel.payOrderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.bankOrderNo != null">
+         and bank_order_no = #{oldModel.bankOrderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.bankAmount != null">
+         and bank_amount = #{oldModel.bankAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.fee != null">
+         and fee = #{oldModel.fee,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.tradeType != null">
+         and trade_type = #{oldModel.tradeType,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.status != null">
+         and status = #{oldModel.status,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.bankTradeTime != null">
+         and bank_trade_time = #{oldModel.bankTradeTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="oldModel.remark != null">
+         and remark = #{oldModel.remark,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.pay.api.bean.PayBillDataModel">
+    delete from moneyfeed.pay_bill_data
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="payOrderNo != null">
+         and pay_order_no = #{payOrderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="bankOrderNo != null">
+         and bank_order_no = #{bankOrderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="bankAmount != null">
+         and bank_amount = #{bankAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="fee != null">
+         and fee = #{fee,jdbcType=DECIMAL}
+      </if>
+      <if test="tradeType != null">
+         and trade_type = #{tradeType,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null">
+         and status = #{status,jdbcType=VARCHAR}
+      </if>
+      <if test="bankTradeTime != null">
+         and bank_trade_time = #{bankTradeTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="remark != null">
+         and remark = #{remark,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+</mapper>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.pay.dal.dao.PayOrderInfoDao">
+
+
+    <select id="queryList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from moneyfeed.pay_order_info
+        <where>
+            <if test="param.tradeBeginDate != null">
+                AND trade_time >= #{param.tradeBeginDate,jdbcType=TIMESTAMP}
+            </if>
+            <if test="param.tradeEndDate != null">
+                <![CDATA[ AND trade_time <= #{param.tradeEndDate,jdbcType=TIMESTAMP} ]]>
+            </if>
+            <if test="param.payOrderNoList != null and param.payOrderNoList.size() > 0">
+                AND `pay_order_no` in
+                <foreach item="item" index="index" collection="param.payOrderNoList" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+
+            <if test="param.checkStatusList != null and param.checkStatusList.size() > 0">
+                AND `check_status` in
+                <foreach item="item" index="index" collection="param.checkStatusList" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="param.payStatusList != null and param.payStatusList.size() > 0">
+                AND `status` in
+                <foreach item="item" index="index" collection="param.payStatusList" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+</mapper>

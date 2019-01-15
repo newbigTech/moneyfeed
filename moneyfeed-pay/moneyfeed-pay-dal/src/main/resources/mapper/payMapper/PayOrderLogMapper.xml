@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.pay.dal.dao.PayOrderLogDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.pay.api.bean.PayOrderLogModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="pay_order_id" jdbcType="BIGINT" property="payOrderId" />
+    <result column="pay_order_no" jdbcType="VARCHAR" property="payOrderNo" />
+    <result column="before_status" jdbcType="VARCHAR" property="beforeStatus" />
+    <result column="after_status" jdbcType="VARCHAR" property="afterStatus" />
+    <result column="before_ebs_status" jdbcType="VARCHAR" property="beforeEbsStatus" />
+    <result column="after_ebs_status" jdbcType="VARCHAR" property="afterEbsStatus" />
+    <result column="before_check_status" jdbcType="VARCHAR" property="beforeCheckStatus" />
+    <result column="after_check_status" jdbcType="VARCHAR" property="afterCheckStatus" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gmt_created, gmt_modified, creator, modifier, version, pay_order_id, pay_order_no, 
+    before_status, after_status, before_ebs_status, after_ebs_status, before_check_status, 
+    after_check_status, remark
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.pay.api.bean.PayOrderLogModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.pay_order_log
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="payOrderId != null">
+         and pay_order_id = #{payOrderId,jdbcType=BIGINT}
+      </if>
+      <if test="payOrderNo != null">
+         and pay_order_no = #{payOrderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="beforeStatus != null">
+         and before_status = #{beforeStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="afterStatus != null">
+         and after_status = #{afterStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="beforeEbsStatus != null">
+         and before_ebs_status = #{beforeEbsStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="afterEbsStatus != null">
+         and after_ebs_status = #{afterEbsStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="beforeCheckStatus != null">
+         and before_check_status = #{beforeCheckStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="afterCheckStatus != null">
+         and after_check_status = #{afterCheckStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="remark != null">
+         and remark = #{remark,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.pay_order_log (gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      pay_order_id, 
+      pay_order_no, 
+      before_status, 
+      after_status, 
+      before_ebs_status, 
+      after_ebs_status, 
+      before_check_status, 
+      after_check_status, 
+      remark
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.payOrderId,jdbcType=BIGINT}, #{model.payOrderNo,jdbcType=VARCHAR}, #{model.beforeStatus,jdbcType=VARCHAR}, 
+      #{model.afterStatus,jdbcType=VARCHAR}, #{model.beforeEbsStatus,jdbcType=VARCHAR}, 
+      #{model.afterEbsStatus,jdbcType=VARCHAR}, #{model.beforeCheckStatus,jdbcType=VARCHAR}, 
+      #{model.afterCheckStatus,jdbcType=VARCHAR}, #{model.remark,jdbcType=VARCHAR}	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.pay_order_log
+    <set>
+      <if test="newModel.payOrderId != null">
+        pay_order_id = #{newModel.payOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.payOrderNo != null">
+        pay_order_no = #{newModel.payOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.beforeStatus != null">
+        before_status = #{newModel.beforeStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.afterStatus != null">
+        after_status = #{newModel.afterStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.beforeEbsStatus != null">
+        before_ebs_status = #{newModel.beforeEbsStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.afterEbsStatus != null">
+        after_ebs_status = #{newModel.afterEbsStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.beforeCheckStatus != null">
+        before_check_status = #{newModel.beforeCheckStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.afterCheckStatus != null">
+        after_check_status = #{newModel.afterCheckStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.remark != null">
+        remark = #{newModel.remark,jdbcType=VARCHAR},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.payOrderId != null">
+         and pay_order_id = #{oldModel.payOrderId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.payOrderNo != null">
+         and pay_order_no = #{oldModel.payOrderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.beforeStatus != null">
+         and before_status = #{oldModel.beforeStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.afterStatus != null">
+         and after_status = #{oldModel.afterStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.beforeEbsStatus != null">
+         and before_ebs_status = #{oldModel.beforeEbsStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.afterEbsStatus != null">
+         and after_ebs_status = #{oldModel.afterEbsStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.beforeCheckStatus != null">
+         and before_check_status = #{oldModel.beforeCheckStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.afterCheckStatus != null">
+         and after_check_status = #{oldModel.afterCheckStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.remark != null">
+         and remark = #{oldModel.remark,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.pay.api.bean.PayOrderLogModel">
+    delete from moneyfeed.pay_order_log
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="payOrderId != null">
+         and pay_order_id = #{payOrderId,jdbcType=BIGINT}
+      </if>
+      <if test="payOrderNo != null">
+         and pay_order_no = #{payOrderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="beforeStatus != null">
+         and before_status = #{beforeStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="afterStatus != null">
+         and after_status = #{afterStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="beforeEbsStatus != null">
+         and before_ebs_status = #{beforeEbsStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="afterEbsStatus != null">
+         and after_ebs_status = #{afterEbsStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="beforeCheckStatus != null">
+         and before_check_status = #{beforeCheckStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="afterCheckStatus != null">
+         and after_check_status = #{afterCheckStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="remark != null">
+         and remark = #{remark,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+</mapper>
