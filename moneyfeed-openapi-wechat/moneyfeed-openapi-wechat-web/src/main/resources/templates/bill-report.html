@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title th:text="${bill.companyName} + '应收账款余额确认函'"></title>
+</head>
+
+<body th:with="fontSize=${'font-size: 12px;'},
+thStyle=${'border:1px solid #ddd; padding: 8px; font-weight: normal; font-size: 14px;'},
+tdStyle=${'border:1px solid #ddd; padding: 4px; font-size: 15px;'}
+">
+<div style="margin:0 auto; padding-bottom: 50px;">
+    <h1 style="text-align:center;">新希望六和股份有限公司</h1>
+    <h2 style="text-align:center;"><span th:text="${bill.companyName}"></span>应收账款余额确认函</h2>
+    <div style="text-align:left;">尊敬的 <span th:text="${bill.customerName}"></span> 客户：</div>
+    <div style="text-indent:40px;">
+        <p style="margin: 8px 0; line-height: 1.5;">感谢您长期以来与我公司的友好合作，为确保我们双方合作账目清楚，现将截止<span
+                th:text="${bill.date}"></span>我们双方的往来余额与您确认。</p>
+        <p style="margin: 8px 0; line-height: 1.5;">
+            截止<span th:text="${bill.date}"></span>，我公司记录您欠桂林新希望饲料有限公司货款<span th:text="${bill.endingBalance}"></span>元，请您核对确认。
+            如果与您的记录核对相符，请在"经核对，我方确认无误，确认欠款金额为： "处签名确认，如与您的记录不符，
+            请在"记录不符，我方记录为： "处签名确认，并列出您的记录金额。
+        </p>
+    </div>
+    <table style="padding: 10px;border-collapse: collapse;width: 100%;text-align:right;margin-top: 20px;table-layout:fixed;">
+        <tbody>
+        <tr>
+            <td style="width: 170px;">
+                <p>记录不符，我方记录为：<br/>&nbsp;</p>
+            </td>
+            <td style="width: 300px;">
+                <p>经核对，我方确认无误，<br/>确认欠款金额为：</p>
+            </td>
+            <td style="width: 180px;"></td>
+            <td style="width: 180px;"></td>
+            <td style="width: 100px;"></td>
+        </tr>
+        <tr>
+            <td>
+                <p>确认人签字：</p>
+                <p>确认日期：</p>
+            </td>
+            <td>
+                <p>确认人签字：</p>
+                <p>确认日期：</p>
+            </td>
+            <td>
+                <p>公司签章：</p>
+                <p>&nbsp;</p>
+            </td>
+            <td>
+                <p>经办人签字：</p>
+                <p>确认日期：</p>
+            </td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+    <p style="margin-top: 50px; font-size:15px;">附：客户往来明细对账表</p>
+    <h2 style="text-align:center;">桂林新希望饲料有限公司客户往来明细对账表</h2>
+    <div>
+        <p style="margin: 0; line-height: 1.5; font-size: 14px;">客户名称：<span th:text="${bill.customerName}"></span></p>
+        <p style="margin: 0; line-height: 1.5; font-size: 14px;">对账期从：<span th:text="${bill.start}"></span></p>
+        <p style="margin: 0; line-height: 1.5; font-size: 14px;">对账期至：<span th:text="${bill.end}"></span></p>
+        <p style="margin: 0; line-height: 1.5; font-size: 14px;">金额单位：人民币 元</p>
+    </div>
+    <table style="border:1px solid #ddd;border-collapse: collapse;width: 100%;">
+        <thead>
+        <tr style="background: skyblue;">
+            <th th:style="${thStyle}">提货日期</th>
+            <th th:style="${thStyle}">摘要</th>
+            <th th:style="${thStyle}">提货车牌</th>
+            <th th:style="${thStyle}">原始单据号</th>
+            <th th:style="${thStyle}">数量单位</th>
+            <th th:style="${thStyle}">数量</th>
+            <th th:style="${thStyle}">厂价单价</th>
+            <th th:style="${thStyle}">销售单价</th>
+            <th th:style="${thStyle}">吨均现折</th>
+            <th th:style="${thStyle}">应收货款</th>
+            <th th:style="${thStyle}">实际收款</th>
+            <th th:style="${thStyle}">余额</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr style="background:yellow;">
+            <td th:style="${tdStyle}"></td>
+            <td th:style="${tdStyle}" colspan="10">期初余额</td>
+            <td th:style="${tdStyle}" th:text="${bill.openingBalance}"></td>
+        </tr>
+        <tr th:each="detail : ${bill.details}">
+            <td th:style="${tdStyle}" th:text="${#dates.format(detail.gmtCreated, 'yyyy-MMM-dd')}"></td>
+            <td th:style="${tdStyle}" th:text="${detail.materielName}">青印迹生长猪配合饲料小猪料</td>
+            <td th:style="${tdStyle}" th:text="${detail.carNum}">粤HZY591</td>
+            <td th:style="${tdStyle}" th:text="${detail.docmentNum}">114980039627</td>
+            <td th:style="${tdStyle}" th:text="${detail.uomCode}">吨</td>
+            <td th:style="${tdStyle}" th:text="${detail.quantity}">5.00</td>
+            <td th:style="${tdStyle}" th:text="${detail.basePrice}">3,250.00</td>
+            <td th:style="${tdStyle}" th:text="${detail.salePrice}">2,650.00</td>
+            <td th:style="${tdStyle}" th:text="${detail.tAreFold}">600.00</td>
+            <td th:style="${tdStyle}" th:text="${detail.accountReceivable}">13,250.00</td>
+            <td th:style="${tdStyle}" th:text="${detail.fundsReceived}">13,884.00</td>
+            <td th:style="${tdStyle}" th:text="${detail.balance}">13,884.00</td>
+        </tr>
+        <tr style="background:yellow;">
+            <td th:style="${tdStyle}"></td>
+            <td th:style="${tdStyle}">期末余额</td>
+            <td th:style="${tdStyle}" colspan="10" th:text="${bill.endingBalance}"></td>
+        </tr>
+        <tr style="background:yellow;">
+            <td th:style="${tdStyle}"></td>
+            <td th:style="${tdStyle}" colspan="3">合计</td>
+            <td th:style="${tdStyle}">吨</td>
+            <td th:style="${tdStyle}" colspan="4" th:text="${bill.totalQuantity}">52.4</td>
+            <td th:style="${tdStyle}" th:text="${bill.totalMustPayable}">131,444.66</td>
+            <td th:style="${tdStyle}" colspan="2" th:text="${bill.totalRealPayable}">148,910.20</td>
+        </tr>
+        <tr style="background:yellow;">
+            <td style="border:1px solid #ddd; padding: 4px; font-size: 15px; text-align: center;" colspan="12">此处一下为空白
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+
+</html>

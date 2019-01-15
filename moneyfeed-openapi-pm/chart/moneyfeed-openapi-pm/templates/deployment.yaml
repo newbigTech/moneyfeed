@@ -1,0 +1,83 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.internalPort }}
+          env:
+        {{- range $env := .Values.env }}  
+          - name: {{ $env.name }}
+            value: {{ $env.value }} 
+        {{- end }}
+          livenessProbe:
+            exec:
+             command:
+               - /bin/sh
+               - /opt/newhope/app/check.sh
+               - http://localhost:{{ .Values.service.internalPort }}/health
+            initialDelaySeconds: 180
+            periodSeconds: 60
+          readinessProbe:
+            exec:
+             command:
+               - /bin/sh
+               - /opt/newhope/app/check.sh
+               - http://localhost:{{ .Values.service.internalPort }}/health
+            initialDelaySeconds: 100
+            periodSeconds: 30
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+          volumeMounts:
+        {{- if .Values.volumes }}
+          - name: nas
+            mountPath: /opt/newhope/files/
+            readOnly: false
+        {{- end }}
+          - name: log
+            mountPath: /var/log/webapps
+            readOnly: false
+          - name: host-time
+            mountPath: /etc/localtime
+            readOnly: true
+    {{- if .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml .Values.nodeSelector | indent 8 }}
+    {{- end }}
+      volumes:
+       - name: host-time
+         hostPath:
+          path: /etc/localtime
+    {{- if .Values.volumes }}  
+       - name: log
+         nfs:
+           server: {{ .Values.volumes.server }}
+           path: {{ .Values.volumes.pathlog }}
+    {{- end }}
+    {{- if .Values.volumes }}  
+       - name: nas
+         nfs:
+          server: {{ .Values.volumes.server }}
+          path: {{ .Values.volumes.path }}
+    {{- end }}
+    {{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+      - name: {{ .Values.imagePullSecrets.name }}
+    {{- end }}

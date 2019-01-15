@@ -1,0 +1,4 @@
+spring:
+  cloud:
+    config:
+     uri: http://172.16.10.162:9999
