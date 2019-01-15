@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.newhope.moneyfeed</groupId>
+		<artifactId>moneyfeed-schedule</artifactId>
+		<version>1.0.0.SNAPSHOT</version>
+	</parent>
+
+	<artifactId>moneyfeed-schedule-biz</artifactId>
+	<name>moneyfeed-schedule-biz</name>
+	<dependencies>
+		<dependency>
+			<groupId>com.newhope.moneyfeed</groupId>
+			<artifactId>moneyfeed-schedule-dal</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.newhope.moneyfeed</groupId>
+			<artifactId>moneyfeed-schedule-integration</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.newhope.ejob.boot</groupId>
+			<artifactId>ejob-spring-boot-starter</artifactId>
+			<version>1.0.0.SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>guava</artifactId>
+					<groupId>com.google.guava</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!-- trade mq -->
+		<dependency>
+			<groupId>com.newhope.moneyfeed</groupId>
+			<artifactId>moneyfeed-common</artifactId>
+			<version>1.0.0.SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.newhope.moneyfeed</groupId>
+			<artifactId>moneyfeed-integration-api</artifactId>
+			<version>1.0.0.SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.newhope.moneyfeed</groupId>
+			<artifactId>moneyfeed-schedule-api</artifactId>
+			<version>1.0.0.SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.newhope.moneyfeed</groupId>
+			<artifactId>moneyfeed-goods-api</artifactId>
+			<version>1.0.0.SNAPSHOT</version>
+		</dependency>
+		<dependency>
+            <groupId>com.newhope.moneyfeed</groupId>
+            <artifactId>moneyfeed-order-api</artifactId>
+            <version>1.0.0.SNAPSHOT</version>
+        </dependency>
+		<dependency>
+			<groupId>com.newhope.moneyfeed</groupId>
+			<artifactId>moneyfeed-pay-api</artifactId>
+			<version>1.0.0.SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+</project>
