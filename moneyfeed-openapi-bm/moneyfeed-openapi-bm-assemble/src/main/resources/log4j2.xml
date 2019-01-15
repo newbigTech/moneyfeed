@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="INFO" packages="com.newhope.log.autoconfigure.log4j2">
+	<Properties>
+		<Property name="APP_NAME">moneyfeed-openapi-bm</Property>
+		<Property name="LOG_FILE">${APP_NAME}-info.log</Property>
+		<Property name="LOG_ERROR_FILE">${APP_NAME}-error.log</Property>
+		<Property name="LOG_PATH">/var/log/webapps/${APP_NAME}</Property>
+	<!--	<Property name="KAFKA_SERVERS">${spring:KAFKA_BOOTSTRAP_SERVERS}</Property>-->
+		<Property name="PROFILE">${spring:NEWHOPE_PROFILE_GROUP}</Property>
+	</Properties>
+	<appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<ThresholdFilter level="trace" onMatch="ACCEPT"
+				onMismatch="DENY" />
+			<PatternLayout
+				pattern="%d{yyyy.MM.dd 'at'HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n" />
+		</Console>
+		<RollingRandomAccessFile name="logInfoFile"
+			fileName="${LOG_PATH}/${LOG_FILE}" filePattern="${LOG_PATH}/${LOG_FILE}.%d{yyyy-MM-dd}-%i.log.gz">
+			<PatternLayout
+				pattern="%d{yyyy.MM.dd 'at' HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n" />
+			<Policies>                      
+				<SizeBasedTriggeringPolicy size="200 MB" />        
+			</Policies>        
+			<DefaultRolloverStrategy max="1">
+				<Delete basePath="${LOG_PATH}" maxDepth="1">  
+                  <IfFileName glob="${LOG_FILE}.*.log.gz" />  
+                  <IfLastModified age="0s" />  
+                </Delete>  
+			</DefaultRolloverStrategy>
+		</RollingRandomAccessFile>
+
+		<RollingRandomAccessFile name="logErrorFile"
+			fileName="${LOG_PATH}/${LOG_ERROR_FILE}" filePattern="${LOG_PATH}/${LOG_ERROR_FILE}.%d{yyyy-MM-dd}-%i.log.gz">
+			<ThresholdFilter level="ERROR" onMatch="ACCEPT"
+				onMismatch="DENY" />
+			<PatternLayout
+				pattern="%d{yyyy.MM.dd 'at' HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n" />
+			<Policies>                        
+				<SizeBasedTriggeringPolicy size="200 MB" />        
+			</Policies>        
+			<DefaultRolloverStrategy max="1">
+				<Delete basePath="${LOG_PATH}" maxDepth="1">  
+                  <IfFileName glob="${LOG_ERROR_FILE}.*.log.gz" />  
+                  <IfLastModified age="0s" />  
+                </Delete>  
+			</DefaultRolloverStrategy>
+		</RollingRandomAccessFile>
+		<!-- 输出错误日志到Kafka -->  
+       <!-- <Kafka name="KAFKA" topic="sample">
+            <ThresholdFilter level="trace" onMatch="ACCEPT" onMismatch="DENY" />  
+            <KafkaLayout name="${APP_NAME}" profile="${PROFILE}"/>  
+            <Property name="bootstrap.servers">${KAFKA_SERVERS}</Property>  
+        </Kafka>-->
+	</appenders>
+	<loggers>
+		<root level="INFO"> 
+			<appender-ref ref="logInfoFile" />
+			<appender-ref ref="Console" />
+			<appender-ref ref="logErrorFile" />
+			<!--<appender-ref ref="KAFKA" />-->
+		</root>
+		<logger name="com.alibaba.druid.pool" level="INFO" >
+			<appender-ref ref="logInfoFile" />
+			<appender-ref ref="Console" />
+			<appender-ref ref="logErrorFile" />
+		</logger>
+
+		<logger name="org.springframework" level="ERROR" >
+			<appender-ref ref="Console" />
+		</logger>
+		<logger name="org.apache.kafka" level="ERROR" >
+			<appender-ref ref="Console" />
+		</logger>
+		<logger name="com.netflix" level="ERROR" >
+			<appender-ref ref="Console" />
+		</logger>
+		<logger name="springfox.documentation" level="ERROR" >
+			<appender-ref ref="Console" />
+		</logger>
+		<logger name="org.elasticsearch.plugins" level="ERROR" >
+			<appender-ref ref="Console" />
+		</logger>
+		<logger name="org.apache.zookeeper" level="ERROR" >
+			<appender-ref ref="Console" />
+		</logger>
+		<logger name="springfox.documentation" level="ERROR" >
+			<appender-ref ref="Console" />
+		</logger>
+		<logger name="org.apache.http.impl.client.DefaultRequestDirector" level="ERROR" >
+			<appender-ref ref="Console" />
+		</logger>
+	</loggers>
+</configuration>   
