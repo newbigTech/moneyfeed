@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.user.dal.dao.client.UcCustomerCarDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.user.api.bean.client.UcCustomerCarModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="car_num" jdbcType="VARCHAR" property="carNum" />
+    <result column="driver_name" jdbcType="VARCHAR" property="driverName" />
+    <result column="driver_mobile" jdbcType="VARCHAR" property="driverMobile" />
+    <result column="driver_card_num" jdbcType="VARCHAR" property="driverCardNum" />
+    <result column="customer_id" jdbcType="BIGINT" property="customerId" />
+    <result column="default_flag" jdbcType="BIT" property="defaultFlag" />
+    <result column="enable" jdbcType="BIT" property="enable" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gmt_created, gmt_modified, creator, modifier, version, car_num, driver_name, 
+    driver_mobile, driver_card_num, customer_id, default_flag, enable
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.user.api.bean.client.UcCustomerCarModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.uc_customer_car
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="carNum != null">
+         and car_num = #{carNum,jdbcType=VARCHAR}
+      </if>
+      <if test="driverName != null">
+         and driver_name = #{driverName,jdbcType=VARCHAR}
+      </if>
+      <if test="driverMobile != null">
+         and driver_mobile = #{driverMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="driverCardNum != null">
+         and driver_card_num = #{driverCardNum,jdbcType=VARCHAR}
+      </if>
+      <if test="customerId != null">
+         and customer_id = #{customerId,jdbcType=BIGINT}
+      </if>
+      <if test="defaultFlag != null">
+         and default_flag = #{defaultFlag,jdbcType=BIT}
+      </if>
+      <if test="enable != null">
+         and enable = #{enable,jdbcType=BIT}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.uc_customer_car (gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      car_num, 
+      driver_name, 
+      driver_mobile, 
+      driver_card_num, 
+      customer_id, 
+      default_flag, 
+      enable
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.carNum,jdbcType=VARCHAR}, #{model.driverName,jdbcType=VARCHAR}, #{model.driverMobile,jdbcType=VARCHAR}, 
+      #{model.driverCardNum,jdbcType=VARCHAR}, #{model.customerId,jdbcType=BIGINT}, #{model.defaultFlag,jdbcType=BIT}, 
+      #{model.enable,jdbcType=BIT}	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.uc_customer_car
+    <set>
+      <if test="newModel.carNum != null">
+        car_num = #{newModel.carNum,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.driverName != null">
+        driver_name = #{newModel.driverName,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.driverMobile != null">
+        driver_mobile = #{newModel.driverMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.driverCardNum != null">
+        driver_card_num = #{newModel.driverCardNum,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.customerId != null">
+        customer_id = #{newModel.customerId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.defaultFlag != null">
+        default_flag = #{newModel.defaultFlag,jdbcType=BIT},
+      </if>
+      <if test="newModel.enable != null">
+        enable = #{newModel.enable,jdbcType=BIT},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.carNum != null">
+         and car_num = #{oldModel.carNum,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.driverName != null">
+         and driver_name = #{oldModel.driverName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.driverMobile != null">
+         and driver_mobile = #{oldModel.driverMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.driverCardNum != null">
+         and driver_card_num = #{oldModel.driverCardNum,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.customerId != null">
+         and customer_id = #{oldModel.customerId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.defaultFlag != null">
+         and default_flag = #{oldModel.defaultFlag,jdbcType=BIT}
+      </if>
+      <if test="oldModel.enable != null">
+         and enable = #{oldModel.enable,jdbcType=BIT}
+      </if>
+    </where>
+  </update>
+  <update id="updateIncludeNull">
+    update moneyfeed.uc_customer_car
+    <set>
+      car_num = #{newModel.carNum,jdbcType=VARCHAR},
+      driver_name = #{newModel.driverName,jdbcType=VARCHAR},
+      driver_mobile = #{newModel.driverMobile,jdbcType=VARCHAR},
+      driver_card_num = #{newModel.driverCardNum,jdbcType=VARCHAR},
+      customer_id = #{newModel.customerId,jdbcType=BIGINT},
+      default_flag = #{newModel.defaultFlag,jdbcType=BIT},
+      enable = #{newModel.enable,jdbcType=BIT},
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.carNum != null">
+         and car_num = #{oldModel.carNum,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.driverName != null">
+         and driver_name = #{oldModel.driverName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.driverMobile != null">
+         and driver_mobile = #{oldModel.driverMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.driverCardNum != null">
+         and driver_card_num = #{oldModel.driverCardNum,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.customerId != null">
+         and customer_id = #{oldModel.customerId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.defaultFlag != null">
+         and default_flag = #{oldModel.defaultFlag,jdbcType=BIT}
+      </if>
+      <if test="oldModel.enable != null">
+         and enable = #{oldModel.enable,jdbcType=BIT}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.user.api.bean.client.UcCustomerCarModel">
+    delete from moneyfeed.uc_customer_car
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="carNum != null">
+         and car_num = #{carNum,jdbcType=VARCHAR}
+      </if>
+      <if test="driverName != null">
+         and driver_name = #{driverName,jdbcType=VARCHAR}
+      </if>
+      <if test="driverMobile != null">
+         and driver_mobile = #{driverMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="driverCardNum != null">
+         and driver_card_num = #{driverCardNum,jdbcType=VARCHAR}
+      </if>
+      <if test="customerId != null">
+         and customer_id = #{customerId,jdbcType=BIGINT}
+      </if>
+      <if test="defaultFlag != null">
+         and default_flag = #{defaultFlag,jdbcType=BIT}
+      </if>
+      <if test="enable != null">
+         and enable = #{enable,jdbcType=BIT}
+      </if>
+    </where>
+  </delete>
+</mapper>

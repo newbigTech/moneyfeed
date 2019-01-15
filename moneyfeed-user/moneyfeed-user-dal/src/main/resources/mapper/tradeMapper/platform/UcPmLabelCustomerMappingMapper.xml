@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.user.dal.dao.platform.UcPmLabelCustomerMappingDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.user.api.bean.platform.UcPmLabelCustomerMappingModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="label_id" jdbcType="BIGINT" property="labelId" />
+    <result column="customer_id" jdbcType="BIGINT" property="customerId" />
+    <result column="enable" jdbcType="BIT" property="enable" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gmt_created, gmt_modified, creator, modifier, version, label_id, customer_id, 
+    enable
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.user.api.bean.platform.UcPmLabelCustomerMappingModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.uc_pm_label_customer_mapping
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="labelId != null">
+         and label_id = #{labelId,jdbcType=BIGINT}
+      </if>
+      <if test="customerId != null">
+         and customer_id = #{customerId,jdbcType=BIGINT}
+      </if>
+      <if test="enable != null">
+         and enable = #{enable,jdbcType=BIT}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.uc_pm_label_customer_mapping (gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      label_id, 
+      customer_id, 
+      enable
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.labelId,jdbcType=BIGINT}, #{model.customerId,jdbcType=BIGINT}, #{model.enable,jdbcType=BIT}
+      	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.uc_pm_label_customer_mapping
+    <set>
+      <if test="newModel.labelId != null">
+        label_id = #{newModel.labelId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.customerId != null">
+        customer_id = #{newModel.customerId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.enable != null">
+        enable = #{newModel.enable,jdbcType=BIT},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.labelId != null">
+         and label_id = #{oldModel.labelId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.customerId != null">
+         and customer_id = #{oldModel.customerId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.enable != null">
+         and enable = #{oldModel.enable,jdbcType=BIT}
+      </if>
+    </where>
+  </update>
+  <update id="updateIncludeNull">
+    update moneyfeed.uc_pm_label_customer_mapping
+    <set>
+      label_id = #{newModel.labelId,jdbcType=BIGINT},
+      customer_id = #{newModel.customerId,jdbcType=BIGINT},
+      enable = #{newModel.enable,jdbcType=BIT},
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.labelId != null">
+         and label_id = #{oldModel.labelId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.customerId != null">
+         and customer_id = #{oldModel.customerId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.enable != null">
+         and enable = #{oldModel.enable,jdbcType=BIT}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.user.api.bean.platform.UcPmLabelCustomerMappingModel">
+    delete from moneyfeed.uc_pm_label_customer_mapping
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="labelId != null">
+         and label_id = #{labelId,jdbcType=BIGINT}
+      </if>
+      <if test="customerId != null">
+         and customer_id = #{customerId,jdbcType=BIGINT}
+      </if>
+      <if test="enable != null">
+         and enable = #{enable,jdbcType=BIT}
+      </if>
+    </where>
+  </delete>
+</mapper>

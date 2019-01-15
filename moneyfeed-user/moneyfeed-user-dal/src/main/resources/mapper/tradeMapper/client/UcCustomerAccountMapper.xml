@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.user.dal.dao.client.UcCustomerAccountDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.user.api.bean.client.UcCustomerAccountModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="customer_id" jdbcType="BIGINT" property="customerId" />
+    <result column="account_type" jdbcType="VARCHAR" property="accountType" />
+    <result column="card_no" jdbcType="VARCHAR" property="cardNo" />
+    <result column="expired_date" jdbcType="TIMESTAMP" property="expiredDate" />
+    <result column="issuing_bank" jdbcType="VARCHAR" property="issuingBank" />
+    <result column="recommend_flag" jdbcType="BIT" property="recommendFlag" />
+    <result column="enable" jdbcType="BIT" property="enable" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gmt_created, gmt_modified, creator, modifier, version, customer_id, account_type, 
+    card_no, expired_date, issuing_bank, recommend_flag, enable
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.user.api.bean.client.UcCustomerAccountModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.uc_customer_account
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="customerId != null">
+         and customer_id = #{customerId,jdbcType=BIGINT}
+      </if>
+      <if test="accountType != null">
+         and account_type = #{accountType,jdbcType=VARCHAR}
+      </if>
+      <if test="cardNo != null">
+         and card_no = #{cardNo,jdbcType=VARCHAR}
+      </if>
+      <if test="expiredDate != null">
+         and expired_date = #{expiredDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="issuingBank != null">
+         and issuing_bank = #{issuingBank,jdbcType=VARCHAR}
+      </if>
+      <if test="recommendFlag != null">
+         and recommend_flag = #{recommendFlag,jdbcType=BIT}
+      </if>
+      <if test="enable != null">
+         and enable = #{enable,jdbcType=BIT}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.uc_customer_account (gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      customer_id, 
+      account_type, 
+      card_no, 
+      expired_date, 
+      issuing_bank, 
+      recommend_flag, 
+      enable
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.customerId,jdbcType=BIGINT}, #{model.accountType,jdbcType=VARCHAR}, 
+      #{model.cardNo,jdbcType=VARCHAR}, #{model.expiredDate,jdbcType=TIMESTAMP}, #{model.issuingBank,jdbcType=VARCHAR}, 
+      #{model.recommendFlag,jdbcType=BIT}, #{model.enable,jdbcType=BIT}	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.uc_customer_account
+    <set>
+      <if test="newModel.customerId != null">
+        customer_id = #{newModel.customerId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.accountType != null">
+        account_type = #{newModel.accountType,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.cardNo != null">
+        card_no = #{newModel.cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.expiredDate != null">
+        expired_date = #{newModel.expiredDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newModel.issuingBank != null">
+        issuing_bank = #{newModel.issuingBank,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.recommendFlag != null">
+        recommend_flag = #{newModel.recommendFlag,jdbcType=BIT},
+      </if>
+      <if test="newModel.enable != null">
+        enable = #{newModel.enable,jdbcType=BIT},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.customerId != null">
+         and customer_id = #{oldModel.customerId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.accountType != null">
+         and account_type = #{oldModel.accountType,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.cardNo != null">
+         and card_no = #{oldModel.cardNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.expiredDate != null">
+         and expired_date = #{oldModel.expiredDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="oldModel.issuingBank != null">
+         and issuing_bank = #{oldModel.issuingBank,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.recommendFlag != null">
+         and recommend_flag = #{oldModel.recommendFlag,jdbcType=BIT}
+      </if>
+      <if test="oldModel.enable != null">
+         and enable = #{oldModel.enable,jdbcType=BIT}
+      </if>
+    </where>
+  </update>
+  <update id="updateIncludeNull">
+    update moneyfeed.uc_customer_account
+    <set>
+      customer_id = #{newModel.customerId,jdbcType=BIGINT},
+      account_type = #{newModel.accountType,jdbcType=VARCHAR},
+      card_no = #{newModel.cardNo,jdbcType=VARCHAR},
+      expired_date = #{newModel.expiredDate,jdbcType=TIMESTAMP},
+      issuing_bank = #{newModel.issuingBank,jdbcType=VARCHAR},
+      recommend_flag = #{newModel.recommendFlag,jdbcType=BIT},
+      enable = #{newModel.enable,jdbcType=BIT},
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.customerId != null">
+         and customer_id = #{oldModel.customerId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.accountType != null">
+         and account_type = #{oldModel.accountType,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.cardNo != null">
+         and card_no = #{oldModel.cardNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.expiredDate != null">
+         and expired_date = #{oldModel.expiredDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="oldModel.issuingBank != null">
+         and issuing_bank = #{oldModel.issuingBank,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.recommendFlag != null">
+         and recommend_flag = #{oldModel.recommendFlag,jdbcType=BIT}
+      </if>
+      <if test="oldModel.enable != null">
+         and enable = #{oldModel.enable,jdbcType=BIT}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.user.api.bean.client.UcCustomerAccountModel">
+    delete from moneyfeed.uc_customer_account
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="customerId != null">
+         and customer_id = #{customerId,jdbcType=BIGINT}
+      </if>
+      <if test="accountType != null">
+         and account_type = #{accountType,jdbcType=VARCHAR}
+      </if>
+      <if test="cardNo != null">
+         and card_no = #{cardNo,jdbcType=VARCHAR}
+      </if>
+      <if test="expiredDate != null">
+         and expired_date = #{expiredDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="issuingBank != null">
+         and issuing_bank = #{issuingBank,jdbcType=VARCHAR}
+      </if>
+      <if test="recommendFlag != null">
+         and recommend_flag = #{recommendFlag,jdbcType=BIT}
+      </if>
+      <if test="enable != null">
+         and enable = #{enable,jdbcType=BIT}
+      </if>
+    </where>
+  </delete>
+</mapper>

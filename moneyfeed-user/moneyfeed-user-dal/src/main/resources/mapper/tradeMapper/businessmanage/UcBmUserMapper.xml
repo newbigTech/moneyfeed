@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.user.dal.dao.businessmanage.UcBmUserDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.user.api.bean.businessmanage.UcBmUserModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="shop_id" jdbcType="BIGINT" property="shopId" />
+    <result column="enable" jdbcType="BIT" property="enable" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gmt_created, gmt_modified, creator, modifier, version, name, mobile, password, 
+    shop_id, enable
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.user.api.bean.businessmanage.UcBmUserModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.uc_bm_user
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="name != null">
+         and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="mobile != null">
+         and mobile = #{mobile,jdbcType=VARCHAR}
+      </if>
+      <if test="password != null">
+         and password = #{password,jdbcType=VARCHAR}
+      </if>
+      <if test="shopId != null">
+         and shop_id = #{shopId,jdbcType=BIGINT}
+      </if>
+      <if test="enable != null">
+         and enable = #{enable,jdbcType=BIT}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.uc_bm_user (gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      name, 
+      mobile, 
+      password, 
+      shop_id, 
+      enable
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.name,jdbcType=VARCHAR}, #{model.mobile,jdbcType=VARCHAR}, #{model.password,jdbcType=VARCHAR}, 
+      #{model.shopId,jdbcType=BIGINT}, #{model.enable,jdbcType=BIT}	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.uc_bm_user
+    <set>
+      <if test="newModel.name != null">
+        name = #{newModel.name,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.mobile != null">
+        mobile = #{newModel.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.password != null">
+        password = #{newModel.password,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.shopId != null">
+        shop_id = #{newModel.shopId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.enable != null">
+        enable = #{newModel.enable,jdbcType=BIT},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.name != null">
+         and name = #{oldModel.name,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.mobile != null">
+         and mobile = #{oldModel.mobile,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.password != null">
+         and password = #{oldModel.password,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.shopId != null">
+         and shop_id = #{oldModel.shopId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.enable != null">
+         and enable = #{oldModel.enable,jdbcType=BIT}
+      </if>
+    </where>
+  </update>
+  <update id="updateIncludeNull">
+    update moneyfeed.uc_bm_user
+    <set>
+      name = #{newModel.name,jdbcType=VARCHAR},
+      mobile = #{newModel.mobile,jdbcType=VARCHAR},
+      password = #{newModel.password,jdbcType=VARCHAR},
+      shop_id = #{newModel.shopId,jdbcType=BIGINT},
+      enable = #{newModel.enable,jdbcType=BIT},
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.name != null">
+         and name = #{oldModel.name,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.mobile != null">
+         and mobile = #{oldModel.mobile,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.password != null">
+         and password = #{oldModel.password,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.shopId != null">
+         and shop_id = #{oldModel.shopId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.enable != null">
+         and enable = #{oldModel.enable,jdbcType=BIT}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.user.api.bean.businessmanage.UcBmUserModel">
+    delete from moneyfeed.uc_bm_user
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="name != null">
+         and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="mobile != null">
+         and mobile = #{mobile,jdbcType=VARCHAR}
+      </if>
+      <if test="password != null">
+         and password = #{password,jdbcType=VARCHAR}
+      </if>
+      <if test="shopId != null">
+         and shop_id = #{shopId,jdbcType=BIGINT}
+      </if>
+      <if test="enable != null">
+         and enable = #{enable,jdbcType=BIT}
+      </if>
+    </where>
+  </delete>
+</mapper>

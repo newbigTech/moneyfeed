@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.user.dal.dao.client.UcCustomerAccountStatementDao">
+  <resultMap id="ExResultMap" extends="BaseResultMap" type="com.newhope.moneyfeed.user.api.bean.client.extend.UcCustomerAccountStatementExModel">
+    <result column="account_type" jdbcType="TIMESTAMP" property="account.accountType" />
+  	<result column="card_no" jdbcType="TIMESTAMP" property="account.cardNo" />
+  </resultMap>
+  <select id="queryStatementList"  resultMap="ExResultMap">
+    SELECT
+		statement.id,
+		statement.gmt_created,
+		statement.client_user_id,
+		statement.customer_id,
+		statement.customer_account_id,
+		statement.serial_number,
+		statement.amount,
+		statement.biz_type,
+		statement.order_no,
+		statement.pay_order_no,
+		statement.shop_id,
+		account.account_type,
+		account.card_no
+	FROM
+		moneyfeed.`uc_customer_account_statement` statement
+	LEFT JOIN moneyfeed.uc_customer_account account 
+		ON statement.customer_account_id = account.id
+    <where>
+      <if test="queryParam.bizType!= null">
+         and statement.biz_type = #{queryParam.bizType}
+      </if>
+      <if test="queryParam.orderNo!= null">
+         and statement.order_no = #{queryParam.orderNo}
+      </if>
+      <if test="queryParam.payOrderNo!= null">
+         and statement.pay_order_no = #{queryParam.payOrderNo}
+      </if>
+      <if test="queryParam.customerId != null">
+         and statement.customer_id = #{queryParam.customerId}
+      </if>
+      <if test="queryParam.customerIds != null and queryParam.customerIds.size > 0">
+		 and statement.customer_id in
+		<foreach collection="queryParam.customerIds" item="customerId" open="(" separator="," close=")">
+				#{customerId}
+		</foreach>
+	  </if>
+	  <if test="queryParam.customerIds != null and queryParam.customerIds.size > 0">
+		 and statement.customer_id in
+		<foreach collection="queryParam.customerIds" item="customerId" open="(" separator="," close=")">
+				#{customerId}
+		</foreach>
+	  </if>
+	  <if test="queryParam.shopIds != null and queryParam.shopIds.size > 0">
+		 and statement.shop_id in
+		<foreach collection="queryParam.shopIds" item="shopId" open="(" separator="," close=")">
+				#{shopId}
+		</foreach>
+	  </if>
+      <if test="queryParam.beginDate != null and queryParam.beginDate != ''">
+			<![CDATA[
+	         and statement.gmt_created >= #{queryParam.beginDate}
+	        ]]>
+	  </if>  
+	  <if test="queryParam.endDate != null and queryParam.endDate != ''">
+			<![CDATA[
+	         and statement.gmt_created <= #{queryParam.endDate}
+	        ]]>
+	  </if>
+    </where>
+    order by statement.gmt_created desc
+  </select>
+</mapper>

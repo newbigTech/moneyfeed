@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.user.dal.dao.client.UcShopCustomerPropertyDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.user.api.bean.client.UcShopCustomerPropertyModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="detail" jdbcType="VARCHAR" property="detail" />
+    <result column="enable" jdbcType="BIT" property="enable" />
+    <result column="value" jdbcType="VARCHAR" property="value" />
+    <result column="mapping_id" jdbcType="BIGINT" property="mappingId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gmt_created, gmt_modified, creator, modifier, version, name, detail, enable, 
+    value, mapping_id
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.user.api.bean.client.UcShopCustomerPropertyModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.uc_shop_customer_property
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="name != null">
+         and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="detail != null">
+         and detail = #{detail,jdbcType=VARCHAR}
+      </if>
+      <if test="enable != null">
+         and enable = #{enable,jdbcType=BIT}
+      </if>
+      <if test="value != null">
+         and value = #{value,jdbcType=VARCHAR}
+      </if>
+      <if test="mappingId != null">
+         and mapping_id = #{mappingId,jdbcType=BIGINT}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.uc_shop_customer_property (gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      name, 
+      detail, 
+      enable, 
+      value, 
+      mapping_id
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.name,jdbcType=VARCHAR}, #{model.detail,jdbcType=VARCHAR}, #{model.enable,jdbcType=BIT}, 
+      #{model.value,jdbcType=VARCHAR}, #{model.mappingId,jdbcType=BIGINT}	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.uc_shop_customer_property
+    <set>
+      <if test="newModel.name != null">
+        name = #{newModel.name,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.detail != null">
+        detail = #{newModel.detail,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.enable != null">
+        enable = #{newModel.enable,jdbcType=BIT},
+      </if>
+      <if test="newModel.value != null">
+        value = #{newModel.value,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.mappingId != null">
+        mapping_id = #{newModel.mappingId,jdbcType=BIGINT},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.name != null">
+         and name = #{oldModel.name,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.detail != null">
+         and detail = #{oldModel.detail,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.enable != null">
+         and enable = #{oldModel.enable,jdbcType=BIT}
+      </if>
+      <if test="oldModel.value != null">
+         and value = #{oldModel.value,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.mappingId != null">
+         and mapping_id = #{oldModel.mappingId,jdbcType=BIGINT}
+      </if>
+    </where>
+  </update>
+  <update id="updateIncludeNull">
+    update moneyfeed.uc_shop_customer_property
+    <set>
+      name = #{newModel.name,jdbcType=VARCHAR},
+      detail = #{newModel.detail,jdbcType=VARCHAR},
+      enable = #{newModel.enable,jdbcType=BIT},
+      value = #{newModel.value,jdbcType=VARCHAR},
+      mapping_id = #{newModel.mappingId,jdbcType=BIGINT},
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.name != null">
+         and name = #{oldModel.name,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.detail != null">
+         and detail = #{oldModel.detail,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.enable != null">
+         and enable = #{oldModel.enable,jdbcType=BIT}
+      </if>
+      <if test="oldModel.value != null">
+         and value = #{oldModel.value,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.mappingId != null">
+         and mapping_id = #{oldModel.mappingId,jdbcType=BIGINT}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.user.api.bean.client.UcShopCustomerPropertyModel">
+    delete from moneyfeed.uc_shop_customer_property
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="name != null">
+         and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="detail != null">
+         and detail = #{detail,jdbcType=VARCHAR}
+      </if>
+      <if test="enable != null">
+         and enable = #{enable,jdbcType=BIT}
+      </if>
+      <if test="value != null">
+         and value = #{value,jdbcType=VARCHAR}
+      </if>
+      <if test="mappingId != null">
+         and mapping_id = #{mappingId,jdbcType=BIGINT}
+      </if>
+    </where>
+  </delete>
+</mapper>

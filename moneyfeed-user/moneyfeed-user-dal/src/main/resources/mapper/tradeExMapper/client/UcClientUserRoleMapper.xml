@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.user.dal.dao.client.UcClientUserRoleDao">
+
+	<select id="getCustomerRoleCount" resultType="java.lang.Integer">
+	SELECT
+		count(1)
+	FROM
+		moneyfeed.uc_client_user_role ur
+	WHERE
+	ur.role_id = #{roleId}
+	AND
+		 ur.`enable` = 1
+	AND ur.user_id IN (
+		SELECT
+			cum.client_user_id
+		FROM
+			moneyfeed.uc_customer_client_user_mapping cum WHERE cum.customer_id = #{customerId} AND cum.`enable` = 1
+	)
+	</select>
+
+</mapper>

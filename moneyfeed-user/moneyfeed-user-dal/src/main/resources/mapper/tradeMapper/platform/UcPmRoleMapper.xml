@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.user.dal.dao.platform.UcPmRoleDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.user.api.bean.platform.UcPmRoleModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="enable" jdbcType="BIT" property="enable" />
+    <result column="source_type" jdbcType="VARCHAR" property="sourceType" />
+    <result column="comment" jdbcType="VARCHAR" property="comment" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gmt_created, gmt_modified, creator, modifier, version, code, name, parent_id, 
+    enable, source_type, comment
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.user.api.bean.platform.UcPmRoleModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.uc_pm_role
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="code != null">
+         and code = #{code,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null">
+         and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="parentId != null">
+         and parent_id = #{parentId,jdbcType=BIGINT}
+      </if>
+      <if test="enable != null">
+         and enable = #{enable,jdbcType=BIT}
+      </if>
+      <if test="sourceType != null">
+         and source_type = #{sourceType,jdbcType=VARCHAR}
+      </if>
+      <if test="comment != null">
+         and comment = #{comment,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.uc_pm_role (gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      code, 
+      name, 
+      parent_id, 
+      enable, 
+      source_type, 
+      comment
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.code,jdbcType=VARCHAR}, #{model.name,jdbcType=VARCHAR}, #{model.parentId,jdbcType=BIGINT}, 
+      #{model.enable,jdbcType=BIT}, #{model.sourceType,jdbcType=VARCHAR}, #{model.comment,jdbcType=VARCHAR}
+      	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.uc_pm_role
+    <set>
+      <if test="newModel.code != null">
+        code = #{newModel.code,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.name != null">
+        name = #{newModel.name,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.parentId != null">
+        parent_id = #{newModel.parentId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.enable != null">
+        enable = #{newModel.enable,jdbcType=BIT},
+      </if>
+      <if test="newModel.sourceType != null">
+        source_type = #{newModel.sourceType,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.comment != null">
+        comment = #{newModel.comment,jdbcType=VARCHAR},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.code != null">
+         and code = #{oldModel.code,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.name != null">
+         and name = #{oldModel.name,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.parentId != null">
+         and parent_id = #{oldModel.parentId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.enable != null">
+         and enable = #{oldModel.enable,jdbcType=BIT}
+      </if>
+      <if test="oldModel.sourceType != null">
+         and source_type = #{oldModel.sourceType,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.comment != null">
+         and comment = #{oldModel.comment,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <update id="updateIncludeNull">
+    update moneyfeed.uc_pm_role
+    <set>
+      code = #{newModel.code,jdbcType=VARCHAR},
+      name = #{newModel.name,jdbcType=VARCHAR},
+      parent_id = #{newModel.parentId,jdbcType=BIGINT},
+      enable = #{newModel.enable,jdbcType=BIT},
+      source_type = #{newModel.sourceType,jdbcType=VARCHAR},
+      comment = #{newModel.comment,jdbcType=VARCHAR},
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.code != null">
+         and code = #{oldModel.code,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.name != null">
+         and name = #{oldModel.name,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.parentId != null">
+         and parent_id = #{oldModel.parentId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.enable != null">
+         and enable = #{oldModel.enable,jdbcType=BIT}
+      </if>
+      <if test="oldModel.sourceType != null">
+         and source_type = #{oldModel.sourceType,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.comment != null">
+         and comment = #{oldModel.comment,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.user.api.bean.platform.UcPmRoleModel">
+    delete from moneyfeed.uc_pm_role
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="code != null">
+         and code = #{code,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null">
+         and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="parentId != null">
+         and parent_id = #{parentId,jdbcType=BIGINT}
+      </if>
+      <if test="enable != null">
+         and enable = #{enable,jdbcType=BIT}
+      </if>
+      <if test="sourceType != null">
+         and source_type = #{sourceType,jdbcType=VARCHAR}
+      </if>
+      <if test="comment != null">
+         and comment = #{comment,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+</mapper>

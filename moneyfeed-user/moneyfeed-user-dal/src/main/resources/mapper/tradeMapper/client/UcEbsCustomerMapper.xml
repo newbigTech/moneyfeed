@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.user.dal.dao.client.UcEbsCustomerDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.user.api.bean.client.UcEbsCustomerModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="org_id" jdbcType="VARCHAR" property="orgId" />
+    <result column="org_name" jdbcType="VARCHAR" property="orgName" />
+    <result column="customer_num" jdbcType="VARCHAR" property="customerNum" />
+    <result column="customer_name" jdbcType="VARCHAR" property="customerName" />
+    <result column="customer_as_name" jdbcType="VARCHAR" property="customerAsName" />
+    <result column="customer_card_num" jdbcType="VARCHAR" property="customerCardNum" />
+    <result column="customer_type" jdbcType="VARCHAR" property="customerType" />
+    <result column="contact_name" jdbcType="VARCHAR" property="contactName" />
+    <result column="contact_phone" jdbcType="VARCHAR" property="contactPhone" />
+    <result column="customer_addr" jdbcType="VARCHAR" property="customerAddr" />
+    <result column="contact_id" jdbcType="VARCHAR" property="contactId" />
+    <result column="enable" jdbcType="BIT" property="enable" />
+    <result column="useful_mobile" jdbcType="VARCHAR" property="usefulMobile" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gmt_created, gmt_modified, creator, modifier, version, org_id, org_name, customer_num, 
+    customer_name, customer_as_name, customer_card_num, customer_type, contact_name, 
+    contact_phone, customer_addr, contact_id, enable, useful_mobile
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.user.api.bean.client.UcEbsCustomerModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.uc_ebs_customer
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="orgId != null">
+         and org_id = #{orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="orgName != null">
+         and org_name = #{orgName,jdbcType=VARCHAR}
+      </if>
+      <if test="customerNum != null">
+         and customer_num = #{customerNum,jdbcType=VARCHAR}
+      </if>
+      <if test="customerName != null">
+         and customer_name = #{customerName,jdbcType=VARCHAR}
+      </if>
+      <if test="customerAsName != null">
+         and customer_as_name = #{customerAsName,jdbcType=VARCHAR}
+      </if>
+      <if test="customerCardNum != null">
+         and customer_card_num = #{customerCardNum,jdbcType=VARCHAR}
+      </if>
+      <if test="customerType != null">
+         and customer_type = #{customerType,jdbcType=VARCHAR}
+      </if>
+      <if test="contactName != null">
+         and contact_name = #{contactName,jdbcType=VARCHAR}
+      </if>
+      <if test="contactPhone != null">
+         and contact_phone = #{contactPhone,jdbcType=VARCHAR}
+      </if>
+      <if test="customerAddr != null">
+         and customer_addr = #{customerAddr,jdbcType=VARCHAR}
+      </if>
+      <if test="contactId != null">
+         and contact_id = #{contactId,jdbcType=VARCHAR}
+      </if>
+      <if test="enable != null">
+         and enable = #{enable,jdbcType=BIT}
+      </if>
+      <if test="usefulMobile != null">
+         and useful_mobile = #{usefulMobile,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.uc_ebs_customer (gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      org_id, 
+      org_name, 
+      customer_num, 
+      customer_name, 
+      customer_as_name, 
+      customer_card_num, 
+      customer_type, 
+      contact_name, 
+      contact_phone, 
+      customer_addr, 
+      contact_id, 
+      enable, 
+      useful_mobile
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.orgId,jdbcType=VARCHAR}, #{model.orgName,jdbcType=VARCHAR}, #{model.customerNum,jdbcType=VARCHAR}, 
+      #{model.customerName,jdbcType=VARCHAR}, #{model.customerAsName,jdbcType=VARCHAR}, 
+      #{model.customerCardNum,jdbcType=VARCHAR}, #{model.customerType,jdbcType=VARCHAR}, 
+      #{model.contactName,jdbcType=VARCHAR}, #{model.contactPhone,jdbcType=VARCHAR}, 
+      #{model.customerAddr,jdbcType=VARCHAR}, #{model.contactId,jdbcType=VARCHAR}, #{model.enable,jdbcType=BIT}, 
+      #{model.usefulMobile,jdbcType=VARCHAR}	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.uc_ebs_customer
+    <set>
+      <if test="newModel.orgId != null">
+        org_id = #{newModel.orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.orgName != null">
+        org_name = #{newModel.orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.customerNum != null">
+        customer_num = #{newModel.customerNum,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.customerName != null">
+        customer_name = #{newModel.customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.customerAsName != null">
+        customer_as_name = #{newModel.customerAsName,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.customerCardNum != null">
+        customer_card_num = #{newModel.customerCardNum,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.customerType != null">
+        customer_type = #{newModel.customerType,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.contactName != null">
+        contact_name = #{newModel.contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.contactPhone != null">
+        contact_phone = #{newModel.contactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.customerAddr != null">
+        customer_addr = #{newModel.customerAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.contactId != null">
+        contact_id = #{newModel.contactId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.enable != null">
+        enable = #{newModel.enable,jdbcType=BIT},
+      </if>
+      <if test="newModel.usefulMobile != null">
+        useful_mobile = #{newModel.usefulMobile,jdbcType=VARCHAR},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.orgId != null">
+         and org_id = #{oldModel.orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.orgName != null">
+         and org_name = #{oldModel.orgName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.customerNum != null">
+         and customer_num = #{oldModel.customerNum,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.customerName != null">
+         and customer_name = #{oldModel.customerName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.customerAsName != null">
+         and customer_as_name = #{oldModel.customerAsName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.customerCardNum != null">
+         and customer_card_num = #{oldModel.customerCardNum,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.customerType != null">
+         and customer_type = #{oldModel.customerType,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.contactName != null">
+         and contact_name = #{oldModel.contactName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.contactPhone != null">
+         and contact_phone = #{oldModel.contactPhone,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.customerAddr != null">
+         and customer_addr = #{oldModel.customerAddr,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.contactId != null">
+         and contact_id = #{oldModel.contactId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.enable != null">
+         and enable = #{oldModel.enable,jdbcType=BIT}
+      </if>
+      <if test="oldModel.usefulMobile != null">
+         and useful_mobile = #{oldModel.usefulMobile,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <update id="updateIncludeNull">
+    update moneyfeed.uc_ebs_customer
+    <set>
+      org_id = #{newModel.orgId,jdbcType=VARCHAR},
+      org_name = #{newModel.orgName,jdbcType=VARCHAR},
+      customer_num = #{newModel.customerNum,jdbcType=VARCHAR},
+      customer_name = #{newModel.customerName,jdbcType=VARCHAR},
+      customer_as_name = #{newModel.customerAsName,jdbcType=VARCHAR},
+      customer_card_num = #{newModel.customerCardNum,jdbcType=VARCHAR},
+      customer_type = #{newModel.customerType,jdbcType=VARCHAR},
+      contact_name = #{newModel.contactName,jdbcType=VARCHAR},
+      contact_phone = #{newModel.contactPhone,jdbcType=VARCHAR},
+      customer_addr = #{newModel.customerAddr,jdbcType=VARCHAR},
+      contact_id = #{newModel.contactId,jdbcType=VARCHAR},
+      enable = #{newModel.enable,jdbcType=BIT},
+      useful_mobile = #{newModel.usefulMobile,jdbcType=VARCHAR},
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.orgId != null">
+         and org_id = #{oldModel.orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.orgName != null">
+         and org_name = #{oldModel.orgName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.customerNum != null">
+         and customer_num = #{oldModel.customerNum,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.customerName != null">
+         and customer_name = #{oldModel.customerName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.customerAsName != null">
+         and customer_as_name = #{oldModel.customerAsName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.customerCardNum != null">
+         and customer_card_num = #{oldModel.customerCardNum,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.customerType != null">
+         and customer_type = #{oldModel.customerType,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.contactName != null">
+         and contact_name = #{oldModel.contactName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.contactPhone != null">
+         and contact_phone = #{oldModel.contactPhone,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.customerAddr != null">
+         and customer_addr = #{oldModel.customerAddr,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.contactId != null">
+         and contact_id = #{oldModel.contactId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.enable != null">
+         and enable = #{oldModel.enable,jdbcType=BIT}
+      </if>
+      <if test="oldModel.usefulMobile != null">
+         and useful_mobile = #{oldModel.usefulMobile,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.user.api.bean.client.UcEbsCustomerModel">
+    delete from moneyfeed.uc_ebs_customer
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="orgId != null">
+         and org_id = #{orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="orgName != null">
+         and org_name = #{orgName,jdbcType=VARCHAR}
+      </if>
+      <if test="customerNum != null">
+         and customer_num = #{customerNum,jdbcType=VARCHAR}
+      </if>
+      <if test="customerName != null">
+         and customer_name = #{customerName,jdbcType=VARCHAR}
+      </if>
+      <if test="customerAsName != null">
+         and customer_as_name = #{customerAsName,jdbcType=VARCHAR}
+      </if>
+      <if test="customerCardNum != null">
+         and customer_card_num = #{customerCardNum,jdbcType=VARCHAR}
+      </if>
+      <if test="customerType != null">
+         and customer_type = #{customerType,jdbcType=VARCHAR}
+      </if>
+      <if test="contactName != null">
+         and contact_name = #{contactName,jdbcType=VARCHAR}
+      </if>
+      <if test="contactPhone != null">
+         and contact_phone = #{contactPhone,jdbcType=VARCHAR}
+      </if>
+      <if test="customerAddr != null">
+         and customer_addr = #{customerAddr,jdbcType=VARCHAR}
+      </if>
+      <if test="contactId != null">
+         and contact_id = #{contactId,jdbcType=VARCHAR}
+      </if>
+      <if test="enable != null">
+         and enable = #{enable,jdbcType=BIT}
+      </if>
+      <if test="usefulMobile != null">
+         and useful_mobile = #{usefulMobile,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+</mapper>

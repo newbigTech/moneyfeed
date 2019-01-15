@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.user.dal.dao.platform.UcPmLabelDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.user.api.bean.platform.UcPmLabelModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="target_type" jdbcType="VARCHAR" property="targetType" />
+    <result column="create_type" jdbcType="VARCHAR" property="createType" />
+    <result column="comment" jdbcType="VARCHAR" property="comment" />
+    <result column="enable" jdbcType="BIT" property="enable" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gmt_created, gmt_modified, creator, modifier, version, name, target_type, create_type, 
+    comment, enable
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.user.api.bean.platform.UcPmLabelModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.uc_pm_label
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="name != null">
+         and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="targetType != null">
+         and target_type = #{targetType,jdbcType=VARCHAR}
+      </if>
+      <if test="createType != null">
+         and create_type = #{createType,jdbcType=VARCHAR}
+      </if>
+      <if test="comment != null">
+         and comment = #{comment,jdbcType=VARCHAR}
+      </if>
+      <if test="enable != null">
+         and enable = #{enable,jdbcType=BIT}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.uc_pm_label (gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      name, 
+      target_type, 
+      create_type, 
+      comment, 
+      enable
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.name,jdbcType=VARCHAR}, #{model.targetType,jdbcType=VARCHAR}, #{model.createType,jdbcType=VARCHAR}, 
+      #{model.comment,jdbcType=VARCHAR}, #{model.enable,jdbcType=BIT}	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.uc_pm_label
+    <set>
+      <if test="newModel.name != null">
+        name = #{newModel.name,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.targetType != null">
+        target_type = #{newModel.targetType,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.createType != null">
+        create_type = #{newModel.createType,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.comment != null">
+        comment = #{newModel.comment,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.enable != null">
+        enable = #{newModel.enable,jdbcType=BIT},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.name != null">
+         and name = #{oldModel.name,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.targetType != null">
+         and target_type = #{oldModel.targetType,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.createType != null">
+         and create_type = #{oldModel.createType,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.comment != null">
+         and comment = #{oldModel.comment,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.enable != null">
+         and enable = #{oldModel.enable,jdbcType=BIT}
+      </if>
+    </where>
+  </update>
+  <update id="updateIncludeNull">
+    update moneyfeed.uc_pm_label
+    <set>
+      name = #{newModel.name,jdbcType=VARCHAR},
+      target_type = #{newModel.targetType,jdbcType=VARCHAR},
+      create_type = #{newModel.createType,jdbcType=VARCHAR},
+      comment = #{newModel.comment,jdbcType=VARCHAR},
+      enable = #{newModel.enable,jdbcType=BIT},
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.name != null">
+         and name = #{oldModel.name,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.targetType != null">
+         and target_type = #{oldModel.targetType,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.createType != null">
+         and create_type = #{oldModel.createType,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.comment != null">
+         and comment = #{oldModel.comment,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.enable != null">
+         and enable = #{oldModel.enable,jdbcType=BIT}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.user.api.bean.platform.UcPmLabelModel">
+    delete from moneyfeed.uc_pm_label
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="name != null">
+         and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="targetType != null">
+         and target_type = #{targetType,jdbcType=VARCHAR}
+      </if>
+      <if test="createType != null">
+         and create_type = #{createType,jdbcType=VARCHAR}
+      </if>
+      <if test="comment != null">
+         and comment = #{comment,jdbcType=VARCHAR}
+      </if>
+      <if test="enable != null">
+         and enable = #{enable,jdbcType=BIT}
+      </if>
+    </where>
+  </delete>
+</mapper>

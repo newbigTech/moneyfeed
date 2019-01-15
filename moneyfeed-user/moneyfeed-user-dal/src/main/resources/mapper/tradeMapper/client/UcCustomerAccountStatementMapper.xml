@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.user.dal.dao.client.UcCustomerAccountStatementDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.user.api.bean.client.UcCustomerAccountStatementModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="client_user_id" jdbcType="BIGINT" property="clientUserId" />
+    <result column="customer_id" jdbcType="BIGINT" property="customerId" />
+    <result column="customer_account_id" jdbcType="BIGINT" property="customerAccountId" />
+    <result column="serial_number" jdbcType="VARCHAR" property="serialNumber" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="biz_type" jdbcType="VARCHAR" property="bizType" />
+    <result column="pay_order_no" jdbcType="VARCHAR" property="payOrderNo" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="shop_id" jdbcType="BIGINT" property="shopId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gmt_created, gmt_modified, creator, modifier, version, client_user_id, customer_id, 
+    customer_account_id, serial_number, amount, biz_type, pay_order_no, order_no, shop_id
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.user.api.bean.client.UcCustomerAccountStatementModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.uc_customer_account_statement
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="clientUserId != null">
+         and client_user_id = #{clientUserId,jdbcType=BIGINT}
+      </if>
+      <if test="customerId != null">
+         and customer_id = #{customerId,jdbcType=BIGINT}
+      </if>
+      <if test="customerAccountId != null">
+         and customer_account_id = #{customerAccountId,jdbcType=BIGINT}
+      </if>
+      <if test="serialNumber != null">
+         and serial_number = #{serialNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="amount != null">
+         and amount = #{amount,jdbcType=DECIMAL}
+      </if>
+      <if test="bizType != null">
+         and biz_type = #{bizType,jdbcType=VARCHAR}
+      </if>
+      <if test="payOrderNo != null">
+         and pay_order_no = #{payOrderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="orderNo != null">
+         and order_no = #{orderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="shopId != null">
+         and shop_id = #{shopId,jdbcType=BIGINT}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.uc_customer_account_statement (gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      client_user_id, 
+      customer_id, 
+      customer_account_id, 
+      serial_number, 
+      amount, 
+      biz_type, 
+      pay_order_no, 
+      order_no, 
+      shop_id
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.clientUserId,jdbcType=BIGINT}, #{model.customerId,jdbcType=BIGINT}, 
+      #{model.customerAccountId,jdbcType=BIGINT}, #{model.serialNumber,jdbcType=VARCHAR}, 
+      #{model.amount,jdbcType=DECIMAL}, #{model.bizType,jdbcType=VARCHAR}, #{model.payOrderNo,jdbcType=VARCHAR}, 
+      #{model.orderNo,jdbcType=VARCHAR}, #{model.shopId,jdbcType=BIGINT}	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.uc_customer_account_statement
+    <set>
+      <if test="newModel.clientUserId != null">
+        client_user_id = #{newModel.clientUserId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.customerId != null">
+        customer_id = #{newModel.customerId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.customerAccountId != null">
+        customer_account_id = #{newModel.customerAccountId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.serialNumber != null">
+        serial_number = #{newModel.serialNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.amount != null">
+        amount = #{newModel.amount,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.bizType != null">
+        biz_type = #{newModel.bizType,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.payOrderNo != null">
+        pay_order_no = #{newModel.payOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.orderNo != null">
+        order_no = #{newModel.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.shopId != null">
+        shop_id = #{newModel.shopId,jdbcType=BIGINT},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.clientUserId != null">
+         and client_user_id = #{oldModel.clientUserId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.customerId != null">
+         and customer_id = #{oldModel.customerId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.customerAccountId != null">
+         and customer_account_id = #{oldModel.customerAccountId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.serialNumber != null">
+         and serial_number = #{oldModel.serialNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.amount != null">
+         and amount = #{oldModel.amount,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.bizType != null">
+         and biz_type = #{oldModel.bizType,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.payOrderNo != null">
+         and pay_order_no = #{oldModel.payOrderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.orderNo != null">
+         and order_no = #{oldModel.orderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.shopId != null">
+         and shop_id = #{oldModel.shopId,jdbcType=BIGINT}
+      </if>
+    </where>
+  </update>
+  <update id="updateIncludeNull">
+    update moneyfeed.uc_customer_account_statement
+    <set>
+      client_user_id = #{newModel.clientUserId,jdbcType=BIGINT},
+      customer_id = #{newModel.customerId,jdbcType=BIGINT},
+      customer_account_id = #{newModel.customerAccountId,jdbcType=BIGINT},
+      serial_number = #{newModel.serialNumber,jdbcType=VARCHAR},
+      amount = #{newModel.amount,jdbcType=DECIMAL},
+      biz_type = #{newModel.bizType,jdbcType=VARCHAR},
+      pay_order_no = #{newModel.payOrderNo,jdbcType=VARCHAR},
+      order_no = #{newModel.orderNo,jdbcType=VARCHAR},
+      shop_id = #{newModel.shopId,jdbcType=BIGINT},
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.clientUserId != null">
+         and client_user_id = #{oldModel.clientUserId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.customerId != null">
+         and customer_id = #{oldModel.customerId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.customerAccountId != null">
+         and customer_account_id = #{oldModel.customerAccountId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.serialNumber != null">
+         and serial_number = #{oldModel.serialNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.amount != null">
+         and amount = #{oldModel.amount,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.bizType != null">
+         and biz_type = #{oldModel.bizType,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.payOrderNo != null">
+         and pay_order_no = #{oldModel.payOrderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.orderNo != null">
+         and order_no = #{oldModel.orderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.shopId != null">
+         and shop_id = #{oldModel.shopId,jdbcType=BIGINT}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.user.api.bean.client.UcCustomerAccountStatementModel">
+    delete from moneyfeed.uc_customer_account_statement
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="clientUserId != null">
+         and client_user_id = #{clientUserId,jdbcType=BIGINT}
+      </if>
+      <if test="customerId != null">
+         and customer_id = #{customerId,jdbcType=BIGINT}
+      </if>
+      <if test="customerAccountId != null">
+         and customer_account_id = #{customerAccountId,jdbcType=BIGINT}
+      </if>
+      <if test="serialNumber != null">
+         and serial_number = #{serialNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="amount != null">
+         and amount = #{amount,jdbcType=DECIMAL}
+      </if>
+      <if test="bizType != null">
+         and biz_type = #{bizType,jdbcType=VARCHAR}
+      </if>
+      <if test="payOrderNo != null">
+         and pay_order_no = #{payOrderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="orderNo != null">
+         and order_no = #{orderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="shopId != null">
+         and shop_id = #{shopId,jdbcType=BIGINT}
+      </if>
+    </where>
+  </delete>
+</mapper>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.user.dal.dao.client.UcCustomerClientUserMappingDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.user.api.bean.client.UcCustomerClientUserMappingModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="customer_id" jdbcType="BIGINT" property="customerId" />
+    <result column="client_user_mobile" jdbcType="VARCHAR" property="clientUserMobile" />
+    <result column="client_user_name" jdbcType="VARCHAR" property="clientUserName" />
+    <result column="client_user_id" jdbcType="BIGINT" property="clientUserId" />
+    <result column="enable" jdbcType="BIT" property="enable" />
+    <result column="source" jdbcType="VARCHAR" property="source" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gmt_created, gmt_modified, creator, modifier, version, customer_id, client_user_mobile, 
+    client_user_name, client_user_id, enable, source
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.user.api.bean.client.UcCustomerClientUserMappingModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.uc_customer_client_user_mapping
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="customerId != null">
+         and customer_id = #{customerId,jdbcType=BIGINT}
+      </if>
+      <if test="clientUserMobile != null">
+         and client_user_mobile = #{clientUserMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="clientUserName != null">
+         and client_user_name = #{clientUserName,jdbcType=VARCHAR}
+      </if>
+      <if test="clientUserId != null">
+         and client_user_id = #{clientUserId,jdbcType=BIGINT}
+      </if>
+      <if test="enable != null">
+         and enable = #{enable,jdbcType=BIT}
+      </if>
+      <if test="source != null">
+         and source = #{source,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.uc_customer_client_user_mapping (gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      customer_id, 
+      client_user_mobile, 
+      client_user_name, 
+      client_user_id, 
+      enable, 
+      source
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.customerId,jdbcType=BIGINT}, #{model.clientUserMobile,jdbcType=VARCHAR}, 
+      #{model.clientUserName,jdbcType=VARCHAR}, #{model.clientUserId,jdbcType=BIGINT}, 
+      #{model.enable,jdbcType=BIT}, #{model.source,jdbcType=VARCHAR}	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.uc_customer_client_user_mapping
+    <set>
+      <if test="newModel.customerId != null">
+        customer_id = #{newModel.customerId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.clientUserMobile != null">
+        client_user_mobile = #{newModel.clientUserMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.clientUserName != null">
+        client_user_name = #{newModel.clientUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.clientUserId != null">
+        client_user_id = #{newModel.clientUserId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.enable != null">
+        enable = #{newModel.enable,jdbcType=BIT},
+      </if>
+      <if test="newModel.source != null">
+        source = #{newModel.source,jdbcType=VARCHAR},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.customerId != null">
+         and customer_id = #{oldModel.customerId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.clientUserMobile != null">
+         and client_user_mobile = #{oldModel.clientUserMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.clientUserName != null">
+         and client_user_name = #{oldModel.clientUserName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.clientUserId != null">
+         and client_user_id = #{oldModel.clientUserId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.enable != null">
+         and enable = #{oldModel.enable,jdbcType=BIT}
+      </if>
+      <if test="oldModel.source != null">
+         and source = #{oldModel.source,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <update id="updateIncludeNull">
+    update moneyfeed.uc_customer_client_user_mapping
+    <set>
+      customer_id = #{newModel.customerId,jdbcType=BIGINT},
+      client_user_mobile = #{newModel.clientUserMobile,jdbcType=VARCHAR},
+      client_user_name = #{newModel.clientUserName,jdbcType=VARCHAR},
+      client_user_id = #{newModel.clientUserId,jdbcType=BIGINT},
+      enable = #{newModel.enable,jdbcType=BIT},
+      source = #{newModel.source,jdbcType=VARCHAR},
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.customerId != null">
+         and customer_id = #{oldModel.customerId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.clientUserMobile != null">
+         and client_user_mobile = #{oldModel.clientUserMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.clientUserName != null">
+         and client_user_name = #{oldModel.clientUserName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.clientUserId != null">
+         and client_user_id = #{oldModel.clientUserId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.enable != null">
+         and enable = #{oldModel.enable,jdbcType=BIT}
+      </if>
+      <if test="oldModel.source != null">
+         and source = #{oldModel.source,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.user.api.bean.client.UcCustomerClientUserMappingModel">
+    delete from moneyfeed.uc_customer_client_user_mapping
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="customerId != null">
+         and customer_id = #{customerId,jdbcType=BIGINT}
+      </if>
+      <if test="clientUserMobile != null">
+         and client_user_mobile = #{clientUserMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="clientUserName != null">
+         and client_user_name = #{clientUserName,jdbcType=VARCHAR}
+      </if>
+      <if test="clientUserId != null">
+         and client_user_id = #{clientUserId,jdbcType=BIGINT}
+      </if>
+      <if test="enable != null">
+         and enable = #{enable,jdbcType=BIT}
+      </if>
+      <if test="source != null">
+         and source = #{source,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+</mapper>

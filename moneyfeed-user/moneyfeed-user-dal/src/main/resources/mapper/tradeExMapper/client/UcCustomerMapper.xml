@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.user.dal.dao.client.UcCustomerDao">
+	<resultMap id="ExResultMap" extends="BaseResultMap" type="com.newhope.moneyfeed.user.api.bean.client.extend.UcCustomerExModel">
+	    <result column="tradingStatus" jdbcType="VARCHAR" property="tradingStatus" />
+	    <result column="shopName" jdbcType="VARCHAR" property="shopName" />
+	    <result column="shopId" jdbcType="BIGINT" property="shopId" />
+	    <result column="customer_addr" jdbcType="VARCHAR" property="customerAddr" />
+	    <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime" />
+	</resultMap>
+  <select id="searchCustomer"  resultMap="ExResultMap">
+    SELECT
+		c.id, c.gmt_created, c.`code`, c.`name`, c.type, c.contact_person, c.comment,
+	    c.contact_tel, c.card_num, c.`enable`, c.ebs_customer_num, c.short_name,
+	    cp.`value` as tradingStatus, 
+	    s.`name` as shopName,s.id shopId
+    from moneyfeed.uc_customer c
+	LEFT JOIN moneyfeed.uc_shop_customer_mapping scm on scm.customer_id = c.id and scm.`enable` = 1
+	INNER JOIN moneyfeed.uc_shop_customer_property cp on cp.mapping_id = scm.id and cp.`name` = 'ALLOW_ONLINE_BUSINESS' and cp.`enable` = 1
+    LEFT JOIN moneyfeed.uc_shop s on s.id = scm.shop_id and s.`enable` = 1
+    <where>
+	    <if test="queryParam.shopId != null">
+	    	and scm.shop_id = #{queryParam.shopId}
+	    </if>
+		<if test="queryParam.id != null">
+			and c.id = #{queryParam.id}
+		</if>
+		<if test="queryParam.enable != null">
+			and c.enable = #{queryParam.enable}
+		</if>
+		<if test="queryParam.ids != null and queryParam.ids.size > 0">
+			and c.id in
+			<foreach collection="queryParam.ids" item="id" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+		</if>
+		<if test="queryParam.customerName != null and queryParam.customerName != '' ">
+			and c.`name` LIKE CONCAT('%', #{queryParam.customerName},'%') 
+		</if>
+		<if test="queryParam.shortName != null and queryParam.shortName != '' ">
+			and c.short_name LIKE CONCAT('%', #{queryParam.shortName},'%') 
+		</if>
+		<if test="queryParam.customerNum != null and queryParam.customerNum != '' ">
+			and c.ebs_customer_num LIKE CONCAT('%', #{queryParam.customerNum},'%') 
+		</if>
+		<if test="queryParam.status != null and queryParam.status != '' ">
+			and cp.`value` = #{queryParam.status}
+		</if>
+		<if test="queryParam.shopName != null and queryParam.shopName != '' ">
+			and s.`name` LIKE CONCAT('%', #{queryParam.shopName},'%')  
+		</if>
+    </where>
+  </select>
+  
+  <select id="queryCustomerList"  resultMap="ExResultMap">
+      SELECT DISTINCT
+		c.id, c.gmt_created, c.`code`, c.`name`, c.type, c.contact_person, c.comment,
+	    c.contact_tel, c.card_num, c.`enable`, c.ebs_customer_num, c.short_name
+	    <!-- ,cus.customer_addr -->
+    from moneyfeed.uc_customer c
+	LEFT JOIN moneyfeed.uc_shop_customer_mapping scm on scm.customer_id = c.id and scm.`enable` = 1
+  <!-- INNER JOIN moneyfeed.uc_ebs_customer cus ON cus.customer_num = c.ebs_customer_num -->
+	LEFT JOIN moneyfeed.uc_pm_label_customer_mapping label on label.customer_id = c.id and label.`enable`  = 1
+    <where>
+	    <if test="queryParam.shopId != null">
+	    	and scm.shop_id = #{queryParam.shopId}
+	    </if>
+		<if test="queryParam.id != null">
+			and c.id = #{queryParam.id}
+		</if>
+		<if test="queryParam.enable != null">
+			and c.enable = #{queryParam.enable}
+		</if>
+		<if test="queryParam.ids != null and queryParam.ids.size > 0">
+			and c.id in
+			<foreach collection="queryParam.ids" item="id" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+		</if>
+		<if test="queryParam.customerName != null and queryParam.customerName != '' ">
+			and c.`name` LIKE CONCAT('%', #{queryParam.customerName},'%') 
+		</if>
+		<if test="queryParam.shortName != null and queryParam.shortName != '' ">
+			and c.short_name LIKE CONCAT('%', #{queryParam.shortName},'%') 
+		</if>
+		<if test="queryParam.customerNum != null and queryParam.customerNum != '' ">
+			and c.ebs_customer_num LIKE CONCAT('%', #{queryParam.customerNum},'%') 
+		</if>
+		<if test="queryParam.labelIds != null and queryParam.labelIds.size > 0">
+			and label.label_id in
+			<foreach collection="queryParam.labelIds" item="labelId" open="(" separator="," close=")">
+				#{labelId}
+			</foreach>
+		</if>
+    </where>
+  </select>
+  
+  <select id="getCustomerLastLoginTime"  resultMap="ExResultMap">
+  	SELECT  MAX(u.last_login_time) as last_login_time from moneyfeed.uc_customer_client_user_mapping ccu
+		INNER JOIN moneyfeed.uc_client_user u on u.id = ccu.client_user_id and u.`enable` = 1
+		 where ccu.customer_id = #{customerId} and ccu.enable = 1;
+  </select>
+  
+  <select id="queryCustomerAllList" resultMap="ExResultMap">
+  	SELECT c.* 
+  	from moneyfeed.uc_customer c 
+  	LEFT JOIN moneyfeed.uc_shop_customer_mapping s on s.customer_id = c.id and s.`enable` = 1
+	where c.`enable` = 1 and s.shop_id = #{queryParam.shopId}
+  </select>
+  
+</mapper>

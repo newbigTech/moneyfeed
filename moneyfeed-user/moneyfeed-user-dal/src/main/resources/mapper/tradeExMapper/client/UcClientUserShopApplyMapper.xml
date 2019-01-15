@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.user.dal.dao.client.UcClientUserShopApplyDao">
+  <resultMap id="ExResultMap" extends="BaseResultMap" type="com.newhope.moneyfeed.user.api.bean.client.extend.UcClientUserShopApplyExModel">
+    <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime" />
+    <result column="allotShopName" jdbcType="VARCHAR" property="allotShopName" />
+    <result column="intentionShopName" jdbcType="VARCHAR" property="intentionShopName" />
+  </resultMap>
+  
+  <select id="queryUserShopApplyList" resultMap = "ExResultMap">
+  	SELECT DISTINCT
+		apply.id, apply.intention_shop_id, apply.allot_shop_id, apply.gmt_created,
+	    apply.client_user_id, apply.`comment`, apply.address, 
+	    apply.status, apply.platform_deal_msg, apply.shop_deal_msg, 
+	    apply.enable, apply.name, apply.mobile,ucu.last_login_time,
+	    a.`name` allotShopName,
+		i.`name` intentionShopName
+	FROM
+		moneyfeed.uc_client_user_shop_apply apply
+	LEFT JOIN moneyfeed.uc_client_user ucu ON ucu.id = apply.client_user_id
+	LEFT JOIN moneyfeed.uc_shop a on a.id =  apply.allot_shop_id and a.`enable` = 1
+	LEFT JOIN moneyfeed.uc_shop i on i.id =  apply.intention_shop_id and i.`enable` = 1
+	LEFT JOIN moneyfeed.uc_customer_client_user_mapping m on apply.client_user_id = m.client_user_id and m.`enable` = 1
+	LEFT JOIN moneyfeed.uc_shop_customer_mapping scm on scm.customer_id = m.customer_id and scm.`enable` = 1
+	<where>
+		<if test="queryParam.userShopApplyId != null">
+			and apply.id = #{queryParam.userShopApplyId}
+		</if>
+		<if test="queryParam.name != null and queryParam.name != ''">
+			and apply.name LIKE CONCAT('%', #{queryParam.name},'%') 
+		</if>  
+		<if test="queryParam.mobile != null and queryParam.mobile != ''">
+			and apply.mobile = #{queryParam.mobile}
+		</if>  
+		<if test="queryParam.beginDatetime != null and queryParam.beginDatetime != ''">
+			<![CDATA[
+	         and apply.gmt_created >= #{queryParam.beginDatetime}
+	        ]]>
+		</if>  
+		<if test="queryParam.endDatetime != null and queryParam.endDatetime != ''">
+			<![CDATA[
+	         and apply.gmt_created <= #{queryParam.endDatetime}
+	        ]]>
+		</if>  
+		<if test="queryParam.status != null and queryParam.status != '' ">
+			and apply.status = #{queryParam.status}
+		</if>
+		<if test="queryParam.allotShopName != null and queryParam.allotShopName != '' ">
+			and a.`name` LIKE CONCAT('%', #{queryParam.allotShopName},'%')  
+		</if>
+		<if test="queryParam.intentionShopName != null and queryParam.intentionShopName != '' ">
+			and i.`name` LIKE CONCAT('%', #{queryParam.intentionShopName},'%')  
+		</if>
+		<if test="queryParam.shopId != null">
+			and scm.shop_id = #{queryParam.shopId}
+		</if>
+		<if test="queryParam.allotShopId != null">
+			and apply.allot_shop_id = #{queryParam.allotShopId}
+		</if>
+	</where> 
+	order by apply.gmt_created desc
+  </select>
+  
+   <select id="queryUserShopApplyCount" resultType="java.lang.Integer" >
+  	SELECT
+		count(1)
+	FROM
+		moneyfeed.uc_client_user_shop_apply apply
+	LEFT JOIN moneyfeed.uc_client_user ucu ON ucu.id = apply.client_user_id
+	LEFT JOIN moneyfeed.uc_shop a on a.id =  apply.allot_shop_id and a.`enable` = 1
+	LEFT JOIN moneyfeed.uc_shop i on i.id =  apply.intention_shop_id and i.`enable` = 1
+	<where>
+		<if test="queryParam.userShopApplyId != null">
+			and apply.id = #{queryParam.userShopApplyId}
+		</if>
+		<if test="queryParam.shopId != null">
+			and apply.allot_shop_id = #{queryParam.shopId} 
+		</if>
+		<if test="queryParam.name != null and queryParam.name != ''">
+			and apply.name LIKE CONCAT('%', #{queryParam.name},'%')  
+		</if>  
+		<if test="queryParam.mobile != null and queryParam.mobile != ''">
+			and apply.mobile = #{queryParam.mobile}
+		</if>  
+		<if test="queryParam.beginDatetime != null and queryParam.beginDatetime != ''">
+			<![CDATA[
+	         and apply.gmt_created >= #{queryParam.beginDatetime}
+	        ]]>
+		</if>  
+		<if test="queryParam.endDatetime != null and queryParam.endDatetime != ''">
+			<![CDATA[
+	         and apply.gmt_created <= #{queryParam.endDatetime}
+	        ]]>
+		</if>  
+		<if test="queryParam.status != null and queryParam.status != '' ">
+			and apply.status = #{queryParam.status}
+		</if>
+		<if test="queryParam.allotShopName != null and queryParam.allotShopName != '' ">
+			and a.`name` LIKE CONCAT('%', #{queryParam.allotShopName},'%') 
+		</if>
+		<if test="queryParam.intentionShopName != null and queryParam.intentionShopName != '' ">
+			and i.`name` LIKE CONCAT('%', #{queryParam.intentionShopName},'%')  
+		</if>
+	</where> 
+  </select>
+  
+</mapper>

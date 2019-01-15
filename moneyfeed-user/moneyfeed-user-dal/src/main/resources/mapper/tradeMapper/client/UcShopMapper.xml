@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.user.dal.dao.client.UcShopDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.user.api.bean.client.UcShopModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="contact_person" jdbcType="VARCHAR" property="contactPerson" />
+    <result column="contact_tel" jdbcType="VARCHAR" property="contactTel" />
+    <result column="intro" jdbcType="VARCHAR" property="intro" />
+    <result column="enable" jdbcType="BIT" property="enable" />
+    <result column="ebs_org_id" jdbcType="VARCHAR" property="ebsOrgId" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="map_address" jdbcType="VARCHAR" property="mapAddress" />
+    <result column="map_lat" jdbcType="VARCHAR" property="mapLat" />
+    <result column="map_lnt" jdbcType="VARCHAR" property="mapLnt" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="county" jdbcType="VARCHAR" property="county" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="manage_user_id" jdbcType="VARCHAR" property="manageUserId" />
+    <result column="hotline" jdbcType="VARCHAR" property="hotline" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gmt_created, gmt_modified, creator, modifier, version, code, name, contact_person, 
+    contact_tel, intro, enable, ebs_org_id, address, map_address, map_lat, map_lnt, province, 
+    city, county, status, manage_user_id, hotline
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.user.api.bean.client.UcShopModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.uc_shop
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="code != null">
+         and code = #{code,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null">
+         and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="contactPerson != null">
+         and contact_person = #{contactPerson,jdbcType=VARCHAR}
+      </if>
+      <if test="contactTel != null">
+         and contact_tel = #{contactTel,jdbcType=VARCHAR}
+      </if>
+      <if test="intro != null">
+         and intro = #{intro,jdbcType=VARCHAR}
+      </if>
+      <if test="enable != null">
+         and enable = #{enable,jdbcType=BIT}
+      </if>
+      <if test="ebsOrgId != null">
+         and ebs_org_id = #{ebsOrgId,jdbcType=VARCHAR}
+      </if>
+      <if test="address != null">
+         and address = #{address,jdbcType=VARCHAR}
+      </if>
+      <if test="mapAddress != null">
+         and map_address = #{mapAddress,jdbcType=VARCHAR}
+      </if>
+      <if test="mapLat != null">
+         and map_lat = #{mapLat,jdbcType=VARCHAR}
+      </if>
+      <if test="mapLnt != null">
+         and map_lnt = #{mapLnt,jdbcType=VARCHAR}
+      </if>
+      <if test="province != null">
+         and province = #{province,jdbcType=VARCHAR}
+      </if>
+      <if test="city != null">
+         and city = #{city,jdbcType=VARCHAR}
+      </if>
+      <if test="county != null">
+         and county = #{county,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null">
+         and status = #{status,jdbcType=VARCHAR}
+      </if>
+      <if test="manageUserId != null">
+         and manage_user_id = #{manageUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="hotline != null">
+         and hotline = #{hotline,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.uc_shop (gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      code, 
+      name, 
+      contact_person, 
+      contact_tel, 
+      intro, 
+      enable, 
+      ebs_org_id, 
+      address, 
+      map_address, 
+      map_lat, 
+      map_lnt, 
+      province, 
+      city, 
+      county, 
+      status, 
+      manage_user_id, 
+      hotline
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.code,jdbcType=VARCHAR}, #{model.name,jdbcType=VARCHAR}, #{model.contactPerson,jdbcType=VARCHAR}, 
+      #{model.contactTel,jdbcType=VARCHAR}, #{model.intro,jdbcType=VARCHAR}, #{model.enable,jdbcType=BIT}, 
+      #{model.ebsOrgId,jdbcType=VARCHAR}, #{model.address,jdbcType=VARCHAR}, #{model.mapAddress,jdbcType=VARCHAR}, 
+      #{model.mapLat,jdbcType=VARCHAR}, #{model.mapLnt,jdbcType=VARCHAR}, #{model.province,jdbcType=VARCHAR}, 
+      #{model.city,jdbcType=VARCHAR}, #{model.county,jdbcType=VARCHAR}, #{model.status,jdbcType=VARCHAR}, 
+      #{model.manageUserId,jdbcType=VARCHAR}, #{model.hotline,jdbcType=VARCHAR}	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.uc_shop
+    <set>
+      <if test="newModel.code != null">
+        code = #{newModel.code,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.name != null">
+        name = #{newModel.name,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.contactPerson != null">
+        contact_person = #{newModel.contactPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.contactTel != null">
+        contact_tel = #{newModel.contactTel,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.intro != null">
+        intro = #{newModel.intro,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.enable != null">
+        enable = #{newModel.enable,jdbcType=BIT},
+      </if>
+      <if test="newModel.ebsOrgId != null">
+        ebs_org_id = #{newModel.ebsOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.address != null">
+        address = #{newModel.address,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.mapAddress != null">
+        map_address = #{newModel.mapAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.mapLat != null">
+        map_lat = #{newModel.mapLat,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.mapLnt != null">
+        map_lnt = #{newModel.mapLnt,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.province != null">
+        province = #{newModel.province,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.city != null">
+        city = #{newModel.city,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.county != null">
+        county = #{newModel.county,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.status != null">
+        status = #{newModel.status,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.manageUserId != null">
+        manage_user_id = #{newModel.manageUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.hotline != null">
+        hotline = #{newModel.hotline,jdbcType=VARCHAR},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.code != null">
+         and code = #{oldModel.code,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.name != null">
+         and name = #{oldModel.name,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.contactPerson != null">
+         and contact_person = #{oldModel.contactPerson,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.contactTel != null">
+         and contact_tel = #{oldModel.contactTel,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.intro != null">
+         and intro = #{oldModel.intro,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.enable != null">
+         and enable = #{oldModel.enable,jdbcType=BIT}
+      </if>
+      <if test="oldModel.ebsOrgId != null">
+         and ebs_org_id = #{oldModel.ebsOrgId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.address != null">
+         and address = #{oldModel.address,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.mapAddress != null">
+         and map_address = #{oldModel.mapAddress,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.mapLat != null">
+         and map_lat = #{oldModel.mapLat,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.mapLnt != null">
+         and map_lnt = #{oldModel.mapLnt,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.province != null">
+         and province = #{oldModel.province,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.city != null">
+         and city = #{oldModel.city,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.county != null">
+         and county = #{oldModel.county,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.status != null">
+         and status = #{oldModel.status,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.manageUserId != null">
+         and manage_user_id = #{oldModel.manageUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.hotline != null">
+         and hotline = #{oldModel.hotline,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <update id="updateIncludeNull">
+    update moneyfeed.uc_shop
+    <set>
+      code = #{newModel.code,jdbcType=VARCHAR},
+      name = #{newModel.name,jdbcType=VARCHAR},
+      contact_person = #{newModel.contactPerson,jdbcType=VARCHAR},
+      contact_tel = #{newModel.contactTel,jdbcType=VARCHAR},
+      intro = #{newModel.intro,jdbcType=VARCHAR},
+      enable = #{newModel.enable,jdbcType=BIT},
+      ebs_org_id = #{newModel.ebsOrgId,jdbcType=VARCHAR},
+      address = #{newModel.address,jdbcType=VARCHAR},
+      map_address = #{newModel.mapAddress,jdbcType=VARCHAR},
+      map_lat = #{newModel.mapLat,jdbcType=VARCHAR},
+      map_lnt = #{newModel.mapLnt,jdbcType=VARCHAR},
+      province = #{newModel.province,jdbcType=VARCHAR},
+      city = #{newModel.city,jdbcType=VARCHAR},
+      county = #{newModel.county,jdbcType=VARCHAR},
+      status = #{newModel.status,jdbcType=VARCHAR},
+      manage_user_id = #{newModel.manageUserId,jdbcType=VARCHAR},
+      hotline = #{newModel.hotline,jdbcType=VARCHAR},
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.code != null">
+         and code = #{oldModel.code,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.name != null">
+         and name = #{oldModel.name,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.contactPerson != null">
+         and contact_person = #{oldModel.contactPerson,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.contactTel != null">
+         and contact_tel = #{oldModel.contactTel,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.intro != null">
+         and intro = #{oldModel.intro,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.enable != null">
+         and enable = #{oldModel.enable,jdbcType=BIT}
+      </if>
+      <if test="oldModel.ebsOrgId != null">
+         and ebs_org_id = #{oldModel.ebsOrgId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.address != null">
+         and address = #{oldModel.address,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.mapAddress != null">
+         and map_address = #{oldModel.mapAddress,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.mapLat != null">
+         and map_lat = #{oldModel.mapLat,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.mapLnt != null">
+         and map_lnt = #{oldModel.mapLnt,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.province != null">
+         and province = #{oldModel.province,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.city != null">
+         and city = #{oldModel.city,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.county != null">
+         and county = #{oldModel.county,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.status != null">
+         and status = #{oldModel.status,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.manageUserId != null">
+         and manage_user_id = #{oldModel.manageUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.hotline != null">
+         and hotline = #{oldModel.hotline,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.user.api.bean.client.UcShopModel">
+    delete from moneyfeed.uc_shop
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="code != null">
+         and code = #{code,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null">
+         and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="contactPerson != null">
+         and contact_person = #{contactPerson,jdbcType=VARCHAR}
+      </if>
+      <if test="contactTel != null">
+         and contact_tel = #{contactTel,jdbcType=VARCHAR}
+      </if>
+      <if test="intro != null">
+         and intro = #{intro,jdbcType=VARCHAR}
+      </if>
+      <if test="enable != null">
+         and enable = #{enable,jdbcType=BIT}
+      </if>
+      <if test="ebsOrgId != null">
+         and ebs_org_id = #{ebsOrgId,jdbcType=VARCHAR}
+      </if>
+      <if test="address != null">
+         and address = #{address,jdbcType=VARCHAR}
+      </if>
+      <if test="mapAddress != null">
+         and map_address = #{mapAddress,jdbcType=VARCHAR}
+      </if>
+      <if test="mapLat != null">
+         and map_lat = #{mapLat,jdbcType=VARCHAR}
+      </if>
+      <if test="mapLnt != null">
+         and map_lnt = #{mapLnt,jdbcType=VARCHAR}
+      </if>
+      <if test="province != null">
+         and province = #{province,jdbcType=VARCHAR}
+      </if>
+      <if test="city != null">
+         and city = #{city,jdbcType=VARCHAR}
+      </if>
+      <if test="county != null">
+         and county = #{county,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null">
+         and status = #{status,jdbcType=VARCHAR}
+      </if>
+      <if test="manageUserId != null">
+         and manage_user_id = #{manageUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="hotline != null">
+         and hotline = #{hotline,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+</mapper>

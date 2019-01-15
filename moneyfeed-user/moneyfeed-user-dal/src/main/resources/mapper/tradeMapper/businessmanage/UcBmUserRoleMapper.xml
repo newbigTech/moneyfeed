@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.user.dal.dao.businessmanage.UcBmUserRoleDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.user.api.bean.businessmanage.UcBmUserRoleModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="role_id" jdbcType="BIGINT" property="roleId" />
+    <result column="enable" jdbcType="BIT" property="enable" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gmt_created, gmt_modified, creator, modifier, version, user_id, role_id, enable
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.user.api.bean.businessmanage.UcBmUserRoleModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.uc_bm_user_role
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="userId != null">
+         and user_id = #{userId,jdbcType=BIGINT}
+      </if>
+      <if test="roleId != null">
+         and role_id = #{roleId,jdbcType=BIGINT}
+      </if>
+      <if test="enable != null">
+         and enable = #{enable,jdbcType=BIT}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.uc_bm_user_role (gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      user_id, 
+      role_id, 
+      enable
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.userId,jdbcType=BIGINT}, #{model.roleId,jdbcType=BIGINT}, #{model.enable,jdbcType=BIT}
+      	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.uc_bm_user_role
+    <set>
+      <if test="newModel.userId != null">
+        user_id = #{newModel.userId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.roleId != null">
+        role_id = #{newModel.roleId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.enable != null">
+        enable = #{newModel.enable,jdbcType=BIT},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.userId != null">
+         and user_id = #{oldModel.userId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.roleId != null">
+         and role_id = #{oldModel.roleId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.enable != null">
+         and enable = #{oldModel.enable,jdbcType=BIT}
+      </if>
+    </where>
+  </update>
+  <update id="updateIncludeNull">
+    update moneyfeed.uc_bm_user_role
+    <set>
+      user_id = #{newModel.userId,jdbcType=BIGINT},
+      role_id = #{newModel.roleId,jdbcType=BIGINT},
+      enable = #{newModel.enable,jdbcType=BIT},
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.userId != null">
+         and user_id = #{oldModel.userId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.roleId != null">
+         and role_id = #{oldModel.roleId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.enable != null">
+         and enable = #{oldModel.enable,jdbcType=BIT}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.user.api.bean.businessmanage.UcBmUserRoleModel">
+    delete from moneyfeed.uc_bm_user_role
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="userId != null">
+         and user_id = #{userId,jdbcType=BIGINT}
+      </if>
+      <if test="roleId != null">
+         and role_id = #{roleId,jdbcType=BIGINT}
+      </if>
+      <if test="enable != null">
+         and enable = #{enable,jdbcType=BIT}
+      </if>
+    </where>
+  </delete>
+</mapper>

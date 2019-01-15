@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.user.dal.dao.client.UcEbsOrganizesDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.user.api.bean.client.UcEbsOrganizesModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="org_id" jdbcType="VARCHAR" property="orgId" />
+    <result column="short_code" jdbcType="VARCHAR" property="shortCode" />
+    <result column="org_name" jdbcType="VARCHAR" property="orgName" />
+    <result column="enable" jdbcType="BIT" property="enable" />
+    <result column="org_address" jdbcType="VARCHAR" property="orgAddress" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="map_address" jdbcType="VARCHAR" property="mapAddress" />
+    <result column="map_lat" jdbcType="VARCHAR" property="mapLat" />
+    <result column="map_lnt" jdbcType="VARCHAR" property="mapLnt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gmt_created, gmt_modified, creator, modifier, version, org_id, short_code, org_name, 
+    enable, org_address, mobile, map_address, map_lat, map_lnt
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.user.api.bean.client.UcEbsOrganizesModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.uc_ebs_organizes
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="orgId != null">
+         and org_id = #{orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="shortCode != null">
+         and short_code = #{shortCode,jdbcType=VARCHAR}
+      </if>
+      <if test="orgName != null">
+         and org_name = #{orgName,jdbcType=VARCHAR}
+      </if>
+      <if test="enable != null">
+         and enable = #{enable,jdbcType=BIT}
+      </if>
+      <if test="orgAddress != null">
+         and org_address = #{orgAddress,jdbcType=VARCHAR}
+      </if>
+      <if test="mobile != null">
+         and mobile = #{mobile,jdbcType=VARCHAR}
+      </if>
+      <if test="mapAddress != null">
+         and map_address = #{mapAddress,jdbcType=VARCHAR}
+      </if>
+      <if test="mapLat != null">
+         and map_lat = #{mapLat,jdbcType=VARCHAR}
+      </if>
+      <if test="mapLnt != null">
+         and map_lnt = #{mapLnt,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.uc_ebs_organizes (gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      org_id, 
+      short_code, 
+      org_name, 
+      enable, 
+      org_address, 
+      mobile, 
+      map_address, 
+      map_lat, 
+      map_lnt
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.orgId,jdbcType=VARCHAR}, #{model.shortCode,jdbcType=VARCHAR}, #{model.orgName,jdbcType=VARCHAR}, 
+      #{model.enable,jdbcType=BIT}, #{model.orgAddress,jdbcType=VARCHAR}, #{model.mobile,jdbcType=VARCHAR}, 
+      #{model.mapAddress,jdbcType=VARCHAR}, #{model.mapLat,jdbcType=VARCHAR}, #{model.mapLnt,jdbcType=VARCHAR}
+      	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.uc_ebs_organizes
+    <set>
+      <if test="newModel.orgId != null">
+        org_id = #{newModel.orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.shortCode != null">
+        short_code = #{newModel.shortCode,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.orgName != null">
+        org_name = #{newModel.orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.enable != null">
+        enable = #{newModel.enable,jdbcType=BIT},
+      </if>
+      <if test="newModel.orgAddress != null">
+        org_address = #{newModel.orgAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.mobile != null">
+        mobile = #{newModel.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.mapAddress != null">
+        map_address = #{newModel.mapAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.mapLat != null">
+        map_lat = #{newModel.mapLat,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.mapLnt != null">
+        map_lnt = #{newModel.mapLnt,jdbcType=VARCHAR},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.orgId != null">
+         and org_id = #{oldModel.orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.shortCode != null">
+         and short_code = #{oldModel.shortCode,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.orgName != null">
+         and org_name = #{oldModel.orgName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.enable != null">
+         and enable = #{oldModel.enable,jdbcType=BIT}
+      </if>
+      <if test="oldModel.orgAddress != null">
+         and org_address = #{oldModel.orgAddress,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.mobile != null">
+         and mobile = #{oldModel.mobile,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.mapAddress != null">
+         and map_address = #{oldModel.mapAddress,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.mapLat != null">
+         and map_lat = #{oldModel.mapLat,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.mapLnt != null">
+         and map_lnt = #{oldModel.mapLnt,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <update id="updateIncludeNull">
+    update moneyfeed.uc_ebs_organizes
+    <set>
+      org_id = #{newModel.orgId,jdbcType=VARCHAR},
+      short_code = #{newModel.shortCode,jdbcType=VARCHAR},
+      org_name = #{newModel.orgName,jdbcType=VARCHAR},
+      enable = #{newModel.enable,jdbcType=BIT},
+      org_address = #{newModel.orgAddress,jdbcType=VARCHAR},
+      mobile = #{newModel.mobile,jdbcType=VARCHAR},
+      map_address = #{newModel.mapAddress,jdbcType=VARCHAR},
+      map_lat = #{newModel.mapLat,jdbcType=VARCHAR},
+      map_lnt = #{newModel.mapLnt,jdbcType=VARCHAR},
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.orgId != null">
+         and org_id = #{oldModel.orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.shortCode != null">
+         and short_code = #{oldModel.shortCode,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.orgName != null">
+         and org_name = #{oldModel.orgName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.enable != null">
+         and enable = #{oldModel.enable,jdbcType=BIT}
+      </if>
+      <if test="oldModel.orgAddress != null">
+         and org_address = #{oldModel.orgAddress,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.mobile != null">
+         and mobile = #{oldModel.mobile,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.mapAddress != null">
+         and map_address = #{oldModel.mapAddress,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.mapLat != null">
+         and map_lat = #{oldModel.mapLat,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.mapLnt != null">
+         and map_lnt = #{oldModel.mapLnt,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.user.api.bean.client.UcEbsOrganizesModel">
+    delete from moneyfeed.uc_ebs_organizes
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="orgId != null">
+         and org_id = #{orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="shortCode != null">
+         and short_code = #{shortCode,jdbcType=VARCHAR}
+      </if>
+      <if test="orgName != null">
+         and org_name = #{orgName,jdbcType=VARCHAR}
+      </if>
+      <if test="enable != null">
+         and enable = #{enable,jdbcType=BIT}
+      </if>
+      <if test="orgAddress != null">
+         and org_address = #{orgAddress,jdbcType=VARCHAR}
+      </if>
+      <if test="mobile != null">
+         and mobile = #{mobile,jdbcType=VARCHAR}
+      </if>
+      <if test="mapAddress != null">
+         and map_address = #{mapAddress,jdbcType=VARCHAR}
+      </if>
+      <if test="mapLat != null">
+         and map_lat = #{mapLat,jdbcType=VARCHAR}
+      </if>
+      <if test="mapLnt != null">
+         and map_lnt = #{mapLnt,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+</mapper>

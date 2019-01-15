@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.user.dal.dao.client.UcClientUserThirdAccountDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.user.api.bean.client.UcClientUserThirdAccountModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="third_account" jdbcType="VARCHAR" property="thirdAccount" />
+    <result column="third_source" jdbcType="VARCHAR" property="thirdSource" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+    <result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
+    <result column="enable" jdbcType="BIT" property="enable" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gmt_created, gmt_modified, creator, modifier, version, user_id, third_account, 
+    third_source, nick_name, img_url, enable
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.user.api.bean.client.UcClientUserThirdAccountModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.uc_client_user_third_account
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="userId != null">
+         and user_id = #{userId,jdbcType=BIGINT}
+      </if>
+      <if test="thirdAccount != null">
+         and third_account = #{thirdAccount,jdbcType=VARCHAR}
+      </if>
+      <if test="thirdSource != null">
+         and third_source = #{thirdSource,jdbcType=VARCHAR}
+      </if>
+      <if test="nickName != null">
+         and nick_name = #{nickName,jdbcType=VARCHAR}
+      </if>
+      <if test="imgUrl != null">
+         and img_url = #{imgUrl,jdbcType=VARCHAR}
+      </if>
+      <if test="enable != null">
+         and enable = #{enable,jdbcType=BIT}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.uc_client_user_third_account (gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      user_id, 
+      third_account, 
+      third_source, 
+      nick_name, 
+      img_url, 
+      enable
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.userId,jdbcType=BIGINT}, #{model.thirdAccount,jdbcType=VARCHAR}, #{model.thirdSource,jdbcType=VARCHAR}, 
+      #{model.nickName,jdbcType=VARCHAR}, #{model.imgUrl,jdbcType=VARCHAR}, #{model.enable,jdbcType=BIT}
+      	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.uc_client_user_third_account
+    <set>
+      <if test="newModel.userId != null">
+        user_id = #{newModel.userId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.thirdAccount != null">
+        third_account = #{newModel.thirdAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.thirdSource != null">
+        third_source = #{newModel.thirdSource,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.nickName != null">
+        nick_name = #{newModel.nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.imgUrl != null">
+        img_url = #{newModel.imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.enable != null">
+        enable = #{newModel.enable,jdbcType=BIT},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.userId != null">
+         and user_id = #{oldModel.userId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.thirdAccount != null">
+         and third_account = #{oldModel.thirdAccount,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.thirdSource != null">
+         and third_source = #{oldModel.thirdSource,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.nickName != null">
+         and nick_name = #{oldModel.nickName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.imgUrl != null">
+         and img_url = #{oldModel.imgUrl,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.enable != null">
+         and enable = #{oldModel.enable,jdbcType=BIT}
+      </if>
+    </where>
+  </update>
+  <update id="updateIncludeNull">
+    update moneyfeed.uc_client_user_third_account
+    <set>
+      user_id = #{newModel.userId,jdbcType=BIGINT},
+      third_account = #{newModel.thirdAccount,jdbcType=VARCHAR},
+      third_source = #{newModel.thirdSource,jdbcType=VARCHAR},
+      nick_name = #{newModel.nickName,jdbcType=VARCHAR},
+      img_url = #{newModel.imgUrl,jdbcType=VARCHAR},
+      enable = #{newModel.enable,jdbcType=BIT},
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.userId != null">
+         and user_id = #{oldModel.userId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.thirdAccount != null">
+         and third_account = #{oldModel.thirdAccount,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.thirdSource != null">
+         and third_source = #{oldModel.thirdSource,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.nickName != null">
+         and nick_name = #{oldModel.nickName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.imgUrl != null">
+         and img_url = #{oldModel.imgUrl,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.enable != null">
+         and enable = #{oldModel.enable,jdbcType=BIT}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.user.api.bean.client.UcClientUserThirdAccountModel">
+    delete from moneyfeed.uc_client_user_third_account
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="userId != null">
+         and user_id = #{userId,jdbcType=BIGINT}
+      </if>
+      <if test="thirdAccount != null">
+         and third_account = #{thirdAccount,jdbcType=VARCHAR}
+      </if>
+      <if test="thirdSource != null">
+         and third_source = #{thirdSource,jdbcType=VARCHAR}
+      </if>
+      <if test="nickName != null">
+         and nick_name = #{nickName,jdbcType=VARCHAR}
+      </if>
+      <if test="imgUrl != null">
+         and img_url = #{imgUrl,jdbcType=VARCHAR}
+      </if>
+      <if test="enable != null">
+         and enable = #{enable,jdbcType=BIT}
+      </if>
+    </where>
+  </delete>
+</mapper>

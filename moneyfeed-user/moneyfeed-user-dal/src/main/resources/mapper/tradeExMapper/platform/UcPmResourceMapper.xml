@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.user.dal.dao.platform.UcPmResourceDao">
+  <resultMap id="BaseExResultMap" type="com.newhope.moneyfeed.user.api.exbean.platform.UcPmResourceExModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="source_type" jdbcType="VARCHAR" property="sourceType" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="enable" jdbcType="BIT" property="enable" />
+    <result column="selected" jdbcType="BIT" property="selected" />
+  </resultMap>
+  <select id="searchResource"  resultMap="BaseResultMap">
+    select DISTINCT
+    a.id,  
+    a.code, 
+    a.name, 
+    a.parent_id, 
+    a.url, 
+    a.sort, 
+    a.icon,
+    a.enable,
+    a.type,
+    a.source_type
+    FROM moneyfeed.uc_pm_resource a
+	LEFT JOIN moneyfeed.uc_pm_role_resource rr on rr.resource_id = a.id and rr.enable = 1
+    <where>
+		<if test="resourceQueryReq.enable != null">
+			AND a.enable = #{resourceQueryReq.enable}
+		</if>
+		<if test="resourceQueryReq.type != null">
+			AND a.type = #{resourceQueryReq.type}
+		</if>
+		<if test="resourceQueryReq.roleIds != null and resourceQueryReq.roleIds.size() > 0 ">
+			AND rr.role_id in
+			<foreach collection="resourceQueryReq.roleIds" item="roleId" separator="," open="(" close=")">
+			    #{roleId}
+			</foreach>
+		</if>
+		<if test="resourceQueryReq.resourceIds != null and resourceQueryReq.resourceIds.size() > 0">
+			AND a.id in
+			<foreach item="resourceId" collection="resourceQueryReq.resourceIds" open="(" separator="," close=")">  
+				#{resourceId}  
+			</foreach>
+		</if>
+    </where>
+    order by a.parent_id,a.sort 
+  </select>
+  <select id="searchRoleResource"  resultMap="BaseExResultMap">
+    select 
+	    a.id,  
+	    a.name, 
+	    a.parent_id, 
+	    a.enable,
+	    a.code,
+	    a.type,
+	    a.source_type,
+	    CASE WHEN b.id IS NULL THEN 0 ELSE 1 END selected 
+   	FROM 
+   		moneyfeed.uc_pm_resource a
+   	LEFT JOIN moneyfeed.uc_pm_role_resource b 
+    ON a.id = b.resource_id
+    and
+    b.enable = 1
+	<if test="resourceQueryReq.roleId != null">
+		AND b.role_id = #{resourceQueryReq.roleId}
+	</if>
+	<where>
+		<if test="resourceQueryReq.enable != null">
+			AND a.enable = #{resourceQueryReq.enable}
+		</if>
+		<if test="resourceQueryReq.sourceType != null">
+			AND a.source_type = #{resourceQueryReq.sourceType}
+		</if>
+    </where>
+    order by a.parent_id
+  </select>
+</mapper>

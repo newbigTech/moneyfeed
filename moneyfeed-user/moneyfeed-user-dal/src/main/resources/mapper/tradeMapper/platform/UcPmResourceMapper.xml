@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.user.dal.dao.platform.UcPmResourceDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.user.api.bean.platform.UcPmResourceModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="source_type" jdbcType="VARCHAR" property="sourceType" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="enable" jdbcType="BIT" property="enable" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gmt_created, gmt_modified, creator, modifier, version, code, name, type, source_type, 
+    parent_id, url, sort, icon, enable
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.user.api.bean.platform.UcPmResourceModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.uc_pm_resource
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="code != null">
+         and code = #{code,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null">
+         and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="type != null">
+         and type = #{type,jdbcType=VARCHAR}
+      </if>
+      <if test="sourceType != null">
+         and source_type = #{sourceType,jdbcType=VARCHAR}
+      </if>
+      <if test="parentId != null">
+         and parent_id = #{parentId,jdbcType=BIGINT}
+      </if>
+      <if test="url != null">
+         and url = #{url,jdbcType=VARCHAR}
+      </if>
+      <if test="sort != null">
+         and sort = #{sort,jdbcType=INTEGER}
+      </if>
+      <if test="icon != null">
+         and icon = #{icon,jdbcType=VARCHAR}
+      </if>
+      <if test="enable != null">
+         and enable = #{enable,jdbcType=BIT}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.uc_pm_resource (gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      code, 
+      name, 
+      type, 
+      source_type, 
+      parent_id, 
+      url, 
+      sort, 
+      icon, 
+      enable
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.code,jdbcType=VARCHAR}, #{model.name,jdbcType=VARCHAR}, #{model.type,jdbcType=VARCHAR}, 
+      #{model.sourceType,jdbcType=VARCHAR}, #{model.parentId,jdbcType=BIGINT}, #{model.url,jdbcType=VARCHAR}, 
+      #{model.sort,jdbcType=INTEGER}, #{model.icon,jdbcType=VARCHAR}, #{model.enable,jdbcType=BIT}
+      	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.uc_pm_resource
+    <set>
+      <if test="newModel.code != null">
+        code = #{newModel.code,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.name != null">
+        name = #{newModel.name,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.type != null">
+        type = #{newModel.type,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.sourceType != null">
+        source_type = #{newModel.sourceType,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.parentId != null">
+        parent_id = #{newModel.parentId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.url != null">
+        url = #{newModel.url,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.sort != null">
+        sort = #{newModel.sort,jdbcType=INTEGER},
+      </if>
+      <if test="newModel.icon != null">
+        icon = #{newModel.icon,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.enable != null">
+        enable = #{newModel.enable,jdbcType=BIT},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.code != null">
+         and code = #{oldModel.code,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.name != null">
+         and name = #{oldModel.name,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.type != null">
+         and type = #{oldModel.type,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.sourceType != null">
+         and source_type = #{oldModel.sourceType,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.parentId != null">
+         and parent_id = #{oldModel.parentId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.url != null">
+         and url = #{oldModel.url,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.sort != null">
+         and sort = #{oldModel.sort,jdbcType=INTEGER}
+      </if>
+      <if test="oldModel.icon != null">
+         and icon = #{oldModel.icon,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.enable != null">
+         and enable = #{oldModel.enable,jdbcType=BIT}
+      </if>
+    </where>
+  </update>
+  <update id="updateIncludeNull">
+    update moneyfeed.uc_pm_resource
+    <set>
+      code = #{newModel.code,jdbcType=VARCHAR},
+      name = #{newModel.name,jdbcType=VARCHAR},
+      type = #{newModel.type,jdbcType=VARCHAR},
+      source_type = #{newModel.sourceType,jdbcType=VARCHAR},
+      parent_id = #{newModel.parentId,jdbcType=BIGINT},
+      url = #{newModel.url,jdbcType=VARCHAR},
+      sort = #{newModel.sort,jdbcType=INTEGER},
+      icon = #{newModel.icon,jdbcType=VARCHAR},
+      enable = #{newModel.enable,jdbcType=BIT},
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.code != null">
+         and code = #{oldModel.code,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.name != null">
+         and name = #{oldModel.name,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.type != null">
+         and type = #{oldModel.type,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.sourceType != null">
+         and source_type = #{oldModel.sourceType,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.parentId != null">
+         and parent_id = #{oldModel.parentId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.url != null">
+         and url = #{oldModel.url,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.sort != null">
+         and sort = #{oldModel.sort,jdbcType=INTEGER}
+      </if>
+      <if test="oldModel.icon != null">
+         and icon = #{oldModel.icon,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.enable != null">
+         and enable = #{oldModel.enable,jdbcType=BIT}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.user.api.bean.platform.UcPmResourceModel">
+    delete from moneyfeed.uc_pm_resource
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="code != null">
+         and code = #{code,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null">
+         and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="type != null">
+         and type = #{type,jdbcType=VARCHAR}
+      </if>
+      <if test="sourceType != null">
+         and source_type = #{sourceType,jdbcType=VARCHAR}
+      </if>
+      <if test="parentId != null">
+         and parent_id = #{parentId,jdbcType=BIGINT}
+      </if>
+      <if test="url != null">
+         and url = #{url,jdbcType=VARCHAR}
+      </if>
+      <if test="sort != null">
+         and sort = #{sort,jdbcType=INTEGER}
+      </if>
+      <if test="icon != null">
+         and icon = #{icon,jdbcType=VARCHAR}
+      </if>
+      <if test="enable != null">
+         and enable = #{enable,jdbcType=BIT}
+      </if>
+    </where>
+  </delete>
+</mapper>

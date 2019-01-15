@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.user.dal.dao.client.UcCustomerAccountAgreementDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.user.api.bean.client.UcCustomerAccountAgreementModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="cutomer_id" jdbcType="BIGINT" property="cutomerId" />
+    <result column="customer_account_id" jdbcType="BIGINT" property="customerAccountId" />
+    <result column="agreement_no" jdbcType="VARCHAR" property="agreementNo" />
+    <result column="agreement_expired_date" jdbcType="TIMESTAMP" property="agreementExpiredDate" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="real_mobile" jdbcType="VARCHAR" property="realMobile" />
+    <result column="id_card_no" jdbcType="VARCHAR" property="idCardNo" />
+    <result column="birth_date" jdbcType="DATE" property="birthDate" />
+    <result column="enable" jdbcType="BIT" property="enable" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gmt_created, gmt_modified, creator, modifier, version, cutomer_id, customer_account_id, 
+    agreement_no, agreement_expired_date, real_name, real_mobile, id_card_no, birth_date, 
+    enable
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.user.api.bean.client.UcCustomerAccountAgreementModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.uc_customer_account_agreement
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="cutomerId != null">
+         and cutomer_id = #{cutomerId,jdbcType=BIGINT}
+      </if>
+      <if test="customerAccountId != null">
+         and customer_account_id = #{customerAccountId,jdbcType=BIGINT}
+      </if>
+      <if test="agreementNo != null">
+         and agreement_no = #{agreementNo,jdbcType=VARCHAR}
+      </if>
+      <if test="agreementExpiredDate != null">
+         and agreement_expired_date = #{agreementExpiredDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="realName != null">
+         and real_name = #{realName,jdbcType=VARCHAR}
+      </if>
+      <if test="realMobile != null">
+         and real_mobile = #{realMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="idCardNo != null">
+         and id_card_no = #{idCardNo,jdbcType=VARCHAR}
+      </if>
+      <if test="birthDate != null">
+         and birth_date = #{birthDate,jdbcType=DATE}
+      </if>
+      <if test="enable != null">
+         and enable = #{enable,jdbcType=BIT}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.uc_customer_account_agreement (gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      cutomer_id, 
+      customer_account_id, 
+      agreement_no, 
+      agreement_expired_date, 
+      real_name, 
+      real_mobile, 
+      id_card_no, 
+      birth_date, 
+      enable
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.cutomerId,jdbcType=BIGINT}, #{model.customerAccountId,jdbcType=BIGINT}, 
+      #{model.agreementNo,jdbcType=VARCHAR}, #{model.agreementExpiredDate,jdbcType=TIMESTAMP}, 
+      #{model.realName,jdbcType=VARCHAR}, #{model.realMobile,jdbcType=VARCHAR}, #{model.idCardNo,jdbcType=VARCHAR}, 
+      #{model.birthDate,jdbcType=DATE}, #{model.enable,jdbcType=BIT}	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.uc_customer_account_agreement
+    <set>
+      <if test="newModel.cutomerId != null">
+        cutomer_id = #{newModel.cutomerId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.customerAccountId != null">
+        customer_account_id = #{newModel.customerAccountId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.agreementNo != null">
+        agreement_no = #{newModel.agreementNo,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.agreementExpiredDate != null">
+        agreement_expired_date = #{newModel.agreementExpiredDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newModel.realName != null">
+        real_name = #{newModel.realName,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.realMobile != null">
+        real_mobile = #{newModel.realMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.idCardNo != null">
+        id_card_no = #{newModel.idCardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.birthDate != null">
+        birth_date = #{newModel.birthDate,jdbcType=DATE},
+      </if>
+      <if test="newModel.enable != null">
+        enable = #{newModel.enable,jdbcType=BIT},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.cutomerId != null">
+         and cutomer_id = #{oldModel.cutomerId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.customerAccountId != null">
+         and customer_account_id = #{oldModel.customerAccountId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.agreementNo != null">
+         and agreement_no = #{oldModel.agreementNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.agreementExpiredDate != null">
+         and agreement_expired_date = #{oldModel.agreementExpiredDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="oldModel.realName != null">
+         and real_name = #{oldModel.realName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.realMobile != null">
+         and real_mobile = #{oldModel.realMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.idCardNo != null">
+         and id_card_no = #{oldModel.idCardNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.birthDate != null">
+         and birth_date = #{oldModel.birthDate,jdbcType=DATE}
+      </if>
+      <if test="oldModel.enable != null">
+         and enable = #{oldModel.enable,jdbcType=BIT}
+      </if>
+    </where>
+  </update>
+  <update id="updateIncludeNull">
+    update moneyfeed.uc_customer_account_agreement
+    <set>
+      cutomer_id = #{newModel.cutomerId,jdbcType=BIGINT},
+      customer_account_id = #{newModel.customerAccountId,jdbcType=BIGINT},
+      agreement_no = #{newModel.agreementNo,jdbcType=VARCHAR},
+      agreement_expired_date = #{newModel.agreementExpiredDate,jdbcType=TIMESTAMP},
+      real_name = #{newModel.realName,jdbcType=VARCHAR},
+      real_mobile = #{newModel.realMobile,jdbcType=VARCHAR},
+      id_card_no = #{newModel.idCardNo,jdbcType=VARCHAR},
+      birth_date = #{newModel.birthDate,jdbcType=DATE},
+      enable = #{newModel.enable,jdbcType=BIT},
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.cutomerId != null">
+         and cutomer_id = #{oldModel.cutomerId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.customerAccountId != null">
+         and customer_account_id = #{oldModel.customerAccountId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.agreementNo != null">
+         and agreement_no = #{oldModel.agreementNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.agreementExpiredDate != null">
+         and agreement_expired_date = #{oldModel.agreementExpiredDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="oldModel.realName != null">
+         and real_name = #{oldModel.realName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.realMobile != null">
+         and real_mobile = #{oldModel.realMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.idCardNo != null">
+         and id_card_no = #{oldModel.idCardNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.birthDate != null">
+         and birth_date = #{oldModel.birthDate,jdbcType=DATE}
+      </if>
+      <if test="oldModel.enable != null">
+         and enable = #{oldModel.enable,jdbcType=BIT}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.user.api.bean.client.UcCustomerAccountAgreementModel">
+    delete from moneyfeed.uc_customer_account_agreement
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="cutomerId != null">
+         and cutomer_id = #{cutomerId,jdbcType=BIGINT}
+      </if>
+      <if test="customerAccountId != null">
+         and customer_account_id = #{customerAccountId,jdbcType=BIGINT}
+      </if>
+      <if test="agreementNo != null">
+         and agreement_no = #{agreementNo,jdbcType=VARCHAR}
+      </if>
+      <if test="agreementExpiredDate != null">
+         and agreement_expired_date = #{agreementExpiredDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="realName != null">
+         and real_name = #{realName,jdbcType=VARCHAR}
+      </if>
+      <if test="realMobile != null">
+         and real_mobile = #{realMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="idCardNo != null">
+         and id_card_no = #{idCardNo,jdbcType=VARCHAR}
+      </if>
+      <if test="birthDate != null">
+         and birth_date = #{birthDate,jdbcType=DATE}
+      </if>
+      <if test="enable != null">
+         and enable = #{enable,jdbcType=BIT}
+      </if>
+    </where>
+  </delete>
+</mapper>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.user.dal.dao.client.UcShopDao">
+  <select id="searchShop"  resultMap="BaseResultMap">
+    SELECT
+	<include refid="Base_Column_List" />
+    from moneyfeed.uc_shop
+    <where>
+      <if test="queryParam.id != null">
+         and id = #{queryParam.id}
+      </if>
+      <if test="queryParam.enable != null">
+         and `enable` = #{queryParam.enable}
+      </if>
+      <if test="queryParam.ids != null and queryParam.ids.size > 0">
+		 and id in
+		<foreach collection="queryParam.ids" item="id" open="(" separator="," close=")">
+				#{id}
+		</foreach>
+	  </if>
+	  <if test="queryParam.ebsOrgId != null">
+         and ebs_org_id = #{queryParam.ebsOrgId}
+      </if>
+      <if test="queryParam.likeName != null">
+      	 and name like CONCAT('%',#{queryParam.likeName},'%')
+      </if>
+      <if test="queryParam.status != null">
+         and `status` = #{queryParam.status}
+      </if>
+    </where>
+    <if test="start != null and size != null ">
+		limit #{start}, #{size}
+	</if>
+  </select>
+  <select id="searchShopCount"  resultType="java.lang.Long">
+    SELECT
+		count(1)
+	from moneyfeed.uc_shop
+    <where>
+      <if test="queryParam.id != null">
+         and id = #{queryParam.id}
+      </if>
+      <if test="queryParam.enable != null">
+         and enable = #{queryParam.enable}
+      </if>
+      <if test="queryParam.ids != null and queryParam.ids.size > 0">
+		 and id in
+		<foreach collection="queryParam.ids" item="id" open="(" separator="," close=")">
+				#{id}
+		</foreach>
+	  </if>
+	  <if test="queryParam.ebsOrgId != null">
+         and ebs_org_id = #{queryParam.ebsOrgId}
+      </if>
+      <if test="queryParam.likeName != null">
+      	 and name like CONCAT(CONCAT('%',#{queryParam.likeName},'%'))
+      </if>
+    </where>
+  </select>
+
+    <select id="shopList" resultType="com.newhope.moneyfeed.user.api.dto.response.platform.UcPmShopDtoResult">
+    select
+    s.id,s.name as shopName,o.org_name as orgName,o.short_code as shortCode,s.intro,s.contact_person as contactPerson,s.contact_tel as contactTel,
+    s.`status`,s.gmt_created as gmtCreated
+
+    from uc_shop s LEFT JOIN uc_ebs_organizes o  on s.ebs_org_id=o.id
+
+    <where>
+
+        <if test="param.shopName!=null and param.shopName != ''">
+          and s.name like CONCAT('%',#{param.shopName},'%')
+        </if>
+
+        <if test="param.orgName!=null and param.orgName != ''">
+            and o.org_name like CONCAT('%',#{param.orgName},'%')
+        </if>
+
+        <if test="param.status!=null and param.status != ''">
+            and s.status=#{param.status}
+        </if>
+        <if test="param.startDate!=null">
+            and <![CDATA[s.gmt_created >= #{param.startDate} ]]>
+        </if>
+        <if test="param.endDate!=null">
+            and <![CDATA[ s.gmt_created <= #{param.endDate} ]]>
+        </if>
+
+    </where>
+    order by s.gmt_created desc
+    </select>
+
+
+    <select id="shopDetail" resultType="com.newhope.moneyfeed.user.api.dto.response.platform.UcPmShopDtoResult">
+        select
+        s.id,s.name as shopName,o.org_name as orgName,s.intro,s.contact_person as contactPerson,s.contact_tel as contactTel,
+
+        u.name as adminName,u.mobile,s.gmt_created as gmtCreated,
+
+        s.hotline,s.address,s.map_address as mapAddress,s.map_lat as  mapLat,s.map_lnt as mapLnt,s.province,s.city,s.county,s.`status`
+        from uc_shop s LEFT JOIN uc_ebs_organizes o  on s.ebs_org_id=o.id
+        LEFT JOIN uc_bm_user u on u.id=s.manage_user_id
+
+        <where>
+
+            <if test="param.id!=null ">
+                and s.id=#{param.id}
+            </if>
+        </where>
+        order by s.gmt_created desc
+    </select>
+
+</mapper>

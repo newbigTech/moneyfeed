@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.user.dal.dao.platform.UcPmLabelDao">
+
+  <select id="labelList" resultType="com.newhope.moneyfeed.user.api.dto.response.platform.UcPmLabelDtoResult">
+    select id,name,target_type as targetType,create_type as createType,comment,gmt_created as gmtCreated,IFNULL(c.count,0) as count  from uc_pm_label l
+
+LEFT JOIN (
+
+select label_id,count(*) as count from uc_pm_label_customer_mapping
+
+where enable=1
+
+GROUP BY label_id) c on l.id=c.label_id
+
+    <where>
+
+      <if test="param.targetType != null and param.targetType != ''">
+        and l.target_type = #{param.targetType}
+      </if>
+      <if test="param.createType != null and param.createType != ''">
+        and l.create_type = #{param.createType}
+      </if>
+      <if test="param.name != null and param.name != ''">
+        and l.name = #{param.name}
+      </if>
+      <if test="param.enable != null">
+        and l.enable = #{param.enable}
+      </if>
+
+    </where>
+
+    order by l.gmt_created desc
+
+  </select>
+  
+  <select id="queryLabelByCusomerId" resultMap="BaseResultMap">
+  		SELECT
+			label.*
+		FROM
+			moneyfeed.uc_pm_label label
+		INNER JOIN moneyfeed.uc_pm_label_customer_mapping cus ON cus.label_id = label.id and cus.enable = 1
+		where cus.customer_id = #{customerId} and label.`enable`=1
+  </select>
+  
+</mapper>

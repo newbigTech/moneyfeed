@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.user.dal.dao.platform.UcPmRoleDao">
+  <select id="queryRole" resultMap="BaseResultMap">
+    select 
+    id,  
+    name, 
+    enable, 
+    source_type,
+    `code`, 
+    comment
+    from moneyfeed.uc_pm_role
+      <where>
+      <if test="queryParam.id != null">
+         and id = #{queryParam.id}
+      </if>
+      <if test="queryParam.name != null">
+         and name = #{queryParam.name}
+      </if>
+      <if test="queryParam.enable != null">
+         and enable = #{queryParam.enable}
+      </if>
+      <if test="queryParam.sourceType != null">
+         and source_type = #{queryParam.sourceType}
+      </if>
+    </where>
+  </select>
+  
+  <select id="getRoleList" resultMap="BaseResultMap">
+     select 
+    id,  
+    name, 
+    enable, 
+    source_type, 
+    `code`,
+    comment
+    from moneyfeed.uc_pm_role
+    <where>
+      <if test="queryParam.id != null">
+         and id = #{queryParam.id}
+      </if>
+      <if test="queryParam.name != null and queryParam.name != ''">
+         and name like CONCAT('%',#{queryParam.name},'%')
+      </if>
+      <if test="queryParam.enable != null">
+         and enable = #{queryParam.enable}
+      </if>
+      <if test="queryParam.sourceType != null and queryParam.sourceType != '' ">
+         and source_type = #{queryParam.sourceType}
+      </if>
+    </where>
+  </select>
+</mapper>

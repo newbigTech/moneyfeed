@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.user.dal.dao.businessmanage.UcBmUserDao">
+	<resultMap id="UcBmUserDtoResultMap" type="com.newhope.moneyfeed.user.api.dto.response.businessmanage.UcBmUserDtoResult">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="mobile" jdbcType="VARCHAR" property="mobile" />
+		<result column="status" jdbcType="BIT" property="status" />
+        <result column="shopId" jdbcType="BIGINT" property="shopId" />
+        <result column="shopName" jdbcType="VARCHAR" property="shopName" />
+		<collection property="roleDtoList" ofType="com.newhope.moneyfeed.user.api.dto.response.platform.UcPmRoleDtoResult"
+					javaType="java.util.ArrayList" select="queryRoles"
+					column="id">
+		</collection>
+	</resultMap>
+
+	<resultMap id="UcPmRoleDtoResultMap" type="com.newhope.moneyfeed.user.api.dto.response.platform.UcPmRoleDtoResult">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="code" jdbcType="VARCHAR" property="code" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+	</resultMap>
+
+  <select id="queryBmUserByShopId" resultMap="BaseResultMap">
+    SELECT u.* from moneyfeed.uc_bm_user u
+		LEFT JOIN moneyfeed.uc_bm_user_role ur on ur.user_id = u.id and ur.`enable` = 1
+		INNER JOIN moneyfeed.uc_pm_role r on r.id = ur.role_id and r.`enable` = 1
+		where u.`enable` = 1
+			<if test="queryParam.shopId != null">
+				and u.shop_id = #{queryParam.shopId}
+			</if>
+			<if test="queryParam.roleCodeList != null and queryParam.roleCodeList.size > 0 ">
+			 	and r.code in
+				<foreach collection="queryParam.roleCodeList" item="roleCode" open="(" close=")" separator=",">
+					#{roleCode}
+				</foreach>
+			</if>
+  </select>
+
+	<select id="queryBmEmployeeInfoList" resultMap="UcBmUserDtoResultMap">
+		SELECT
+		bu.id,
+		bu.`name`,
+		bu.mobile,
+		bu.`enable` AS `status`,
+        bu.shop_id AS shopId,
+        us.`name` AS shopName
+		FROM
+		moneyfeed.uc_bm_user bu
+        LEFT JOIN moneyfeed.uc_shop us ON bu.shop_id = us.id
+		<where>
+            <if test="queryParam.shopId != null">
+                and  bu.shop_id = #{queryParam.shopId}
+            </if>
+            <if test="queryParam.userId != null">
+                and  bu.id = #{queryParam.userId}
+            </if>
+			<if test="queryParam.name != null">
+				and  bu.`name` like "%"#{queryParam.name,jdbcType=VARCHAR}"%"
+			</if>
+			<if test="queryParam.mobile != null">
+				and  bu.mobile like "%"#{queryParam.mobile,jdbcType=VARCHAR}"%"
+			</if>
+			<if test="queryParam.status != null">
+				and  bu.`enable` = #{queryParam.status,jdbcType=BIT}
+			</if>
+			<if test="queryParam.userIds != null and queryParam.userIds.size > 0 ">
+				and bu.id in
+				<foreach collection="queryParam.userIds" item="userId" open="(" close=")" separator=",">
+					#{userId}
+				</foreach>
+			</if>
+		</where>
+	</select>
+
+	<select id="queryRoles" parameterType="java.lang.Long" resultMap="UcPmRoleDtoResultMap">
+		SELECT
+		pr.id,
+		pr.`code`,
+		pr.`name`
+		FROM
+		moneyfeed.uc_bm_user_role bur
+		LEFT JOIN moneyfeed.uc_pm_role pr ON bur.role_id = pr.id
+		where bur.user_id = #{id}
+	</select>
+</mapper>

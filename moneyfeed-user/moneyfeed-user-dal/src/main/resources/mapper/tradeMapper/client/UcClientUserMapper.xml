@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.user.dal.dao.client.UcClientUserDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.user.api.bean.client.UcClientUserModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="account" jdbcType="VARCHAR" property="account" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime" />
+    <result column="source" jdbcType="VARCHAR" property="source" />
+    <result column="enable" jdbcType="BIT" property="enable" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gmt_created, gmt_modified, creator, modifier, version, code, account, mobile, 
+    name, password, last_login_time, source, enable
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.user.api.bean.client.UcClientUserModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.uc_client_user
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="code != null">
+         and code = #{code,jdbcType=VARCHAR}
+      </if>
+      <if test="account != null">
+         and account = #{account,jdbcType=VARCHAR}
+      </if>
+      <if test="mobile != null">
+         and mobile = #{mobile,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null">
+         and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="password != null">
+         and password = #{password,jdbcType=VARCHAR}
+      </if>
+      <if test="lastLoginTime != null">
+         and last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="source != null">
+         and source = #{source,jdbcType=VARCHAR}
+      </if>
+      <if test="enable != null">
+         and enable = #{enable,jdbcType=BIT}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.uc_client_user (gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      code, 
+      account, 
+      mobile, 
+      name, 
+      password, 
+      last_login_time, 
+      source, 
+      enable
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.code,jdbcType=VARCHAR}, #{model.account,jdbcType=VARCHAR}, #{model.mobile,jdbcType=VARCHAR}, 
+      #{model.name,jdbcType=VARCHAR}, #{model.password,jdbcType=VARCHAR}, #{model.lastLoginTime,jdbcType=TIMESTAMP}, 
+      #{model.source,jdbcType=VARCHAR}, #{model.enable,jdbcType=BIT}	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.uc_client_user
+    <set>
+      <if test="newModel.code != null">
+        code = #{newModel.code,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.account != null">
+        account = #{newModel.account,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.mobile != null">
+        mobile = #{newModel.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.name != null">
+        name = #{newModel.name,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.password != null">
+        password = #{newModel.password,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.lastLoginTime != null">
+        last_login_time = #{newModel.lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newModel.source != null">
+        source = #{newModel.source,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.enable != null">
+        enable = #{newModel.enable,jdbcType=BIT},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.code != null">
+         and code = #{oldModel.code,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.account != null">
+         and account = #{oldModel.account,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.mobile != null">
+         and mobile = #{oldModel.mobile,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.name != null">
+         and name = #{oldModel.name,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.password != null">
+         and password = #{oldModel.password,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.lastLoginTime != null">
+         and last_login_time = #{oldModel.lastLoginTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="oldModel.source != null">
+         and source = #{oldModel.source,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.enable != null">
+         and enable = #{oldModel.enable,jdbcType=BIT}
+      </if>
+    </where>
+  </update>
+  <update id="updateIncludeNull">
+    update moneyfeed.uc_client_user
+    <set>
+      code = #{newModel.code,jdbcType=VARCHAR},
+      account = #{newModel.account,jdbcType=VARCHAR},
+      mobile = #{newModel.mobile,jdbcType=VARCHAR},
+      name = #{newModel.name,jdbcType=VARCHAR},
+      password = #{newModel.password,jdbcType=VARCHAR},
+      last_login_time = #{newModel.lastLoginTime,jdbcType=TIMESTAMP},
+      source = #{newModel.source,jdbcType=VARCHAR},
+      enable = #{newModel.enable,jdbcType=BIT},
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.code != null">
+         and code = #{oldModel.code,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.account != null">
+         and account = #{oldModel.account,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.mobile != null">
+         and mobile = #{oldModel.mobile,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.name != null">
+         and name = #{oldModel.name,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.password != null">
+         and password = #{oldModel.password,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.lastLoginTime != null">
+         and last_login_time = #{oldModel.lastLoginTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="oldModel.source != null">
+         and source = #{oldModel.source,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.enable != null">
+         and enable = #{oldModel.enable,jdbcType=BIT}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.user.api.bean.client.UcClientUserModel">
+    delete from moneyfeed.uc_client_user
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="code != null">
+         and code = #{code,jdbcType=VARCHAR}
+      </if>
+      <if test="account != null">
+         and account = #{account,jdbcType=VARCHAR}
+      </if>
+      <if test="mobile != null">
+         and mobile = #{mobile,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null">
+         and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="password != null">
+         and password = #{password,jdbcType=VARCHAR}
+      </if>
+      <if test="lastLoginTime != null">
+         and last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="source != null">
+         and source = #{source,jdbcType=VARCHAR}
+      </if>
+      <if test="enable != null">
+         and enable = #{enable,jdbcType=BIT}
+      </if>
+    </where>
+  </delete>
+</mapper>
