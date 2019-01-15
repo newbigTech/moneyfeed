@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.goods.dal.dao.SalecateProductDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.goods.api.bean.SalecateProductModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="one_salecate_id" jdbcType="VARCHAR" property="oneSalecateId" />
+    <result column="one_salecate_name" jdbcType="VARCHAR" property="oneSalecateName" />
+    <result column="two_salecate_id" jdbcType="VARCHAR" property="twoSalecateId" />
+    <result column="two_salecate_name" jdbcType="VARCHAR" property="twoSalecateName" />
+    <result column="three_salecate_id" jdbcType="VARCHAR" property="threeSalecateId" />
+    <result column="three_salecate_name" jdbcType="VARCHAR" property="threeSalecateName" />
+    <result column="four_salecate_id" jdbcType="VARCHAR" property="fourSalecateId" />
+    <result column="four_salecate_name" jdbcType="VARCHAR" property="fourSalecateName" />
+    <result column="product_code" jdbcType="VARCHAR" property="productCode" />
+    <result column="salecate_id" jdbcType="VARCHAR" property="salecateId" />
+    <result column="salecate_level" jdbcType="INTEGER" property="salecateLevel" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, one_salecate_id, one_salecate_name, two_salecate_id, two_salecate_name, three_salecate_id, 
+    three_salecate_name, four_salecate_id, four_salecate_name, product_code, salecate_id, 
+    salecate_level, gmt_created, gmt_modified, creator, modifier, version
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.goods.api.bean.SalecateProductModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.pc_salecate_product
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="oneSalecateId != null">
+         and one_salecate_id = #{oneSalecateId,jdbcType=VARCHAR}
+      </if>
+      <if test="oneSalecateName != null">
+         and one_salecate_name = #{oneSalecateName,jdbcType=VARCHAR}
+      </if>
+      <if test="twoSalecateId != null">
+         and two_salecate_id = #{twoSalecateId,jdbcType=VARCHAR}
+      </if>
+      <if test="twoSalecateName != null">
+         and two_salecate_name = #{twoSalecateName,jdbcType=VARCHAR}
+      </if>
+      <if test="threeSalecateId != null">
+         and three_salecate_id = #{threeSalecateId,jdbcType=VARCHAR}
+      </if>
+      <if test="threeSalecateName != null">
+         and three_salecate_name = #{threeSalecateName,jdbcType=VARCHAR}
+      </if>
+      <if test="fourSalecateId != null">
+         and four_salecate_id = #{fourSalecateId,jdbcType=VARCHAR}
+      </if>
+      <if test="fourSalecateName != null">
+         and four_salecate_name = #{fourSalecateName,jdbcType=VARCHAR}
+      </if>
+      <if test="productCode != null">
+         and product_code = #{productCode,jdbcType=VARCHAR}
+      </if>
+      <if test="salecateId != null">
+         and salecate_id = #{salecateId,jdbcType=VARCHAR}
+      </if>
+      <if test="salecateLevel != null">
+         and salecate_level = #{salecateLevel,jdbcType=INTEGER}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.pc_salecate_product (one_salecate_id, 
+      one_salecate_name, 
+      two_salecate_id, 
+      two_salecate_name, 
+      three_salecate_id, 
+      three_salecate_name, 
+      four_salecate_id, 
+      four_salecate_name, 
+      product_code, 
+      salecate_id, 
+      salecate_level, 
+      gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.oneSalecateId,jdbcType=VARCHAR}, 
+      #{model.oneSalecateName,jdbcType=VARCHAR}, #{model.twoSalecateId,jdbcType=VARCHAR}, 
+      #{model.twoSalecateName,jdbcType=VARCHAR}, #{model.threeSalecateId,jdbcType=VARCHAR}, 
+      #{model.threeSalecateName,jdbcType=VARCHAR}, #{model.fourSalecateId,jdbcType=VARCHAR}, 
+      #{model.fourSalecateName,jdbcType=VARCHAR}, #{model.productCode,jdbcType=VARCHAR}, 
+      #{model.salecateId,jdbcType=VARCHAR}, #{model.salecateLevel,jdbcType=INTEGER}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 0	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.pc_salecate_product
+    <set>
+      <if test="newModel.oneSalecateId != null">
+        one_salecate_id = #{newModel.oneSalecateId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.oneSalecateName != null">
+        one_salecate_name = #{newModel.oneSalecateName,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.twoSalecateId != null">
+        two_salecate_id = #{newModel.twoSalecateId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.twoSalecateName != null">
+        two_salecate_name = #{newModel.twoSalecateName,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.threeSalecateId != null">
+        three_salecate_id = #{newModel.threeSalecateId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.threeSalecateName != null">
+        three_salecate_name = #{newModel.threeSalecateName,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.fourSalecateId != null">
+        four_salecate_id = #{newModel.fourSalecateId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.fourSalecateName != null">
+        four_salecate_name = #{newModel.fourSalecateName,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.productCode != null">
+        product_code = #{newModel.productCode,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.salecateId != null">
+        salecate_id = #{newModel.salecateId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.salecateLevel != null">
+        salecate_level = #{newModel.salecateLevel,jdbcType=INTEGER},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.oneSalecateId != null">
+         and one_salecate_id = #{oldModel.oneSalecateId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.oneSalecateName != null">
+         and one_salecate_name = #{oldModel.oneSalecateName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.twoSalecateId != null">
+         and two_salecate_id = #{oldModel.twoSalecateId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.twoSalecateName != null">
+         and two_salecate_name = #{oldModel.twoSalecateName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.threeSalecateId != null">
+         and three_salecate_id = #{oldModel.threeSalecateId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.threeSalecateName != null">
+         and three_salecate_name = #{oldModel.threeSalecateName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.fourSalecateId != null">
+         and four_salecate_id = #{oldModel.fourSalecateId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.fourSalecateName != null">
+         and four_salecate_name = #{oldModel.fourSalecateName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.productCode != null">
+         and product_code = #{oldModel.productCode,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.salecateId != null">
+         and salecate_id = #{oldModel.salecateId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.salecateLevel != null">
+         and salecate_level = #{oldModel.salecateLevel,jdbcType=INTEGER}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.goods.api.bean.SalecateProductModel">
+    delete from moneyfeed.pc_salecate_product
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="oneSalecateId != null">
+         and one_salecate_id = #{oneSalecateId,jdbcType=VARCHAR}
+      </if>
+      <if test="oneSalecateName != null">
+         and one_salecate_name = #{oneSalecateName,jdbcType=VARCHAR}
+      </if>
+      <if test="twoSalecateId != null">
+         and two_salecate_id = #{twoSalecateId,jdbcType=VARCHAR}
+      </if>
+      <if test="twoSalecateName != null">
+         and two_salecate_name = #{twoSalecateName,jdbcType=VARCHAR}
+      </if>
+      <if test="threeSalecateId != null">
+         and three_salecate_id = #{threeSalecateId,jdbcType=VARCHAR}
+      </if>
+      <if test="threeSalecateName != null">
+         and three_salecate_name = #{threeSalecateName,jdbcType=VARCHAR}
+      </if>
+      <if test="fourSalecateId != null">
+         and four_salecate_id = #{fourSalecateId,jdbcType=VARCHAR}
+      </if>
+      <if test="fourSalecateName != null">
+         and four_salecate_name = #{fourSalecateName,jdbcType=VARCHAR}
+      </if>
+      <if test="productCode != null">
+         and product_code = #{productCode,jdbcType=VARCHAR}
+      </if>
+      <if test="salecateId != null">
+         and salecate_id = #{salecateId,jdbcType=VARCHAR}
+      </if>
+      <if test="salecateLevel != null">
+         and salecate_level = #{salecateLevel,jdbcType=INTEGER}
+      </if>
+    </where>
+  </delete>
+</mapper>

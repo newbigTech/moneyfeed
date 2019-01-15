@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.goods.dal.dao.CustomerMaterielRelationDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.goods.api.bean.CustomerMaterielRelationModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="data_status" jdbcType="VARCHAR" property="dataStatus" />
+    <result column="org_id" jdbcType="VARCHAR" property="orgId" />
+    <result column="organization_code" jdbcType="VARCHAR" property="organizationCode" />
+    <result column="materiel_no" jdbcType="VARCHAR" property="materielNo" />
+    <result column="customer_no" jdbcType="VARCHAR" property="customerNo" />
+    <result column="effectiveness" jdbcType="BIT" property="effectiveness" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gmt_created, gmt_modified, creator, modifier, version, data_status, org_id, organization_code, 
+    materiel_no, customer_no, effectiveness
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.goods.api.bean.CustomerMaterielRelationModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.pc_customer_materiel_relation
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="dataStatus != null">
+         and data_status = #{dataStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="orgId != null">
+         and org_id = #{orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="organizationCode != null">
+         and organization_code = #{organizationCode,jdbcType=VARCHAR}
+      </if>
+      <if test="materielNo != null">
+         and materiel_no = #{materielNo,jdbcType=VARCHAR}
+      </if>
+      <if test="customerNo != null">
+         and customer_no = #{customerNo,jdbcType=VARCHAR}
+      </if>
+      <if test="effectiveness != null">
+         and effectiveness = #{effectiveness,jdbcType=BIT}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.pc_customer_materiel_relation (gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      data_status, 
+      org_id, 
+      organization_code, 
+      materiel_no, 
+      customer_no, 
+      effectiveness
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.dataStatus,jdbcType=VARCHAR}, #{model.orgId,jdbcType=VARCHAR}, #{model.organizationCode,jdbcType=VARCHAR}, 
+      #{model.materielNo,jdbcType=VARCHAR}, #{model.customerNo,jdbcType=VARCHAR}, #{model.effectiveness,jdbcType=BIT}
+      	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.pc_customer_materiel_relation
+    <set>
+      <if test="newModel.dataStatus != null">
+        data_status = #{newModel.dataStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.orgId != null">
+        org_id = #{newModel.orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.organizationCode != null">
+        organization_code = #{newModel.organizationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.materielNo != null">
+        materiel_no = #{newModel.materielNo,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.customerNo != null">
+        customer_no = #{newModel.customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.effectiveness != null">
+        effectiveness = #{newModel.effectiveness,jdbcType=BIT},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.dataStatus != null">
+         and data_status = #{oldModel.dataStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.orgId != null">
+         and org_id = #{oldModel.orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.organizationCode != null">
+         and organization_code = #{oldModel.organizationCode,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.materielNo != null">
+         and materiel_no = #{oldModel.materielNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.customerNo != null">
+         and customer_no = #{oldModel.customerNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.effectiveness != null">
+         and effectiveness = #{oldModel.effectiveness,jdbcType=BIT}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.goods.api.bean.CustomerMaterielRelationModel">
+    delete from moneyfeed.pc_customer_materiel_relation
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="dataStatus != null">
+         and data_status = #{dataStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="orgId != null">
+         and org_id = #{orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="organizationCode != null">
+         and organization_code = #{organizationCode,jdbcType=VARCHAR}
+      </if>
+      <if test="materielNo != null">
+         and materiel_no = #{materielNo,jdbcType=VARCHAR}
+      </if>
+      <if test="customerNo != null">
+         and customer_no = #{customerNo,jdbcType=VARCHAR}
+      </if>
+      <if test="effectiveness != null">
+         and effectiveness = #{effectiveness,jdbcType=BIT}
+      </if>
+    </where>
+  </delete>
+</mapper>

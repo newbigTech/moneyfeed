@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+        namespace="com.newhope.moneyfeed.goods.dal.dao.ProductSkuDao">
+
+    <resultMap id="productSkuExModelMap"
+               type="com.newhope.moneyfeed.goods.api.exbean.ProductSkuExModel">
+        <id column="id" jdbcType="BIGINT" property="productSkuId"/>
+        <id column="product_id" jdbcType="BIGINT" property="productId"/>
+        <result column="product_name" jdbcType="VARCHAR"
+                property="productName"/>
+        <result column="supplies_code" jdbcType="VARCHAR"
+                property="suppliesCode"/>
+        <result column="supplies_id" jdbcType="VARCHAR"
+                property="suppliesId"/>
+        <result column="supplies_describe" jdbcType="VARCHAR"
+                property="suppliesDescribe"/>
+        <result column="secondary_uom" jdbcType="VARCHAR"
+                property="secondaryUom"/>
+        <result column="primary_uom" jdbcType="VARCHAR"
+                property="primaryUom"/>
+        <result column="company_name" jdbcType="VARCHAR"
+                property="companyName"/>
+        <result column="company_short_code" jdbcType="VARCHAR"
+                property="companyShortCode"/>
+        <result column="organization_code" jdbcType="VARCHAR"
+                property="organizationCode"/>
+        <result column="organization_name" jdbcType="VARCHAR"
+                property="organizationName"/>
+        <result column="org_id" jdbcType="VARCHAR" property="orgId"/>
+        <result column="one_cate_id" jdbcType="VARCHAR" property="oneCateId" />
+        <result column="one_cate_desc" jdbcType="VARCHAR" property="oneCateDesc" />
+        <result column="two_cate_id" jdbcType="VARCHAR" property="twoCateId" />
+        <result column="two_cate_desc" jdbcType="VARCHAR" property="twoCateDesc" />
+        <result column="three_cate_id" jdbcType="VARCHAR" property="threeCateId" />
+        <result column="three_cate_desc" jdbcType="VARCHAR" property="threeCateDesc" />
+        <result column="four_cate_id" jdbcType="VARCHAR" property="fourCateId" />
+        <result column="four_cate_desc" jdbcType="VARCHAR" property="fourCateDesc" />
+        <result column="product_code" jdbcType="VARCHAR" property="productCode" />
+        <result column="brand_id" jdbcType="BIGINT" property="brandId" />
+   	 	<result column="brand_name" jdbcType="VARCHAR" property="brandName" />
+    </resultMap>
+
+
+    <resultMap id="productSkuExModel"
+               type="com.newhope.moneyfeed.goods.api.exbean.ProductSkuExModel" extends="productSkuExModelMap">
+        <collection property="productSkuAttributesExModels"
+                    column="{skuId=id}"
+                    ofType="com.newhope.moneyfeed.goods.api.exbean.ProductSkuAttributesExModel"
+                    select="com.newhope.moneyfeed.goods.dal.dao.SkuAttributeParmDao.queryProductSkuAttributeList"/>
+    </resultMap>
+
+    <select id="queryProductSku" resultMap="productSkuExModel">
+        SELECT
+        t1.id,
+        t1.price,
+        t1.quantity,
+        one_cate_id, one_cate_desc, two_cate_id, two_cate_desc,
+    	three_cate_id, three_cate_desc, four_cate_id, four_cate_desc,
+        t2.product_name,
+        t2.supplies_code,
+        t2.supplies_id,
+        t2.secondary_uom,
+        t2.primary_uom,
+        t2.product_code,
+        t3.company_name,
+        t3.company_short_code,
+        t3.organization_code,
+        t3.organization_name,
+        t3.org_id,
+        t2.brand_id,
+        t2.brand_name
+        FROM
+        pc_product_sku
+        t1
+        LEFT JOIN pc_product t2 ON t1.product_code = t2.product_code
+        LEFT
+        JOIN
+        pc_company
+        t3 ON t2.org_id = t3.org_id
+        WHERE
+        t2.`status` = 'Active'
+        <if test="param.productCode !=null">
+            and t1.product_code like concat('%',#{param.productCode},'%') 
+        </if>
+        <if test="param.suppliesId !=null">
+            and t2.supplies_id like concat('%',#{param.suppliesId},'%') 
+        </if>
+        <if test="param.shopId !=null">
+            and t1.shop_id like concat('%',#{param.shopId},'%') 
+        </if>
+        <if test="param.productName !=null">
+            and t2.product_name like concat('%',#{param.productName},'%')       
+        </if>
+        <if test="param.oneCateId != null">
+            and t2.one_cate_id = #{param.oneCateId,jdbcType=VARCHAR}
+        </if>
+        <if test="param.twoCateId != null">
+            and t2.two_cate_id = #{param.twoCateId,jdbcType=VARCHAR}
+        </if>
+        <if test="param.threeCateId != null">
+            and t2.three_cate_id = #{param.threeCateId,jdbcType=VARCHAR}
+        </if>
+        <if test="param.fourCateId != null">
+            and t2.four_cate_id = #{param.fourCateId,jdbcType=VARCHAR}
+        </if>
+        <if test="param.productSkuIds!=null">
+            AND t1.id in
+            <foreach collection="param.productSkuIds" open="(" close=")"
+                     separator="," item="skuId">
+                #{skuId}
+            </foreach>
+        </if>
+        <if test="param.brandIdsArray != null and param.brandIdsArray.length > 0">
+                AND t2.brand_id in
+                <foreach collection="param.brandIdsArray" open="(" close=")"
+                         separator="," item="brandId">
+                    #{brandId}
+                </foreach>
+            </if>        
+    </select>
+
+
+    <select id="queryProductList" resultMap="productSkuExModel">
+        SELECT
+            t2.id,
+            t1.product_code,
+            t1.brand_id,
+            t1.brand_name,
+            t1.product_name,
+            t1.supplies_code,
+            t1.supplies_id,
+            t1.secondary_uom,
+            t1.primary_uom,
+            t2.price,
+            t1.product_code,
+            t1.id AS product_id,
+            t4.one_salecate_id as one_cate_id,
+            t4.one_salecate_name as one_cate_desc,
+            t4.two_salecate_id as two_cate_id,
+            t4.two_salecate_name as two_cate_desc,
+            t4.three_salecate_id as three_cate_id,
+            t4.three_salecate_name as three_cate_desc,
+            t4.four_salecate_id as four_cate_id,
+            t4.four_salecate_name as four_cate_desc,
+            t5.company_name,
+            t5.company_short_code,
+            t5.organization_code,
+            t5.organization_name,
+            t5.org_id
+        FROM
+         pc_product t1
+        LEFT JOIN pc_product_sku t2 ON t1.product_code = t2.product_code
+        LEFT JOIN pc_customer_materiel_relation t3 on t1.supplies_code=t3.materiel_no
+        LEFT JOIN pc_salecate_product t4 on t4.product_code=t1.product_code
+        LEFT JOIN pc_company  t5 ON t1.org_id = t5.org_id
+        <where>
+            and t2.price >0
+            <if test="null != param.shopId">
+                AND t2.`shop_id` = #{param.shopId}
+            </if>
+            <if test="null != param.status">
+                AND t1.status = #{param.status}
+            </if>
+            <if test="param.customerNum!=null">
+                AND t3.customer_no=#{param.customerNum}
+            </if>
+            <if test="param.saleCateId!=null">
+                <if test="param.saleCateLevel==1">
+                    AND t4.`one_salecate_id` = #{param.saleCateId}
+                </if>
+                <if test="param.saleCateLevel==2">
+                    AND t4.`two_salecate_id` = #{param.saleCateId}
+                </if>
+                <if test="param.saleCateLevel==3">
+                    AND t4.`three_salecate_id` = #{param.saleCateId}
+                </if>
+                <if test="param.saleCateLevel==4">
+                    AND t4.`four_salecate_id` = #{param.saleCateId}
+                </if>
+            </if>
+            <if test="param.productSkuIds!=null">
+                AND t2.id in
+                <foreach collection="param.productSkuIds" open="(" close=")"
+                         separator="," item="skuId">
+                    #{skuId}
+                </foreach>
+            </if>
+            <if test="param.brandIds!=null">
+                AND t1.brand_id in
+                <foreach collection="param.brandIds" open="(" close=")"
+                         separator="," item="brandId">
+                    #{brandId}
+                </foreach>
+            </if>
+            <if test="param.productName!=null">
+                   AND t1.`product_name` like
+                concat('%',#{param.productName},'%') 
+            </if>
+        </where>
+        ORDER BY t1.id
+        <if test="start !=null and pageSize != null ">
+            limit #{start},#{pageSize}
+        </if>
+    </select>
+
+    <select id="queryProductCount" resultType="java.lang.Long">
+        SELECT
+          count(1)
+        FROM(
+         SELECT
+          t2.id
+         FROM
+            pc_product t1
+        LEFT JOIN pc_product_sku t2 ON t1.product_code = t2.product_code
+        LEFT JOIN pc_customer_materiel_relation t3 on t1.supplies_code=t3.materiel_no
+        LEFT JOIN pc_salecate_product t4 on t4.product_code=t1.product_code
+        <where>
+            and t2.price >0
+            <if test="null != param.shopId">
+                AND t2.`shop_id` = #{param.shopId}
+            </if>
+            <if test="null != param.status">
+                AND t1.status = #{param.status}
+            </if>
+            <if test="param.customerNum!=null">
+                AND t3.customer_no=#{param.customerNum}
+            </if>
+            <if test="param.saleCateId!=null">
+                <if test="param.saleCateLevel==1">
+                    AND t4.`one_salecate_id` = #{param.saleCateId}
+                </if>
+                <if test="param.saleCateLevel==2">
+                    AND t4.`two_salecate_id` = #{param.saleCateId}
+                </if>
+                <if test="param.saleCateLevel==3">
+                    AND t4.`three_salecate_id` = #{param.saleCateId}
+                </if>
+                <if test="param.saleCateLevel==4">
+                    AND t4.`four_salecate_id` = #{param.saleCateId}
+                </if>
+            </if>
+            <if test="param.productSkuIds!=null">
+                AND t2.id in
+                <foreach collection="param.productSkuIds" open="(" close=")"
+                         separator="," item="skuId">
+                    #{skuId}
+                </foreach>
+            </if>
+            <if test="param.brandIds!=null">
+                AND t1.brand_id in
+                <foreach collection="param.brandIds" open="(" close=")"
+                         separator="," item="brandId">
+                    #{brandId}
+                </foreach>
+            </if>
+            <if test="param.productName!=null">
+                AND t1.`product_name` like
+                concat('%',#{param.productName},'%') 
+            </if>
+        </where>
+        GROUP BY t1.product_code
+        ) AS count_temp
+    </select>
+
+    <select id="queryEbsProduct" resultMap="productSkuExModel">
+        SELECT
+        t2.id,
+        t1.product_name,
+        t1.supplies_code,
+        t1.supplies_id,
+        t1.secondary_uom,
+        t1.primary_uom,
+        t2.price,
+        t1.product_code,
+        t1.id AS product_id,
+        t4.one_salecate_id as one_cate_id,
+        t4.one_salecate_name as one_cate_desc,
+        t4.two_salecate_id as two_cate_id,
+        t4.two_salecate_name as two_cate_desc,
+        t4.three_salecate_id as three_cate_id,
+        t4.three_salecate_name as three_cate_desc,
+        t4.four_salecate_id as four_cate_id,
+        t4.four_salecate_name as four_cate_desc,
+        t5.company_name,
+        t5.company_short_code,
+        t5.organization_code,
+        t5.organization_name,
+        t5.org_id
+        FROM
+        pc_product t1
+        LEFT JOIN pc_product_sku t2 ON t1.product_code = t2.product_code
+        LEFT JOIN pc_customer_materiel_relation t3 on t1.supplies_code=t3.materiel_no
+        LEFT JOIN pc_salecate_product t4 on t4.product_code=t1.product_code
+        LEFT JOIN pc_company  t5 ON t1.org_id = t5.org_id
+        <where>
+            <if test="null != param.shopId">
+                AND t2.`shop_id` = #{param.shopId}
+            </if>
+            <if test="null != param.status">
+                AND t1.status = #{param.status}
+            </if>
+            <if test="null != param.orgId">
+                AND t1.org_id = #{param.orgId}
+            </if>
+            <if test="param.suppliesCodes!=null">
+                AND t1.supplies_code in
+                <foreach collection="param.suppliesCodes" open="(" close=")"
+                         separator="," item="suppliesCode">
+                    #{suppliesCode}
+                </foreach>
+            </if>
+
+            <if test="param.suppliesIds!=null">
+                AND t1.supplies_id in
+                <foreach collection="param.suppliesIds" open="(" close=")"
+                         separator="," item="suppliesId">
+                    #{suppliesId}
+                </foreach>
+            </if>
+
+        </where>
+        GROUP BY t1.product_code
+
+    </select>
+
+<update id="updateProductSkuPrice">
+UPDATE pc_product_sku ps 
+SET 
+    ps.price = (SELECT 
+            m.base_price
+        FROM
+            ebs_material m,
+            pc_product p
+        WHERE
+            ps.product_code = p.product_code
+            and p.org_id=m.org_id
+                AND p.supplies_id = m.item_id)
+</update>
+
+<select id="selectShopIdByProductCode" resultType="java.lang.Long">
+select s.id from uc_shop s,pc_product p
+where p.product_code=#{productCode,jdbcType=VARCHAR} and p.org_id=s.ebs_org_id
+</select>
+</mapper>

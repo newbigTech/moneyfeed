@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.goods.dal.dao.BrandDao">
+
+  <select id="queryBrandListCount" resultType="java.lang.Long">
+      SELECT
+	    count(*)
+       FROM
+	    (
+          SELECT
+              t1.id
+          FROM
+              pc_brand t1
+          LEFT JOIN pc_product t2 ON t1.id = t2.brand_id
+          LEFT JOIN pc_product_sku t3 on t3.product_code=t2.product_code
+            <where>
+                and t1.enabled=1
+              <if test="param.brandId!=null">
+                and t1.id=#{param.brandId}
+              </if>
+              <if test="param.brandName!=null">
+                and t1.brand_name=#{param.brandName}
+              </if>
+              <if test="param.shopId!=null">
+                and t3.shop_id=#{param.shopId}
+              </if>
+            </where>
+          GROUP BY
+              t1.id
+	    ) AS brand_temp
+  </select>
+
+  <select id="queryBrandList" resultType="com.newhope.moneyfeed.goods.api.exbean.BrandExModel">
+      SELECT
+          brand_temp.id brandId,
+          brand_temp.brand_name brandName,
+          sum(brand_temp.product_count) productCount,
+          count(brand_temp.org_id) shopCount,
+          GROUP_CONCAT(brand_temp.`name`) shopNames
+      FROM
+      (
+      SELECT
+         brand_temp_info.*, t4.`name`
+          FROM
+          (
+              SELECT
+              t1.id,
+              t1.brand_name,
+              count(t2.id) product_count,
+              t2.org_id
+              FROM
+              pc_brand t1
+              LEFT JOIN pc_product t2 ON t1.id = t2.brand_id
+              LEFT JOIN pc_product_sku t3 ON t3.product_code = t2.product_code
+              <where>
+                  and t1.enabled=1
+                  <if test="param.brandId!=null">
+                      and t1.id=#{param.brandId}
+                  </if>
+                  <if test="param.brandName!=null">
+                      and t1.brand_name=#{param.brandName}
+                  </if>
+                  <if test="param.shopId!=null">
+                      and t3.shop_id=#{param.shopId}
+                  </if>
+              </where>
+              GROUP BY
+              t1.id,
+              t2.org_id
+              ) AS brand_temp_info
+        LEFT JOIN uc_shop t4 ON t4.ebs_org_id = brand_temp_info.org_id
+      ) AS brand_temp
+      GROUP BY
+      brand_temp.id
+    <if test="start !=null and pageSize != null ">
+      limit #{start},#{pageSize}
+    </if>
+  </select>
+
+    <select id="queryProductBrandList" resultType="com.newhope.moneyfeed.goods.api.exbean.BrandExModel">
+        SELECT
+            product_temp.brand_id brandId,
+            product_temp.brand_name brandName
+        FROM
+            (
+                SELECT
+                    t1.brand_id,
+                    t1.brand_name
+                FROM
+                    pc_product t1
+                LEFT JOIN pc_product_sku t2 ON t1.product_code = t2.product_code
+                LEFT JOIN pc_customer_materiel_relation t3 ON t1.supplies_code = t3.materiel_no
+                LEFT JOIN pc_salecate_product t4 ON t4.product_code = t1.product_code
+                WHERE
+                    t2.shop_id = #{param.shopId}
+                AND t1.brand_id IS NOT NULL
+                <if test="param.saleCateId!=null">
+                    <if test="param.saleCateLevel==1">
+                        AND t4.`one_salecate_id` = #{param.saleCateId}
+                    </if>
+                    <if test="param.saleCateLevel==2">
+                        AND t4.`two_salecate_id` = #{param.saleCateId}
+                    </if>
+                    <if test="param.saleCateLevel==3">
+                        AND t4.`three_salecate_id` = #{param.saleCateId}
+                    </if>
+                    <if test="param.saleCateLevel==4">
+                        AND t4.`four_salecate_id` = #{param.saleCateId}
+                    </if>
+                </if>
+                <if test="param.customerNum!=null">
+                    AND t3.customer_no=#{param.customerNum}
+                </if>
+                GROUP BY
+                    t1.product_code
+            ) AS product_temp
+        GROUP BY
+            product_temp.brand_id
+  </select>
+
+</mapper>

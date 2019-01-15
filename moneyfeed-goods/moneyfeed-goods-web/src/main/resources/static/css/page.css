@@ -1,0 +1,161 @@
+body,
+h1,
+ul,
+li,
+p {
+    margin: 0;
+    padding: 0;
+    -webkit-text-size-adjust: 100%;
+}
+
+em, i {
+    font-style: normal;
+}
+
+li {
+    list-style: none;
+}
+
+img {
+    border: 0;
+    vertical-align: middle;
+}
+
+html,
+body {
+    font: 100%/1 "Helvetica Neue", Helvetica, STHeiTi, "Microsoft YaHei";
+    height: 100%;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    color: #666666;
+    font-size: 16px;
+}
+
+.wechat_container {
+    background: #EBEBEB;
+    height: 100%;
+    padding-top:0.5rem;
+}
+
+.container {
+    overflow: hidden;
+    background: #fff;
+    margin-bottom: 0.5rem;
+}
+
+.lists {
+    font-family: '.PingFangSC-Medium';
+    width: 7.5rem;
+}
+
+.lists-bg {
+    background: url("../images/steal.png") no-repeat right top;
+    background-size: 2.5rem 2rem;
+}
+
+.lists .list, .lists .title {
+    height: 1.18rem;
+    line-height: 1.18rem;
+    border-bottom: 2px solid #EBEBEB;
+    font-size: 0.32rem;
+    letter-spacing: 0.0114rem;
+}
+
+.lists .title {
+    color: #999;
+}
+
+.title-day-bg {
+    background: url('../images/day_icon.png') no-repeat 0.2rem center;
+    background-size: 0.6rem 0.6rem;
+    text-indent: 0.7rem;
+}
+
+.title-month-bg {
+    background: url('../images/month_icon.png') no-repeat 0.2rem center;
+    background-size: 0.6rem 0.6rem;
+    text-indent: 0.7rem;
+}
+.title-no-bg{
+    text-indent:0.2rem;
+}
+.lists .list {
+    display: -webkit-flex;
+    display: flex;
+}
+.lists .title p {
+    padding: 0 0.2rem;
+    font-size: 0.28rem;
+    height: 0.6rem;
+    line-height: 1rem;
+    letter-spacing: 0.0207rem;
+}
+
+.lists .list div {
+    font-size: 0.32rem;
+    flex: 1;
+    -webkit-flex: 1;
+    text-align: left;
+    color: #5C5C5C;
+}
+
+.lists .list div span {
+    font-size: 0.48rem;
+    display: inline-block;
+}
+.lists .list div p{
+    padding-left: 0.25rem;
+}
+.lists .list div i {
+    font-size: 0.24rem;
+    display: inline-block;
+}
+
+.lists .list .text span {
+    display: block;
+    height: 0.5rem;
+    font-size: 0.36rem;
+    line-height: 0.5rem;
+    color: #14CB68;
+    text-align: right;
+    padding-right: 0.25rem;
+}
+
+.text-color {
+    color: #FA4848!important;
+}
+.lists .list .text span em{
+    display: inline-block;
+    height: 0.22rem;
+    width: 0.22rem;
+}
+.fa-arrow-up{
+    background: url("../images/arrow_green.png") no-repeat right center;
+    background-size: 0.22rem 0.22rem;
+}
+.fa-arrow-down{
+    background: url("../images/arrow_red.png") no-repeat right center;
+    background-size: 0.22rem 0.22rem;
+}
+.fa-arrow-up-month{
+    background: url("../images/add.png") no-repeat right center;
+    background-size: 0.22rem 0.22rem;
+}
+.fa-arrow-down-month{
+    background: url("../images/cut_down.png") no-repeat right center;
+    background-size: 0.22rem 0.22rem;
+}
+.lists .list .text p {
+    font-size: 0.26rem;
+    height: 0.26rem;
+    line-height: 0.3rem;
+    color: #999999;
+    margin-top: 0.25rem;
+    padding-right: 0.25rem;
+    text-align: right;
+}
+
+.lists .list .text i {
+    font-size: 0.36rem;
+}
+

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.goods.dal.dao.CategoryDao">
+
+  <select id="queryAggregationCategory" resultMap="BaseResultMap">
+      SELECT
+      t3.cate_level,t3.cate_id
+      FROM
+          pc_salecate_category t1
+      LEFT JOIN pc_salecategory t2 ON t2.sale_cate_id = t1.salecate_id
+      LEFT JOIN pc_category t3 ON t3.cate_id = t1.cate_id
+    <where>
+      <if test="param.saleCateId!=null">
+        and t2.sale_cate_id=#{param.saleCateId}
+      </if>
+      <if test="param.saleCateLevel!=null">
+        and t2.sale_cate_level=#{param.saleCateLevel}
+      </if>
+    </where>
+  </select>
+</mapper>

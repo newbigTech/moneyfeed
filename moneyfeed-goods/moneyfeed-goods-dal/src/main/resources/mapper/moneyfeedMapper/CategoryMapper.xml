@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.goods.dal.dao.CategoryDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.goods.api.bean.CategoryModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="cate_id" jdbcType="VARCHAR" property="cateId" />
+    <result column="cate_level" jdbcType="INTEGER" property="cateLevel" />
+    <result column="cate_name" jdbcType="VARCHAR" property="cateName" />
+    <result column="parent_cate_id" jdbcType="VARCHAR" property="parentCateId" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, cate_id, cate_level, cate_name, parent_cate_id, gmt_created, gmt_modified, creator, 
+    modifier, version
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.goods.api.bean.CategoryModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.pc_category
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="cateId != null">
+         and cate_id = #{cateId,jdbcType=VARCHAR}
+      </if>
+      <if test="cateLevel != null">
+         and cate_level = #{cateLevel,jdbcType=INTEGER}
+      </if>
+      <if test="cateName != null">
+         and cate_name = #{cateName,jdbcType=VARCHAR}
+      </if>
+      <if test="parentCateId != null">
+         and parent_cate_id = #{parentCateId,jdbcType=VARCHAR}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.pc_category (cate_id, 
+      cate_level, 
+      cate_name, 
+      parent_cate_id, 
+      gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.cateId,jdbcType=VARCHAR}, 
+      #{model.cateLevel,jdbcType=INTEGER}, #{model.cateName,jdbcType=VARCHAR}, #{model.parentCateId,jdbcType=VARCHAR}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 0	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.pc_category
+    <set>
+      <if test="newModel.cateId != null">
+        cate_id = #{newModel.cateId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.cateLevel != null">
+        cate_level = #{newModel.cateLevel,jdbcType=INTEGER},
+      </if>
+      <if test="newModel.cateName != null">
+        cate_name = #{newModel.cateName,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.parentCateId != null">
+        parent_cate_id = #{newModel.parentCateId,jdbcType=VARCHAR},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.cateId != null">
+         and cate_id = #{oldModel.cateId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.cateLevel != null">
+         and cate_level = #{oldModel.cateLevel,jdbcType=INTEGER}
+      </if>
+      <if test="oldModel.cateName != null">
+         and cate_name = #{oldModel.cateName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.parentCateId != null">
+         and parent_cate_id = #{oldModel.parentCateId,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.goods.api.bean.CategoryModel">
+    delete from moneyfeed.pc_category
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="cateId != null">
+         and cate_id = #{cateId,jdbcType=VARCHAR}
+      </if>
+      <if test="cateLevel != null">
+         and cate_level = #{cateLevel,jdbcType=INTEGER}
+      </if>
+      <if test="cateName != null">
+         and cate_name = #{cateName,jdbcType=VARCHAR}
+      </if>
+      <if test="parentCateId != null">
+         and parent_cate_id = #{parentCateId,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+</mapper>

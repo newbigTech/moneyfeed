@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.goods.dal.dao.AdProductDao">
+
+
+  <select id="queryAdCategory" parameterType="com.newhope.moneyfeed.goods.api.dto.request.AdProductQueryDtoReq" resultType="com.newhope.moneyfeed.goods.api.exbean.AdCategoryExModel">
+      SELECT  three_cate_id as categoryId,three_cate_desc as categoryName FROM `pc_ad_product`
+      <where>
+        <if test="param.shopId !=null">
+          and shop_id = #{param.shopId,jdbcType=BIGINT}
+        </if>
+
+        <if test="param.twoCateId != null">
+          and two_cate_id = #{param.twoCateId,jdbcType=VARCHAR}
+        </if>
+
+        <if test="param.threeCateId != null">
+          and three_cate_id = #{param.threeCateId,jdbcType=VARCHAR}
+        </if>
+
+      </where>
+      GROUP BY three_cate_id,three_cate_desc;
+    </select>
+</mapper>

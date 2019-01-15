@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.goods.dal.dao.ProductSkuDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.goods.api.bean.ProductSkuModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="shop_id" jdbcType="BIGINT" property="shopId" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="product_code" jdbcType="VARCHAR" property="productCode" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, shop_id, price, quantity, gmt_created, gmt_modified, creator, modifier, version, 
+    product_code
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.goods.api.bean.ProductSkuModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.pc_product_sku
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="shopId != null">
+         and shop_id = #{shopId,jdbcType=BIGINT}
+      </if>
+      <if test="price != null">
+         and price = #{price,jdbcType=DECIMAL}
+      </if>
+      <if test="quantity != null">
+         and quantity = #{quantity,jdbcType=INTEGER}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="productCode != null">
+         and product_code = #{productCode,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.pc_product_sku (shop_id, 
+      price, 
+      quantity, 
+      gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      product_code
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.shopId,jdbcType=BIGINT}, 
+      #{model.price,jdbcType=DECIMAL}, #{model.quantity,jdbcType=INTEGER}, #{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.productCode,jdbcType=VARCHAR}	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.pc_product_sku
+    <set>
+      <if test="newModel.shopId != null">
+        shop_id = #{newModel.shopId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.price != null">
+        price = #{newModel.price,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.quantity != null">
+        quantity = #{newModel.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="newModel.productCode != null">
+        product_code = #{newModel.productCode,jdbcType=VARCHAR},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.shopId != null">
+         and shop_id = #{oldModel.shopId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.price != null">
+         and price = #{oldModel.price,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.quantity != null">
+         and quantity = #{oldModel.quantity,jdbcType=INTEGER}
+      </if>
+      <if test="oldModel.productCode != null">
+         and product_code = #{oldModel.productCode,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.goods.api.bean.ProductSkuModel">
+    delete from moneyfeed.pc_product_sku
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="shopId != null">
+         and shop_id = #{shopId,jdbcType=BIGINT}
+      </if>
+      <if test="price != null">
+         and price = #{price,jdbcType=DECIMAL}
+      </if>
+      <if test="quantity != null">
+         and quantity = #{quantity,jdbcType=INTEGER}
+      </if>
+      <if test="productCode != null">
+         and product_code = #{productCode,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+</mapper>

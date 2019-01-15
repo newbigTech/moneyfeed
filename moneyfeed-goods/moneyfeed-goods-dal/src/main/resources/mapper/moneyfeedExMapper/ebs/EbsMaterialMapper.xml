@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.newhope.moneyfeed.goods.dal.dao.ebs.EbsMaterialDao">
+	<select id="queryByEbsMaterialStatusCount"
+		resultType="java.lang.Long">
+		SELECT
+		count(1)
+		FROM
+		ebs_material t1
+		where t1.one_cat=#{oneCat}
+		<if test="orgId!=null">
+			and t1.org_id=#{orgId}
+		</if>
+	</select>
+
+	<select id="queryEbsMaterialList" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from moneyfeed.ebs_material t1
+		where t1.one_cat=#{oneCat}
+		<if test="orgId!=null">
+			and t1.org_id=#{orgId}
+		</if>
+		<if test="start != null and pageSize != null ">
+			limit #{start}, #{pageSize}
+		</if>
+	</select>
+
+	<select id="selectWeightSukList" resultType="java.lang.String">
+		SELECT calculate FROM ebs_material
+		where calculate is not null
+		<if test="fromDate != null">
+			and gmt_modified>=#{fromDate,jdbcType=TIMESTAMP}
+		</if>
+		group by calculate,primary_uom;
+	</select>
+</mapper>

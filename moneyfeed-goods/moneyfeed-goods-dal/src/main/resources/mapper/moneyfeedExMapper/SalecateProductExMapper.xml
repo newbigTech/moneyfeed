@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.goods.dal.dao.SalecateProductDao">
+   <update id="batchUpdate">
+     <foreach collection="param" item="newModel" index="index" open="" close="" separator=";">
+         update moneyfeed.pc_salecate_product
+         <set>
+             <if test="newModel.oneSalecateId != null">
+                 one_salecate_id = #{newModel.oneSalecateId,jdbcType=VARCHAR},
+             </if>
+             <if test="newModel.oneSalecateName != null">
+                 one_salecate_name = #{newModel.oneSalecateName,jdbcType=VARCHAR},
+             </if>
+             <if test="newModel.twoSalecateId != null">
+                 two_salecate_id = #{newModel.twoSalecateId,jdbcType=VARCHAR},
+             </if>
+             <if test="newModel.twoSalecateName != null">
+                 two_salecate_name = #{newModel.twoSalecateName,jdbcType=VARCHAR},
+             </if>
+             <if test="newModel.threeSalecateId != null">
+                 three_salecate_id = #{newModel.threeSalecateId,jdbcType=VARCHAR},
+             </if>
+             <if test="newModel.threeSalecateName != null">
+                 three_salecate_name = #{newModel.threeSalecateName,jdbcType=VARCHAR},
+             </if>
+             <if test="newModel.fourSalecateId != null">
+                 four_salecate_id = #{newModel.fourSalecateId,jdbcType=VARCHAR},
+             </if>
+             <if test="newModel.fourSalecateName != null">
+                 four_salecate_name = #{newModel.fourSalecateName,jdbcType=VARCHAR},
+             </if>
+             <if test="newModel.productCode != null">
+                 product_code = #{newModel.productCode,jdbcType=VARCHAR},
+             </if>
+             <if test="newModel.salecateId != null">
+                 salecate_id = #{newModel.salecateId,jdbcType=VARCHAR},
+             </if>
+             <if test="newModel.salecateLevel != null">
+                 salecate_level = #{newModel.salecateLevel,jdbcType=INTEGER},
+             </if>
+             gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},version = version + 1
+         </set>
+         where id = #{newModel.id,jdbcType=BIGINT}
+     </foreach>
+   </update>
+</mapper>

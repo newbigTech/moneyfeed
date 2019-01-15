@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.goods.dal.dao.CustomerMaterielRelationDao">
+
+    <update id="batchUpdate">
+        <foreach collection="param" item="newModel" index="index" open="" close="" separator=";">
+            update moneyfeed.pc_customer_materiel_relation
+            <set>
+                <if test="newModel.dataStatus != null">
+                    data_status = #{newModel.dataStatus,jdbcType=VARCHAR},
+                </if>
+                <if test="newModel.orgId != null">
+                    org_id = #{newModel.orgId,jdbcType=VARCHAR},
+                </if>
+                <if test="newModel.organizationCode != null">
+                    organization_code = #{newModel.organizationCode,jdbcType=VARCHAR},
+                </if>
+                <if test="newModel.materielNo != null">
+                    materiel_no = #{newModel.materielNo,jdbcType=VARCHAR},
+                </if>
+                <if test="newModel.customerNo != null">
+                    customer_no = #{newModel.customerNo,jdbcType=VARCHAR},
+                </if>
+                <if test="newModel.effectiveness != null">
+                    effectiveness = #{newModel.effectiveness,jdbcType=BIT},
+                </if>
+                gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},version = version + 1
+            </set>
+            where id = #{newModel.id,jdbcType=BIGINT}
+        </foreach>
+    </update>
+</mapper>

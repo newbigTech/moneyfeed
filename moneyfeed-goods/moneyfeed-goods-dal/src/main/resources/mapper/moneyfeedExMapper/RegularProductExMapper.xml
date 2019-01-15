@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.goods.dal.dao.RegularProductDao">
+
+    <resultMap id="productSkuExModelMap"
+               type="com.newhope.moneyfeed.goods.api.exbean.ProductSkuExModel">
+        <id column="id" jdbcType="BIGINT" property="productSkuId"/>
+        <id column="product_id" jdbcType="BIGINT" property="productId"/>
+        <result column="product_name" jdbcType="VARCHAR"
+                property="productName"/>
+        <result column="supplies_code" jdbcType="VARCHAR"
+                property="suppliesCode"/>
+        <result column="supplies_id" jdbcType="VARCHAR"
+                property="suppliesId"/>
+        <result column="supplies_describe" jdbcType="VARCHAR"
+                property="suppliesDescribe"/>
+        <result column="secondary_uom" jdbcType="VARCHAR"
+                property="secondaryUom"/>
+        <result column="primary_uom" jdbcType="VARCHAR"
+                property="primaryUom"/>
+        <result column="company_name" jdbcType="VARCHAR"
+                property="companyName"/>
+        <result column="company_short_code" jdbcType="VARCHAR"
+                property="companyShortCode"/>
+        <result column="organization_code" jdbcType="VARCHAR"
+                property="organizationCode"/>
+        <result column="organization_name" jdbcType="VARCHAR"
+                property="organizationName"/>
+        <result column="org_id" jdbcType="VARCHAR" property="orgId"/>
+        <result column="one_cate_id" jdbcType="VARCHAR" property="oneCateId" />
+        <result column="one_cate_desc" jdbcType="VARCHAR" property="oneCateDesc" />
+        <result column="two_cate_id" jdbcType="VARCHAR" property="twoCateId" />
+        <result column="two_cate_desc" jdbcType="VARCHAR" property="twoCateDesc" />
+        <result column="three_cate_id" jdbcType="VARCHAR" property="threeCateId" />
+        <result column="three_cate_desc" jdbcType="VARCHAR" property="threeCateDesc" />
+        <result column="four_cate_id" jdbcType="VARCHAR" property="fourCateId" />
+        <result column="four_cate_desc" jdbcType="VARCHAR" property="fourCateDesc" />
+        <result column="product_code" jdbcType="VARCHAR" property="productCode" />
+        <result column="brand_id" jdbcType="BIGINT" property="brandId" />
+        <result column="brand_name" jdbcType="VARCHAR" property="brandName" />
+    </resultMap>
+
+    <resultMap id="productSkuExModel"
+               type="com.newhope.moneyfeed.goods.api.exbean.ProductSkuExModel" extends="productSkuExModelMap">
+        <collection property="productSkuAttributesExModels"
+                    column="{skuId=id}"
+                    ofType="com.newhope.moneyfeed.goods.api.exbean.ProductSkuAttributesExModel"
+                    select="com.newhope.moneyfeed.goods.dal.dao.SkuAttributeParmDao.queryProductSkuAttributeList"/>
+    </resultMap>
+
+<select id="selectCustomerProductByOrder" resultMap="BaseResultMap">
+      SELECT t1.customer_num as customer_no,t1.uc_shop_id as shop_id ,sum(t2.total_feed_weight) as sort ,t3.sku_id FROM `oc_order_info` t1 INNER  JOIN oc_order_detail t2 on t1.order_no=t2.order_no
+      INNER JOIN oc_order_snapshot t3 on t1.order_no=t3.order_no
+      where t1.`status`='COMPLETED'
+
+      and t1.gmt_created &gt; DATE_SUB(CURDATE(), INTERVAL 3 MONTH)
+      GROUP BY t1.uc_shop_id,t1.customer_num,t3.sku_id
+  </select>
+
+    <select id="queryRegularProductList" resultMap="productSkuExModel">
+        SELECT
+        t2.id,
+        t3.product_name,
+        t3.supplies_code,
+        t3.supplies_id,
+        t3.secondary_uom,
+        t3.primary_uom,
+        t2.price,
+        t3.product_code,
+        t3.id AS product_id,
+        t5.one_salecate_id AS one_cate_id,
+        t5.one_salecate_name AS one_cate_desc,
+        t5.two_salecate_id AS two_cate_id,
+        t5.two_salecate_name AS two_cate_desc,
+        t5.three_salecate_id AS three_cate_id,
+        t5.three_salecate_name AS three_cate_desc,
+        t5.four_salecate_id AS four_cate_id,
+        t5.four_salecate_name AS four_cate_desc,
+        t6.company_name,
+        t6.company_short_code,
+        t6.organization_code,
+        t6.organization_name,
+        t6.org_id
+        FROM
+        pc_regular_product t1
+        INNER JOIN pc_product_sku t2 ON t1.sku_id = t2.id
+        INNER JOIN pc_product t3 ON t3.product_code = t2.product_code
+        INNER JOIN pc_customer_materiel_relation t4 ON t4.org_id = t3.org_id
+        AND t3.supplies_code = t4.materiel_no
+        AND t1.customer_no = t4.customer_no
+        INNER JOIN pc_salecate_product t5 ON t5.product_code = t3.product_code
+        INNER JOIN pc_company t6 ON t3.org_id = t6.org_id
+
+        <if test="null != param.shopId">
+            AND t1.`shop_id` = #{param.shopId}
+        </if>
+        <if test="param.customerNo!=null">
+            AND t1.customer_no=#{param.customerNo}
+        </if>
+        order by t1.sort desc
+        limit 10
+  </select>
+
+</mapper>

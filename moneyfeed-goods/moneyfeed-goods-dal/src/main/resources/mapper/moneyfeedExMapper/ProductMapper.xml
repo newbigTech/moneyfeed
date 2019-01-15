@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.newhope.moneyfeed.goods.dal.dao.ProductDao">
+
+	<resultMap id="productExModelMap"
+		type="com.newhope.moneyfeed.goods.api.exbean.ProductExModel">
+		<result column="product_name" jdbcType="VARCHAR"
+			property="productName" />
+		<result column="supplies_code" jdbcType="VARCHAR"
+			property="suppliesCode" />
+		<result column="supplies_id" jdbcType="VARCHAR"
+			property="suppliesId" />
+		<result column="supplies_describe" jdbcType="VARCHAR"
+			property="suppliesDescribe" />
+		<result column="secondary_uom" jdbcType="VARCHAR"
+			property="secondaryUom" />
+		<result column="primary_uom" jdbcType="VARCHAR"
+			property="primaryUom" />
+		<result column="one_cate_id" jdbcType="VARCHAR"
+			property="oneCateId" />
+		<result column="one_cate_desc" jdbcType="VARCHAR"
+			property="oneCateDesc" />
+		<result column="two_cate_id" jdbcType="VARCHAR"
+			property="twoCateId" />
+		<result column="two_cate_desc" jdbcType="VARCHAR"
+			property="twoCateDesc" />
+		<result column="three_cate_id" jdbcType="VARCHAR"
+			property="threeCateId" />
+		<result column="three_cate_desc" jdbcType="VARCHAR"
+			property="threeCateDesc" />
+		<result column="four_cate_id" jdbcType="VARCHAR"
+			property="fourCateId" />
+		<result column="four_cate_desc" jdbcType="VARCHAR"
+			property="fourCateDesc" />
+	</resultMap>
+
+
+
+	<select id="selectNoSkuProductCodeList"
+		resultType="java.util.HashMap">
+		select p.product_code as productCode,m.base_price as price from (
+		SELECT product_code,supplies_id FROM moneyfeed.pc_product where
+        <if test="fromDate != null">
+			gmt_modified>=#{fromDate,jdbcType=TIMESTAMP} and
+		</if>
+		product_code not in(select product_code from
+		pc_product_sku)
+		) p 
+        left join ebs_material m on p.supplies_id=m.item_id
+        and p.org_id=m.org_id
+	</select>
+
+
+
+	<update id="batchUpdate" parameterType="java.util.List">
+		<foreach collection="param" item="product" index="index" open="" close="" separator=";">
+            update moneyfeed.pc_product
+			<set>
+				<!--<if test="product.productCode != null"> product_code = #{product.productCode,jdbcType=VARCHAR}, 
+					</if> -->
+				<if test="product.productName != null">
+					product_name = #{product.productName,jdbcType=VARCHAR},
+				</if>				
+				<if test="product.suppliesCode != null">
+					supplies_code =
+					#{product.suppliesCode,jdbcType=VARCHAR},
+				</if>
+				<if test="product.suppliesId != null">
+					supplies_id = #{product.suppliesId,jdbcType=VARCHAR},
+				</if>
+				<if test="product.suppliesDescribe != null">
+					supplies_describe =
+					#{product.suppliesDescribe,jdbcType=VARCHAR},
+				</if>
+				<if test="product.secondaryUom != null">
+					secondary_uom =
+					#{product.secondaryUom,jdbcType=VARCHAR},
+				</if>
+				<if test="product.primaryUom != null">
+					primary_uom = #{product.primaryUom,jdbcType=VARCHAR},
+				</if>
+				<if test="product.oneCateId != null">
+					one_cate_id = #{product.oneCateId,jdbcType=VARCHAR},
+				</if>
+				<if test="product.oneCateDesc != null">
+					one_cate_desc = #{product.oneCateDesc,jdbcType=VARCHAR},
+				</if>
+				<if test="product.twoCateId != null">
+					two_cate_id = #{product.twoCateId,jdbcType=VARCHAR},
+				</if>
+				<if test="product.twoCateDesc != null">
+					two_cate_desc = #{product.twoCateDesc,jdbcType=VARCHAR},
+				</if>
+				<if test="product.threeCateId != null">
+					three_cate_id = #{product.threeCateId,jdbcType=VARCHAR},
+				</if>
+				<if test="product.threeCateDesc != null">
+					three_cate_desc =
+					#{product.threeCateDesc,jdbcType=VARCHAR},
+				</if>
+				<if test="product.fourCateId != null">
+					four_cate_id = #{product.fourCateId,jdbcType=VARCHAR},
+				</if>
+				<if test="product.fourCateDesc != null">
+					four_cate_desc =
+					#{product.fourCateDesc,jdbcType=VARCHAR},
+				</if>
+				<if test="product.cateCode != null">
+					cate_code = #{product.cateCode,jdbcType=VARCHAR},
+				</if>
+				<if test="product.status != null">
+					status = #{product.status,jdbcType=VARCHAR},
+				</if>
+				<if test="product.orgId != null">
+					org_id = #{product.orgId,jdbcType=VARCHAR},
+				</if>
+				gmt_modified = #{product.gmtModified,jdbcType=TIMESTAMP},version =
+				version + 1
+			</set>
+			where id = #{product.id,jdbcType=BIGINT}
+		</foreach>
+	</update>
+
+	<update id="deleteBrand">
+    UPDATE pc_product
+		SET brand_id = NULL,
+		 brand_name = NULL
+	WHERE
+		brand_id = #{param.brandId}
+	</update>
+
+</mapper>

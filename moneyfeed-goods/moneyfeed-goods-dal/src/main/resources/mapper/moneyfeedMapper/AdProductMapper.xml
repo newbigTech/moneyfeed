@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.goods.dal.dao.AdProductDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.goods.api.bean.AdProductModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="shop_id" jdbcType="BIGINT" property="shopId" />
+    <result column="shop_name" jdbcType="VARCHAR" property="shopName" />
+    <result column="product_code" jdbcType="VARCHAR" property="productCode" />
+    <result column="supplies_code" jdbcType="VARCHAR" property="suppliesCode" />
+    <result column="supplies_describe" jdbcType="VARCHAR" property="suppliesDescribe" />
+    <result column="one_cate_id" jdbcType="VARCHAR" property="oneCateId" />
+    <result column="one_cate_desc" jdbcType="VARCHAR" property="oneCateDesc" />
+    <result column="two_cate_id" jdbcType="VARCHAR" property="twoCateId" />
+    <result column="two_cate_desc" jdbcType="VARCHAR" property="twoCateDesc" />
+    <result column="three_cate_id" jdbcType="VARCHAR" property="threeCateId" />
+    <result column="three_cate_desc" jdbcType="VARCHAR" property="threeCateDesc" />
+    <result column="four_cate_id" jdbcType="VARCHAR" property="fourCateId" />
+    <result column="four_cate_desc" jdbcType="VARCHAR" property="fourCateDesc" />
+    <result column="brand_id" jdbcType="BIGINT" property="brandId" />
+    <result column="brand_name" jdbcType="VARCHAR" property="brandName" />
+    <result column="weight" jdbcType="VARCHAR" property="weight" />
+    <result column="stage" jdbcType="VARCHAR" property="stage" />
+    <result column="concerns" jdbcType="VARCHAR" property="concerns" />
+    <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, shop_id, shop_name, product_code, supplies_code, supplies_describe, one_cate_id,
+    one_cate_desc, two_cate_id, two_cate_desc, three_cate_id, three_cate_desc, four_cate_id,
+    four_cate_desc, brand_id, brand_name, weight, stage, concerns, pic_url, gmt_created,
+    gmt_modified, creator, modifier, version
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.goods.api.bean.AdProductModel" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from moneyfeed.pc_ad_product
+    <where>
+      <if test="id != null">
+        and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="shopId != null">
+        and shop_id = #{shopId,jdbcType=BIGINT}
+      </if>
+      <if test="shopName != null">
+        and shop_name = #{shopName,jdbcType=VARCHAR}
+      </if>
+      <if test="productCode != null">
+        and product_code = #{productCode,jdbcType=VARCHAR}
+      </if>
+      <if test="suppliesCode != null">
+        and supplies_code = #{suppliesCode,jdbcType=VARCHAR}
+      </if>
+      <if test="suppliesDescribe != null">
+        and supplies_describe = #{suppliesDescribe,jdbcType=VARCHAR}
+      </if>
+      <if test="oneCateId != null">
+        and one_cate_id = #{oneCateId,jdbcType=VARCHAR}
+      </if>
+      <if test="oneCateDesc != null">
+        and one_cate_desc = #{oneCateDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="twoCateId != null">
+        and two_cate_id = #{twoCateId,jdbcType=VARCHAR}
+      </if>
+      <if test="twoCateDesc != null">
+        and two_cate_desc = #{twoCateDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="threeCateId != null">
+        and three_cate_id = #{threeCateId,jdbcType=VARCHAR}
+      </if>
+      <if test="threeCateDesc != null">
+        and three_cate_desc = #{threeCateDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="fourCateId != null">
+        and four_cate_id = #{fourCateId,jdbcType=VARCHAR}
+      </if>
+      <if test="fourCateDesc != null">
+        and four_cate_desc = #{fourCateDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="brandId != null">
+        and brand_id = #{brandId,jdbcType=BIGINT}
+      </if>
+      <if test="brandName != null">
+        and brand_name = #{brandName,jdbcType=VARCHAR}
+      </if>
+      <if test="weight != null">
+        and weight = #{weight,jdbcType=VARCHAR}
+      </if>
+      <if test="stage != null">
+        and stage = #{stage,jdbcType=VARCHAR}
+      </if>
+      <if test="concerns != null">
+        and concerns = #{concerns,jdbcType=VARCHAR}
+      </if>
+      <if test="picUrl != null">
+        and pic_url = #{picUrl,jdbcType=VARCHAR}
+      </if>
+      <if test="virtualCreateTime != null">
+        and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.pc_ad_product (shop_id,
+    shop_name,
+    product_code,
+    supplies_code,
+    supplies_describe,
+    one_cate_id,
+    one_cate_desc,
+    two_cate_id,
+    two_cate_desc,
+    three_cate_id,
+    three_cate_desc,
+    four_cate_id,
+    four_cate_desc,
+    brand_id,
+    brand_name,
+    weight,
+    stage,
+    concerns,
+    pic_url,
+    gmt_created,
+    gmt_modified,
+    creator,
+    modifier,
+    version
+    )
+    values
+    <foreach collection="list" item="model" index="index" separator="," close=";" >
+      (#{model.shopId,jdbcType=BIGINT},
+      #{model.shopName,jdbcType=VARCHAR}, #{model.productCode,jdbcType=VARCHAR}, #{model.suppliesCode,jdbcType=VARCHAR},
+      #{model.suppliesDescribe,jdbcType=VARCHAR}, #{model.oneCateId,jdbcType=VARCHAR},
+      #{model.oneCateDesc,jdbcType=VARCHAR}, #{model.twoCateId,jdbcType=VARCHAR}, #{model.twoCateDesc,jdbcType=VARCHAR},
+      #{model.threeCateId,jdbcType=VARCHAR}, #{model.threeCateDesc,jdbcType=VARCHAR},
+      #{model.fourCateId,jdbcType=VARCHAR}, #{model.fourCateDesc,jdbcType=VARCHAR}, #{model.brandId,jdbcType=BIGINT},
+      #{model.brandName,jdbcType=VARCHAR}, #{model.weight,jdbcType=VARCHAR}, #{model.stage,jdbcType=VARCHAR},
+      #{model.concerns,jdbcType=VARCHAR}, #{model.picUrl,jdbcType=VARCHAR}, #{model.gmtModified,jdbcType=TIMESTAMP},
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT},
+      0
+      )
+    </foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.pc_ad_product
+    <set>
+      <if test="newModel.shopId != null">
+        shop_id = #{newModel.shopId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.shopName != null">
+        shop_name = #{newModel.shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.productCode != null">
+        product_code = #{newModel.productCode,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.suppliesCode != null">
+        supplies_code = #{newModel.suppliesCode,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.suppliesDescribe != null">
+        supplies_describe = #{newModel.suppliesDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.oneCateId != null">
+        one_cate_id = #{newModel.oneCateId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.oneCateDesc != null">
+        one_cate_desc = #{newModel.oneCateDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.twoCateId != null">
+        two_cate_id = #{newModel.twoCateId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.twoCateDesc != null">
+        two_cate_desc = #{newModel.twoCateDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.threeCateId != null">
+        three_cate_id = #{newModel.threeCateId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.threeCateDesc != null">
+        three_cate_desc = #{newModel.threeCateDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.fourCateId != null">
+        four_cate_id = #{newModel.fourCateId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.fourCateDesc != null">
+        four_cate_desc = #{newModel.fourCateDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.brandId != null">
+        brand_id = #{newModel.brandId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.brandName != null">
+        brand_name = #{newModel.brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.weight != null">
+        weight = #{newModel.weight,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.stage != null">
+        stage = #{newModel.stage,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.concerns != null">
+        concerns = #{newModel.concerns,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.picUrl != null">
+        pic_url = #{newModel.picUrl,jdbcType=VARCHAR},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+        and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.shopId != null">
+        and shop_id = #{oldModel.shopId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.shopName != null">
+        and shop_name = #{oldModel.shopName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.productCode != null">
+        and product_code = #{oldModel.productCode,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.suppliesCode != null">
+        and supplies_code = #{oldModel.suppliesCode,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.suppliesDescribe != null">
+        and supplies_describe = #{oldModel.suppliesDescribe,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.oneCateId != null">
+        and one_cate_id = #{oldModel.oneCateId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.oneCateDesc != null">
+        and one_cate_desc = #{oldModel.oneCateDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.twoCateId != null">
+        and two_cate_id = #{oldModel.twoCateId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.twoCateDesc != null">
+        and two_cate_desc = #{oldModel.twoCateDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.threeCateId != null">
+        and three_cate_id = #{oldModel.threeCateId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.threeCateDesc != null">
+        and three_cate_desc = #{oldModel.threeCateDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.fourCateId != null">
+        and four_cate_id = #{oldModel.fourCateId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.fourCateDesc != null">
+        and four_cate_desc = #{oldModel.fourCateDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.brandId != null">
+        and brand_id = #{oldModel.brandId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.brandName != null">
+        and brand_name = #{oldModel.brandName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.weight != null">
+        and weight = #{oldModel.weight,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.stage != null">
+        and stage = #{oldModel.stage,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.concerns != null">
+        and concerns = #{oldModel.concerns,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.picUrl != null">
+        and pic_url = #{oldModel.picUrl,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.goods.api.bean.AdProductModel">
+    delete from moneyfeed.pc_ad_product
+    <where>
+      <if test="id != null">
+        and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="shopId != null">
+        and shop_id = #{shopId,jdbcType=BIGINT}
+      </if>
+      <if test="shopName != null">
+        and shop_name = #{shopName,jdbcType=VARCHAR}
+      </if>
+      <if test="productCode != null">
+        and product_code = #{productCode,jdbcType=VARCHAR}
+      </if>
+      <if test="suppliesCode != null">
+        and supplies_code = #{suppliesCode,jdbcType=VARCHAR}
+      </if>
+      <if test="suppliesDescribe != null">
+        and supplies_describe = #{suppliesDescribe,jdbcType=VARCHAR}
+      </if>
+      <if test="oneCateId != null">
+        and one_cate_id = #{oneCateId,jdbcType=VARCHAR}
+      </if>
+      <if test="oneCateDesc != null">
+        and one_cate_desc = #{oneCateDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="twoCateId != null">
+        and two_cate_id = #{twoCateId,jdbcType=VARCHAR}
+      </if>
+      <if test="twoCateDesc != null">
+        and two_cate_desc = #{twoCateDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="threeCateId != null">
+        and three_cate_id = #{threeCateId,jdbcType=VARCHAR}
+      </if>
+      <if test="threeCateDesc != null">
+        and three_cate_desc = #{threeCateDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="fourCateId != null">
+        and four_cate_id = #{fourCateId,jdbcType=VARCHAR}
+      </if>
+      <if test="fourCateDesc != null">
+        and four_cate_desc = #{fourCateDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="brandId != null">
+        and brand_id = #{brandId,jdbcType=BIGINT}
+      </if>
+      <if test="brandName != null">
+        and brand_name = #{brandName,jdbcType=VARCHAR}
+      </if>
+      <if test="weight != null">
+        and weight = #{weight,jdbcType=VARCHAR}
+      </if>
+      <if test="stage != null">
+        and stage = #{stage,jdbcType=VARCHAR}
+      </if>
+      <if test="concerns != null">
+        and concerns = #{concerns,jdbcType=VARCHAR}
+      </if>
+      <if test="picUrl != null">
+        and pic_url = #{picUrl,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+</mapper>

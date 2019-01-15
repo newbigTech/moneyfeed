@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.goods.dal.dao.SalecategoryDao">
+  <select id="queryAggregationSalecategory" resultMap="BaseResultMap">
+    SELECT
+        t1.id,
+        t1.sale_cate_id,
+        t1.sale_cale_name,
+        t1.sale_cate_level,
+        t1.parent_sale_cate_id
+    FROM
+        pc_salecategory t1
+    LEFT JOIN pc_salecate_category t2 ON t1.sale_cate_id = t2.salecate_id
+    WHERE
+        t2.cate_id = #{param.cateId}
+    </select>
+
+
+    <select id="queryCustomerSaleCategory" resultMap="BaseResultMap">
+        select id, sale_cate_id,sale_cale_name ,sale_cate_level,parent_sale_cate_id from (
+        SELECT
+        distinct
+        t4.id,
+        t4.sale_cate_id,
+        t4.sale_cale_name,
+        t4.sale_cate_level,
+        t4.parent_sale_cate_id,
+        CASE
+        WHEN sale_cate_id='0103' then 2
+        WHEN sale_cate_id='0102' then 3
+        WHEN sale_cate_id='0101' then 1
+        else 0
+        end sort
+        FROM
+        pc_customer_materiel_relation t1
+        INNER JOIN pc_product t2 ON t1.materiel_no = t2.supplies_code
+        INNER JOIN pc_salecate_category t3 on t3.cate_id=t2.cate_code
+        INNER JOIN pc_salecategory t4 on t4.sale_cate_id=t3.salecate_id
+        INNER JOIN pc_product_sku t5 on t5.product_code=t2.product_code
+        <where>
+            <if test="param.customerNo != null">
+                and t1.customer_no = #{param.customerNo,jdbcType=VARCHAR}
+            </if>
+            <if test="param.shopId != null">
+                and t5.shop_id = #{param.shopId,jdbcType=VARCHAR}
+            </if>
+        </where>
+        ) t6 ORDER BY sort
+    </select>
+</mapper>

@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.goods.dal.dao.ebs.EbsMaterialDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.goods.api.bean.ebs.EbsMaterialModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="company_name" jdbcType="VARCHAR" property="companyName" />
+    <result column="org_id" jdbcType="VARCHAR" property="orgId" />
+    <result column="company_short_code" jdbcType="VARCHAR" property="companyShortCode" />
+    <result column="organization_name" jdbcType="VARCHAR" property="organizationName" />
+    <result column="organization_code" jdbcType="VARCHAR" property="organizationCode" />
+    <result column="item_number" jdbcType="VARCHAR" property="itemNumber" />
+    <result column="item_id" jdbcType="VARCHAR" property="itemId" />
+    <result column="item_desc" jdbcType="VARCHAR" property="itemDesc" />
+    <result column="guige" jdbcType="VARCHAR" property="guige" />
+    <result column="secondary_uom" jdbcType="VARCHAR" property="secondaryUom" />
+    <result column="calculate" jdbcType="DECIMAL" property="calculate" />
+    <result column="primary_uom" jdbcType="VARCHAR" property="primaryUom" />
+    <result column="pp_code" jdbcType="VARCHAR" property="ppCode" />
+    <result column="pp_des" jdbcType="VARCHAR" property="ppDes" />
+    <result column="breed_code" jdbcType="VARCHAR" property="breedCode" />
+    <result column="breed_des" jdbcType="VARCHAR" property="breedDes" />
+    <result column="pm_code" jdbcType="VARCHAR" property="pmCode" />
+    <result column="pm_des" jdbcType="VARCHAR" property="pmDes" />
+    <result column="one_cat" jdbcType="VARCHAR" property="oneCat" />
+    <result column="one_cat_des" jdbcType="VARCHAR" property="oneCatDes" />
+    <result column="two_cat" jdbcType="VARCHAR" property="twoCat" />
+    <result column="two_cat_des" jdbcType="VARCHAR" property="twoCatDes" />
+    <result column="three_cat" jdbcType="VARCHAR" property="threeCat" />
+    <result column="three_cat_des" jdbcType="VARCHAR" property="threeCatDes" />
+    <result column="four_cat" jdbcType="VARCHAR" property="fourCat" />
+    <result column="four_cat_des" jdbcType="VARCHAR" property="fourCatDes" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gmt_created, gmt_modified, creator, modifier, version, company_name, org_id, 
+    company_short_code, organization_name, organization_code, item_number, item_id, item_desc, 
+    guige, secondary_uom, calculate, primary_uom, pp_code, pp_des, breed_code, breed_des, 
+    pm_code, pm_des, one_cat, one_cat_des, two_cat, two_cat_des, three_cat, three_cat_des, 
+    four_cat, four_cat_des, status
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.goods.api.bean.ebs.EbsMaterialModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.ebs_material
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="companyName != null">
+         and company_name = #{companyName,jdbcType=VARCHAR}
+      </if>
+      <if test="orgId != null">
+         and org_id = #{orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="companyShortCode != null">
+         and company_short_code = #{companyShortCode,jdbcType=VARCHAR}
+      </if>
+      <if test="organizationName != null">
+         and organization_name = #{organizationName,jdbcType=VARCHAR}
+      </if>
+      <if test="organizationCode != null">
+         and organization_code = #{organizationCode,jdbcType=VARCHAR}
+      </if>
+      <if test="itemNumber != null">
+         and item_number = #{itemNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="itemId != null">
+         and item_id = #{itemId,jdbcType=VARCHAR}
+      </if>
+      <if test="itemDesc != null">
+         and item_desc = #{itemDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="guige != null">
+         and guige = #{guige,jdbcType=VARCHAR}
+      </if>
+      <if test="secondaryUom != null">
+         and secondary_uom = #{secondaryUom,jdbcType=VARCHAR}
+      </if>
+      <if test="calculate != null">
+         and calculate = #{calculate,jdbcType=DECIMAL}
+      </if>
+      <if test="primaryUom != null">
+         and primary_uom = #{primaryUom,jdbcType=VARCHAR}
+      </if>
+      <if test="ppCode != null">
+         and pp_code = #{ppCode,jdbcType=VARCHAR}
+      </if>
+      <if test="ppDes != null">
+         and pp_des = #{ppDes,jdbcType=VARCHAR}
+      </if>
+      <if test="breedCode != null">
+         and breed_code = #{breedCode,jdbcType=VARCHAR}
+      </if>
+      <if test="breedDes != null">
+         and breed_des = #{breedDes,jdbcType=VARCHAR}
+      </if>
+      <if test="pmCode != null">
+         and pm_code = #{pmCode,jdbcType=VARCHAR}
+      </if>
+      <if test="pmDes != null">
+         and pm_des = #{pmDes,jdbcType=VARCHAR}
+      </if>
+      <if test="oneCat != null">
+         and one_cat = #{oneCat,jdbcType=VARCHAR}
+      </if>
+      <if test="oneCatDes != null">
+         and one_cat_des = #{oneCatDes,jdbcType=VARCHAR}
+      </if>
+      <if test="twoCat != null">
+         and two_cat = #{twoCat,jdbcType=VARCHAR}
+      </if>
+      <if test="twoCatDes != null">
+         and two_cat_des = #{twoCatDes,jdbcType=VARCHAR}
+      </if>
+      <if test="threeCat != null">
+         and three_cat = #{threeCat,jdbcType=VARCHAR}
+      </if>
+      <if test="threeCatDes != null">
+         and three_cat_des = #{threeCatDes,jdbcType=VARCHAR}
+      </if>
+      <if test="fourCat != null">
+         and four_cat = #{fourCat,jdbcType=VARCHAR}
+      </if>
+      <if test="fourCatDes != null">
+         and four_cat_des = #{fourCatDes,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null">
+         and status = #{status,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.ebs_material (gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      company_name, 
+      org_id, 
+      company_short_code, 
+      organization_name, 
+      organization_code, 
+      item_number, 
+      item_id, 
+      item_desc, 
+      guige, 
+      secondary_uom, 
+      calculate, 
+      primary_uom, 
+      pp_code, 
+      pp_des, 
+      breed_code, 
+      breed_des, 
+      pm_code, 
+      pm_des, 
+      one_cat, 
+      one_cat_des, 
+      two_cat, 
+      two_cat_des, 
+      three_cat, 
+      three_cat_des, 
+      four_cat, 
+      four_cat_des, 
+      status
+      )
+    values 
+	<foreach collection="list" item="model" index="index" separator="," close=";" >
+	(#{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.companyName,jdbcType=VARCHAR}, #{model.orgId,jdbcType=VARCHAR}, #{model.companyShortCode,jdbcType=VARCHAR}, 
+      #{model.organizationName,jdbcType=VARCHAR}, #{model.organizationCode,jdbcType=VARCHAR}, 
+      #{model.itemNumber,jdbcType=VARCHAR}, #{model.itemId,jdbcType=VARCHAR}, #{model.itemDesc,jdbcType=VARCHAR}, 
+      #{model.guige,jdbcType=VARCHAR}, #{model.secondaryUom,jdbcType=VARCHAR}, #{model.calculate,jdbcType=DECIMAL}, 
+      #{model.primaryUom,jdbcType=VARCHAR}, #{model.ppCode,jdbcType=VARCHAR}, #{model.ppDes,jdbcType=VARCHAR}, 
+      #{model.breedCode,jdbcType=VARCHAR}, #{model.breedDes,jdbcType=VARCHAR}, #{model.pmCode,jdbcType=VARCHAR}, 
+      #{model.pmDes,jdbcType=VARCHAR}, #{model.oneCat,jdbcType=VARCHAR}, #{model.oneCatDes,jdbcType=VARCHAR}, 
+      #{model.twoCat,jdbcType=VARCHAR}, #{model.twoCatDes,jdbcType=VARCHAR}, #{model.threeCat,jdbcType=VARCHAR}, 
+      #{model.threeCatDes,jdbcType=VARCHAR}, #{model.fourCat,jdbcType=VARCHAR}, #{model.fourCatDes,jdbcType=VARCHAR}, 
+      #{model.status,jdbcType=VARCHAR}
+	)
+	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.ebs_material
+    <set>
+      <if test="newModel.companyName != null">
+        company_name = #{newModel.companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.orgId != null">
+        org_id = #{newModel.orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.companyShortCode != null">
+        company_short_code = #{newModel.companyShortCode,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.organizationName != null">
+        organization_name = #{newModel.organizationName,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.organizationCode != null">
+        organization_code = #{newModel.organizationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.itemNumber != null">
+        item_number = #{newModel.itemNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.itemId != null">
+        item_id = #{newModel.itemId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.itemDesc != null">
+        item_desc = #{newModel.itemDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.guige != null">
+        guige = #{newModel.guige,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.secondaryUom != null">
+        secondary_uom = #{newModel.secondaryUom,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.calculate != null">
+        calculate = #{newModel.calculate,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.primaryUom != null">
+        primary_uom = #{newModel.primaryUom,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.ppCode != null">
+        pp_code = #{newModel.ppCode,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.ppDes != null">
+        pp_des = #{newModel.ppDes,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.breedCode != null">
+        breed_code = #{newModel.breedCode,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.breedDes != null">
+        breed_des = #{newModel.breedDes,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.pmCode != null">
+        pm_code = #{newModel.pmCode,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.pmDes != null">
+        pm_des = #{newModel.pmDes,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.oneCat != null">
+        one_cat = #{newModel.oneCat,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.oneCatDes != null">
+        one_cat_des = #{newModel.oneCatDes,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.twoCat != null">
+        two_cat = #{newModel.twoCat,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.twoCatDes != null">
+        two_cat_des = #{newModel.twoCatDes,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.threeCat != null">
+        three_cat = #{newModel.threeCat,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.threeCatDes != null">
+        three_cat_des = #{newModel.threeCatDes,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.fourCat != null">
+        four_cat = #{newModel.fourCat,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.fourCatDes != null">
+        four_cat_des = #{newModel.fourCatDes,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.status != null">
+        status = #{newModel.status,jdbcType=VARCHAR},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.companyName != null">
+         and company_name = #{oldModel.companyName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.orgId != null">
+         and org_id = #{oldModel.orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.companyShortCode != null">
+         and company_short_code = #{oldModel.companyShortCode,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.organizationName != null">
+         and organization_name = #{oldModel.organizationName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.organizationCode != null">
+         and organization_code = #{oldModel.organizationCode,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.itemNumber != null">
+         and item_number = #{oldModel.itemNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.itemId != null">
+         and item_id = #{oldModel.itemId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.itemDesc != null">
+         and item_desc = #{oldModel.itemDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.guige != null">
+         and guige = #{oldModel.guige,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.secondaryUom != null">
+         and secondary_uom = #{oldModel.secondaryUom,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.calculate != null">
+         and calculate = #{oldModel.calculate,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.primaryUom != null">
+         and primary_uom = #{oldModel.primaryUom,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.ppCode != null">
+         and pp_code = #{oldModel.ppCode,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.ppDes != null">
+         and pp_des = #{oldModel.ppDes,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.breedCode != null">
+         and breed_code = #{oldModel.breedCode,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.breedDes != null">
+         and breed_des = #{oldModel.breedDes,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.pmCode != null">
+         and pm_code = #{oldModel.pmCode,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.pmDes != null">
+         and pm_des = #{oldModel.pmDes,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.oneCat != null">
+         and one_cat = #{oldModel.oneCat,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.oneCatDes != null">
+         and one_cat_des = #{oldModel.oneCatDes,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.twoCat != null">
+         and two_cat = #{oldModel.twoCat,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.twoCatDes != null">
+         and two_cat_des = #{oldModel.twoCatDes,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.threeCat != null">
+         and three_cat = #{oldModel.threeCat,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.threeCatDes != null">
+         and three_cat_des = #{oldModel.threeCatDes,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.fourCat != null">
+         and four_cat = #{oldModel.fourCat,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.fourCatDes != null">
+         and four_cat_des = #{oldModel.fourCatDes,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.status != null">
+         and status = #{oldModel.status,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.goods.api.bean.ebs.EbsMaterialModel">
+    delete from moneyfeed.ebs_material
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="companyName != null">
+         and company_name = #{companyName,jdbcType=VARCHAR}
+      </if>
+      <if test="orgId != null">
+         and org_id = #{orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="companyShortCode != null">
+         and company_short_code = #{companyShortCode,jdbcType=VARCHAR}
+      </if>
+      <if test="organizationName != null">
+         and organization_name = #{organizationName,jdbcType=VARCHAR}
+      </if>
+      <if test="organizationCode != null">
+         and organization_code = #{organizationCode,jdbcType=VARCHAR}
+      </if>
+      <if test="itemNumber != null">
+         and item_number = #{itemNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="itemId != null">
+         and item_id = #{itemId,jdbcType=VARCHAR}
+      </if>
+      <if test="itemDesc != null">
+         and item_desc = #{itemDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="guige != null">
+         and guige = #{guige,jdbcType=VARCHAR}
+      </if>
+      <if test="secondaryUom != null">
+         and secondary_uom = #{secondaryUom,jdbcType=VARCHAR}
+      </if>
+      <if test="calculate != null">
+         and calculate = #{calculate,jdbcType=DECIMAL}
+      </if>
+      <if test="primaryUom != null">
+         and primary_uom = #{primaryUom,jdbcType=VARCHAR}
+      </if>
+      <if test="ppCode != null">
+         and pp_code = #{ppCode,jdbcType=VARCHAR}
+      </if>
+      <if test="ppDes != null">
+         and pp_des = #{ppDes,jdbcType=VARCHAR}
+      </if>
+      <if test="breedCode != null">
+         and breed_code = #{breedCode,jdbcType=VARCHAR}
+      </if>
+      <if test="breedDes != null">
+         and breed_des = #{breedDes,jdbcType=VARCHAR}
+      </if>
+      <if test="pmCode != null">
+         and pm_code = #{pmCode,jdbcType=VARCHAR}
+      </if>
+      <if test="pmDes != null">
+         and pm_des = #{pmDes,jdbcType=VARCHAR}
+      </if>
+      <if test="oneCat != null">
+         and one_cat = #{oneCat,jdbcType=VARCHAR}
+      </if>
+      <if test="oneCatDes != null">
+         and one_cat_des = #{oneCatDes,jdbcType=VARCHAR}
+      </if>
+      <if test="twoCat != null">
+         and two_cat = #{twoCat,jdbcType=VARCHAR}
+      </if>
+      <if test="twoCatDes != null">
+         and two_cat_des = #{twoCatDes,jdbcType=VARCHAR}
+      </if>
+      <if test="threeCat != null">
+         and three_cat = #{threeCat,jdbcType=VARCHAR}
+      </if>
+      <if test="threeCatDes != null">
+         and three_cat_des = #{threeCatDes,jdbcType=VARCHAR}
+      </if>
+      <if test="fourCat != null">
+         and four_cat = #{fourCat,jdbcType=VARCHAR}
+      </if>
+      <if test="fourCatDes != null">
+         and four_cat_des = #{fourCatDes,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null">
+         and status = #{status,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+
+
+</mapper>
