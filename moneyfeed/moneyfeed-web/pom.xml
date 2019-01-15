@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>moneyfeed</artifactId>
+		<groupId>com.newhope.moneyfeed</groupId>
+		<version>1.0</version>
+	</parent>
+	<artifactId>moneyfeed-web</artifactId>
+	<name>moneyfeed-web</name>
+
+	<dependencies>
+		
+		<!-- 便于开发时解析xml使用 -->
+		<dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.2.5</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+			<version>4.2.5</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<!-- <dependency>
+			<groupId>com.newhope.kisso.boot</groupId>
+			<artifactId>newhope-kisso-spring-boot-starter</artifactId>
+			<version>1.0.0.SNAPSHOT</version>
+		</dependency> -->
+		
+		<dependency>
+			<groupId>com.newhope.moneyfeed</groupId>
+			<artifactId>moneyfeed-biz</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+    </dependencies>
+</project>

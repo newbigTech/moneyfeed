@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.dal.dao.uc.SysWechatEventDataDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.api.bean.SysWechatEventDataModel">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="open_id" jdbcType="VARCHAR" property="openId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="evn_id" jdbcType="VARCHAR" property="evnId" />
+    <result column="wechat_id" jdbcType="VARCHAR" property="wechatId" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, open_id, create_time, evn_id, wechat_id, gmt_created, gmt_modified, creator, 
+    modifier, version
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.api.bean.SysWechatEventDataModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.sys_wechat_event_data
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="openId != null">
+         and open_id = #{openId,jdbcType=VARCHAR}
+      </if>
+      <if test="createTime != null">
+         and create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="evnId != null">
+         and evn_id = #{evnId,jdbcType=VARCHAR}
+      </if>
+      <if test="wechatId != null">
+         and wechat_id = #{wechatId,jdbcType=VARCHAR}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.sys_wechat_event_data (open_id, 
+      create_time, 
+      evn_id, 
+      wechat_id, 
+      gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.openId,jdbcType=VARCHAR}, 
+      #{model.createTime,jdbcType=TIMESTAMP}, #{model.evnId,jdbcType=VARCHAR}, #{model.wechatId,jdbcType=VARCHAR}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 0	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.sys_wechat_event_data
+    <set>
+      <if test="newModel.openId != null">
+        open_id = #{newModel.openId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.createTime != null">
+        create_time = #{newModel.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newModel.evnId != null">
+        evn_id = #{newModel.evnId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.wechatId != null">
+        wechat_id = #{newModel.wechatId,jdbcType=VARCHAR},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=INTEGER}
+      </if>
+      <if test="oldModel.openId != null">
+         and open_id = #{oldModel.openId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.createTime != null">
+         and create_time = #{oldModel.createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="oldModel.evnId != null">
+         and evn_id = #{oldModel.evnId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.wechatId != null">
+         and wechat_id = #{oldModel.wechatId,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <update id="updateIncludeNull">
+    update moneyfeed.sys_wechat_event_data
+    <set>
+      open_id = #{newModel.openId,jdbcType=VARCHAR},
+      create_time = #{newModel.createTime,jdbcType=TIMESTAMP},
+      evn_id = #{newModel.evnId,jdbcType=VARCHAR},
+      wechat_id = #{newModel.wechatId,jdbcType=VARCHAR},
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=INTEGER}
+      </if>
+      <if test="oldModel.openId != null">
+         and open_id = #{oldModel.openId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.createTime != null">
+         and create_time = #{oldModel.createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="oldModel.evnId != null">
+         and evn_id = #{oldModel.evnId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.wechatId != null">
+         and wechat_id = #{oldModel.wechatId,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.api.bean.SysWechatEventDataModel">
+    delete from moneyfeed.sys_wechat_event_data
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="openId != null">
+         and open_id = #{openId,jdbcType=VARCHAR}
+      </if>
+      <if test="createTime != null">
+         and create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="evnId != null">
+         and evn_id = #{evnId,jdbcType=VARCHAR}
+      </if>
+      <if test="wechatId != null">
+         and wechat_id = #{wechatId,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+</mapper>

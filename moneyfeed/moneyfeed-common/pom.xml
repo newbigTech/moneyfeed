@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>moneyfeed</artifactId>
+		<groupId>com.newhope.moneyfeed</groupId>
+		<version>1.0</version>
+	</parent>
+	
+	<artifactId>moneyfeed-common</artifactId>
+	<name>moneyfeed-common</name>
+    <version>1.0.0.SNAPSHOT</version>
+
+	<dependencies>
+		<!-- <dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+		</dependency> -->
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<version>1.4.7</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>3.0.1</version>
+		</dependency>
+				
+		<dependency>
+	        <groupId>javax.servlet</groupId>
+	        <artifactId>javax.servlet-api</artifactId>
+	        <version>3.1.0</version>
+	    </dependency>
+
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.9.4</version>
+		</dependency>
+	      
+		<!-- 便于开发时解析xml使用 -->
+		<dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+		
+		<!-- <dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+			<version>3.5.3</version>
+		</dependency> -->
+		
+		<!-- 引和第三方的微信开发API -->
+		<dependency>
+			<groupId>com.newhope.zhuxiaoer</groupId>
+			<artifactId>jeewx-api</artifactId>
+			<version>1.0.5</version>
+			<exclusions>
+	            <exclusion>
+	            	<groupId>org.freemarker</groupId>
+	                <artifactId>freemarker</artifactId>
+	            </exclusion>
+	            <exclusion>
+	            	<groupId>org.apache.poi</groupId>
+	                <artifactId>poi</artifactId>
+	            </exclusion>
+        	</exclusions>
+		</dependency>
+
+		<!-- 阿里云短信包引入 -->
+		<dependency>
+			<groupId>com.aliyun</groupId>
+			<artifactId>aliyun-java-sdk-core</artifactId>
+			<version>3.2.8</version>
+		</dependency>
+		<dependency>
+			<groupId>com.aliyun</groupId>
+			<artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+			<version>1.1.0</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>com.google.protobuf</groupId>
+			<artifactId>protobuf-java</artifactId>
+			<version>2.5.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.aliyun.openservices</groupId>
+			<artifactId>aliyun-log-log4j2-appender</artifactId>
+			<version>0.1.10</version>
+		</dependency>
+
+		<!-- poi -->
+		<dependency>  
+			<groupId>org.jeecg</groupId>
+			<artifactId>easypoi-base</artifactId>
+			<version>2.3.1-newhope-SNAPSHOT</version>
+			<exclusions>
+		        <exclusion>  
+		            <artifactId>guava</artifactId>  
+		            <groupId>com.google.guava</groupId>  
+		        </exclusion>  
+		    </exclusions> 
+		</dependency>
+	</dependencies>
+</project>

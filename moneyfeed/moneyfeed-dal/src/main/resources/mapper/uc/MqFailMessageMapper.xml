@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.dal.dao.uc.MqFailMessageDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.api.bean.MqFailMessageModel">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="tracking_id" jdbcType="VARCHAR" property="trackingId" />
+    <result column="mq_retry_exchange" jdbcType="VARCHAR" property="mqRetryExchange" />
+    <result column="mq_retry_rootkey" jdbcType="VARCHAR" property="mqRetryRootkey" />
+    <result column="mq_message_json" jdbcType="VARCHAR" property="mqMessageJson" />
+    <result column="mq_message_time" jdbcType="TIMESTAMP" property="mqMessageTime" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, tracking_id, mq_retry_exchange, mq_retry_rootkey, mq_message_json, mq_message_time, 
+    gmt_created, gmt_modified, creator, modifier, version
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.api.bean.MqFailMessageModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.mq_fail_message
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="trackingId != null">
+         and tracking_id = #{trackingId,jdbcType=VARCHAR}
+      </if>
+      <if test="mqRetryExchange != null">
+         and mq_retry_exchange = #{mqRetryExchange,jdbcType=VARCHAR}
+      </if>
+      <if test="mqRetryRootkey != null">
+         and mq_retry_rootkey = #{mqRetryRootkey,jdbcType=VARCHAR}
+      </if>
+      <if test="mqMessageJson != null">
+         and mq_message_json = #{mqMessageJson,jdbcType=VARCHAR}
+      </if>
+      <if test="mqMessageTime != null">
+         and mq_message_time = #{mqMessageTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.mq_fail_message (tracking_id, 
+      mq_retry_exchange, 
+      mq_retry_rootkey, 
+      mq_message_json, 
+      mq_message_time, 
+      gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version
+      )
+    values 
+	<foreach collection="list" item="model" index="index" separator="," close=";" >
+	(#{model.trackingId,jdbcType=VARCHAR}, 
+      #{model.mqRetryExchange,jdbcType=VARCHAR}, #{model.mqRetryRootkey,jdbcType=VARCHAR}, 
+      #{model.mqMessageJson,jdbcType=VARCHAR}, #{model.mqMessageTime,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 0
+	)
+	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.mq_fail_message
+    <set>
+      <if test="newModel.trackingId != null">
+        tracking_id = #{newModel.trackingId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.mqRetryExchange != null">
+        mq_retry_exchange = #{newModel.mqRetryExchange,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.mqRetryRootkey != null">
+        mq_retry_rootkey = #{newModel.mqRetryRootkey,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.mqMessageJson != null">
+        mq_message_json = #{newModel.mqMessageJson,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.mqMessageTime != null">
+        mq_message_time = #{newModel.mqMessageTime,jdbcType=TIMESTAMP},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=INTEGER}
+      </if>
+      <if test="oldModel.trackingId != null">
+         and tracking_id = #{oldModel.trackingId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.mqRetryExchange != null">
+         and mq_retry_exchange = #{oldModel.mqRetryExchange,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.mqRetryRootkey != null">
+         and mq_retry_rootkey = #{oldModel.mqRetryRootkey,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.mqMessageJson != null">
+         and mq_message_json = #{oldModel.mqMessageJson,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.mqMessageTime != null">
+         and mq_message_time = #{oldModel.mqMessageTime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </update>
+  <update id="updateIncludeNull">
+    update moneyfeed.mq_fail_message
+    <set>
+      tracking_id = #{newModel.trackingId,jdbcType=VARCHAR},
+      mq_retry_exchange = #{newModel.mqRetryExchange,jdbcType=VARCHAR},
+      mq_retry_rootkey = #{newModel.mqRetryRootkey,jdbcType=VARCHAR},
+      mq_message_json = #{newModel.mqMessageJson,jdbcType=VARCHAR},
+      mq_message_time = #{newModel.mqMessageTime,jdbcType=TIMESTAMP},
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=INTEGER}
+      </if>
+      <if test="oldModel.trackingId != null">
+         and tracking_id = #{oldModel.trackingId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.mqRetryExchange != null">
+         and mq_retry_exchange = #{oldModel.mqRetryExchange,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.mqRetryRootkey != null">
+         and mq_retry_rootkey = #{oldModel.mqRetryRootkey,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.mqMessageJson != null">
+         and mq_message_json = #{oldModel.mqMessageJson,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.mqMessageTime != null">
+         and mq_message_time = #{oldModel.mqMessageTime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.api.bean.MqFailMessageModel">
+    delete from moneyfeed.mq_fail_message
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="trackingId != null">
+         and tracking_id = #{trackingId,jdbcType=VARCHAR}
+      </if>
+      <if test="mqRetryExchange != null">
+         and mq_retry_exchange = #{mqRetryExchange,jdbcType=VARCHAR}
+      </if>
+      <if test="mqRetryRootkey != null">
+         and mq_retry_rootkey = #{mqRetryRootkey,jdbcType=VARCHAR}
+      </if>
+      <if test="mqMessageJson != null">
+         and mq_message_json = #{mqMessageJson,jdbcType=VARCHAR}
+      </if>
+      <if test="mqMessageTime != null">
+         and mq_message_time = #{mqMessageTime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </delete>
+</mapper>

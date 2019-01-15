@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.dal.dao.uc.UcLogDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.api.bean.UcLogModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="event_type" jdbcType="VARCHAR" property="eventType" />
+    <result column="event_id" jdbcType="BIGINT" property="eventId" />
+    <result column="ebs_order_id" jdbcType="INTEGER" property="ebsOrderId" />
+    <result column="order_id" jdbcType="BIGINT" property="orderId" />
+    <result column="pay_code" jdbcType="VARCHAR" property="payCode" />
+    <result column="event_date" jdbcType="TIMESTAMP" property="eventDate" />
+    <result column="before_event_amount" jdbcType="DECIMAL" property="beforeEventAmount" />
+    <result column="after_event_amount" jdbcType="DECIMAL" property="afterEventAmount" />
+    <result column="before_event_status" jdbcType="VARCHAR" property="beforeEventStatus" />
+    <result column="after_event_status" jdbcType="VARCHAR" property="afterEventStatus" />
+    <result column="event_operation_type" jdbcType="VARCHAR" property="eventOperationType" />
+    <result column="before_event_model" jdbcType="VARCHAR" property="beforeEventModel" />
+    <result column="after_event_model" jdbcType="VARCHAR" property="afterEventModel" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="data_status" jdbcType="VARCHAR" property="dataStatus" />
+    <result column="comment" jdbcType="VARCHAR" property="comment" />
+    <result column="source" jdbcType="VARCHAR" property="source" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, event_type, event_id, ebs_order_id, order_id, pay_code, event_date, before_event_amount, 
+    after_event_amount, before_event_status, after_event_status, event_operation_type, 
+    before_event_model, after_event_model, gmt_created, gmt_modified, creator, modifier, 
+    version, data_status, comment, source
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.api.bean.UcLogModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.uc_log
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="eventType != null">
+         and event_type = #{eventType,jdbcType=VARCHAR}
+      </if>
+      <if test="eventId != null">
+         and event_id = #{eventId,jdbcType=BIGINT}
+      </if>
+      <if test="ebsOrderId != null">
+         and ebs_order_id = #{ebsOrderId,jdbcType=VARCHAR}
+      </if>
+      <if test="orderId != null">
+         and order_id = #{orderId,jdbcType=BIGINT}
+      </if>
+      <if test="payCode != null">
+         and pay_code = #{payCode,jdbcType=VARCHAR}
+      </if>
+      <if test="eventDate != null">
+         and event_date = #{eventDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="beforeEventAmount != null">
+         and before_event_amount = #{beforeEventAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="afterEventAmount != null">
+         and after_event_amount = #{afterEventAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="beforeEventStatus != null">
+         and before_event_status = #{beforeEventStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="afterEventStatus != null">
+         and after_event_status = #{afterEventStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="eventOperationType != null">
+         and event_operation_type = #{eventOperationType,jdbcType=VARCHAR}
+      </if>
+      <if test="beforeEventModel != null">
+         and before_event_model = #{beforeEventModel,jdbcType=VARCHAR}
+      </if>
+      <if test="afterEventModel != null">
+         and after_event_model = #{afterEventModel,jdbcType=VARCHAR}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="dataStatus != null">
+         and data_status = #{dataStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="comment != null">
+         and comment = #{comment,jdbcType=VARCHAR}
+      </if>
+      <if test="source != null">
+         and source = #{source,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.uc_log (event_type, 
+      event_id, 
+      ebs_order_id, 
+      order_id, 
+      pay_code, 
+      event_date, 
+      before_event_amount, 
+      after_event_amount, 
+      before_event_status, 
+      after_event_status, 
+      event_operation_type, 
+      before_event_model, 
+      after_event_model, 
+      gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      data_status, 
+      comment, 
+      source
+      )
+    values 
+	<foreach collection="list" item="model" index="index" separator="," close=";" >
+	(#{model.eventType,jdbcType=VARCHAR}, 
+      #{model.eventId,jdbcType=BIGINT}, #{model.ebsOrderId,jdbcType=INTEGER}, #{model.orderId,jdbcType=BIGINT}, 
+      #{model.payCode,jdbcType=VARCHAR}, #{model.eventDate,jdbcType=TIMESTAMP}, #{model.beforeEventAmount,jdbcType=DECIMAL}, 
+      #{model.afterEventAmount,jdbcType=DECIMAL}, #{model.beforeEventStatus,jdbcType=VARCHAR}, 
+      #{model.afterEventStatus,jdbcType=VARCHAR}, #{model.eventOperationType,jdbcType=VARCHAR}, 
+      #{model.beforeEventModel,jdbcType=VARCHAR}, #{model.afterEventModel,jdbcType=VARCHAR}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 0, #{model.dataStatus,jdbcType=VARCHAR}, 
+      #{model.comment,jdbcType=VARCHAR}, #{model.source,jdbcType=VARCHAR}
+	)
+	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.uc_log
+    <set>
+      <if test="newModel.eventType != null">
+        event_type = #{newModel.eventType,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.eventId != null">
+        event_id = #{newModel.eventId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.ebsOrderId != null">
+        ebs_order_id = #{newModel.ebsOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.orderId != null">
+        order_id = #{newModel.orderId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.payCode != null">
+        pay_code = #{newModel.payCode,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.eventDate != null">
+        event_date = #{newModel.eventDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newModel.beforeEventAmount != null">
+        before_event_amount = #{newModel.beforeEventAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.afterEventAmount != null">
+        after_event_amount = #{newModel.afterEventAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.beforeEventStatus != null">
+        before_event_status = #{newModel.beforeEventStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.afterEventStatus != null">
+        after_event_status = #{newModel.afterEventStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.eventOperationType != null">
+        event_operation_type = #{newModel.eventOperationType,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.beforeEventModel != null">
+        before_event_model = #{newModel.beforeEventModel,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.afterEventModel != null">
+        after_event_model = #{newModel.afterEventModel,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.dataStatus != null">
+        data_status = #{newModel.dataStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.comment != null">
+        comment = #{newModel.comment,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.source != null">
+        source = #{newModel.source,jdbcType=VARCHAR},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.eventType != null">
+         and event_type = #{oldModel.eventType,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.eventId != null">
+         and event_id = #{oldModel.eventId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.ebsOrderId != null">
+         and ebs_order_id = #{oldModel.ebsOrderId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.orderId != null">
+         and order_id = #{oldModel.orderId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.payCode != null">
+         and pay_code = #{oldModel.payCode,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.eventDate != null">
+         and event_date = #{oldModel.eventDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="oldModel.beforeEventAmount != null">
+         and before_event_amount = #{oldModel.beforeEventAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.afterEventAmount != null">
+         and after_event_amount = #{oldModel.afterEventAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.beforeEventStatus != null">
+         and before_event_status = #{oldModel.beforeEventStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.afterEventStatus != null">
+         and after_event_status = #{oldModel.afterEventStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.eventOperationType != null">
+         and event_operation_type = #{oldModel.eventOperationType,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.beforeEventModel != null">
+         and before_event_model = #{oldModel.beforeEventModel,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.afterEventModel != null">
+         and after_event_model = #{oldModel.afterEventModel,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.dataStatus != null">
+         and data_status = #{oldModel.dataStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.comment != null">
+         and comment = #{oldModel.comment,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.source != null">
+         and source = #{oldModel.source,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <update id="updateIncludeNull">
+    update moneyfeed.uc_log
+    <set>
+      event_type = #{newModel.eventType,jdbcType=VARCHAR},
+      event_id = #{newModel.eventId,jdbcType=BIGINT},
+      ebs_order_id = #{newModel.ebsOrderId,jdbcType=VARCHAR},
+      order_id = #{newModel.orderId,jdbcType=BIGINT},
+      pay_code = #{newModel.payCode,jdbcType=VARCHAR},
+      event_date = #{newModel.eventDate,jdbcType=TIMESTAMP},
+      before_event_amount = #{newModel.beforeEventAmount,jdbcType=DECIMAL},
+      after_event_amount = #{newModel.afterEventAmount,jdbcType=DECIMAL},
+      before_event_status = #{newModel.beforeEventStatus,jdbcType=VARCHAR},
+      after_event_status = #{newModel.afterEventStatus,jdbcType=VARCHAR},
+      event_operation_type = #{newModel.eventOperationType,jdbcType=VARCHAR},
+      before_event_model = #{newModel.beforeEventModel,jdbcType=VARCHAR},
+      after_event_model = #{newModel.afterEventModel,jdbcType=VARCHAR},
+      data_status = #{newModel.dataStatus,jdbcType=VARCHAR},
+      comment = #{newModel.comment,jdbcType=VARCHAR},
+      source = #{newModel.source,jdbcType=VARCHAR},
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.eventType != null">
+         and event_type = #{oldModel.eventType,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.eventId != null">
+         and event_id = #{oldModel.eventId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.ebsOrderId != null">
+         and ebs_order_id = #{oldModel.ebsOrderId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.orderId != null">
+         and order_id = #{oldModel.orderId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.payCode != null">
+         and pay_code = #{oldModel.payCode,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.eventDate != null">
+         and event_date = #{oldModel.eventDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="oldModel.beforeEventAmount != null">
+         and before_event_amount = #{oldModel.beforeEventAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.afterEventAmount != null">
+         and after_event_amount = #{oldModel.afterEventAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.beforeEventStatus != null">
+         and before_event_status = #{oldModel.beforeEventStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.afterEventStatus != null">
+         and after_event_status = #{oldModel.afterEventStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.eventOperationType != null">
+         and event_operation_type = #{oldModel.eventOperationType,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.beforeEventModel != null">
+         and before_event_model = #{oldModel.beforeEventModel,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.afterEventModel != null">
+         and after_event_model = #{oldModel.afterEventModel,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.dataStatus != null">
+         and data_status = #{oldModel.dataStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.comment != null">
+         and comment = #{oldModel.comment,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.source != null">
+         and source = #{oldModel.source,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.api.bean.UcLogModel">
+    delete from moneyfeed.uc_log
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="eventType != null">
+         and event_type = #{eventType,jdbcType=VARCHAR}
+      </if>
+      <if test="eventId != null">
+         and event_id = #{eventId,jdbcType=BIGINT}
+      </if>
+      <if test="ebsOrderId != null">
+         and ebs_order_id = #{ebsOrderId,jdbcType=VARCHAR}
+      </if>
+      <if test="orderId != null">
+         and order_id = #{orderId,jdbcType=BIGINT}
+      </if>
+      <if test="payCode != null">
+         and pay_code = #{payCode,jdbcType=VARCHAR}
+      </if>
+      <if test="eventDate != null">
+         and event_date = #{eventDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="beforeEventAmount != null">
+         and before_event_amount = #{beforeEventAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="afterEventAmount != null">
+         and after_event_amount = #{afterEventAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="beforeEventStatus != null">
+         and before_event_status = #{beforeEventStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="afterEventStatus != null">
+         and after_event_status = #{afterEventStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="eventOperationType != null">
+         and event_operation_type = #{eventOperationType,jdbcType=VARCHAR}
+      </if>
+      <if test="beforeEventModel != null">
+         and before_event_model = #{beforeEventModel,jdbcType=VARCHAR}
+      </if>
+      <if test="afterEventModel != null">
+         and after_event_model = #{afterEventModel,jdbcType=VARCHAR}
+      </if>
+      <if test="dataStatus != null">
+         and data_status = #{dataStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="comment != null">
+         and comment = #{comment,jdbcType=VARCHAR}
+      </if>
+      <if test="source != null">
+         and source = #{source,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+</mapper>
