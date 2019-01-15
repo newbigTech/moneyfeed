@@ -1,0 +1,63 @@
+# Default values for app.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+#----------------------------------------------------------deployment-------------------------------
+#pod副本
+replicaCount: 1
+#rs保留
+revisionHistoryLimit: 10
+
+#镜像相关
+image:
+  repository: 
+  tag: 
+  pullPolicy: IfNotPresent
+
+#service相关
+service:
+  name: #取的Release.Name
+  type: ClusterIP
+  externalPort: 8440
+  internalPort: 8440
+
+#ingress相关
+ingress:
+  enabled: false
+  hosts:
+    - nginx.newhope.cn
+  annotations:
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  tls:
+    # Secrets must be manually created in the namespace.
+    # - secretName: chart-example-tls
+    #   hosts:
+    #     - chart-example.local
+
+#资源限制
+resources: 
+  limits:
+    cpu: 1000m
+    memory: 4096Mi
+  requests:
+    cpu: 200m
+    memory: 2046Mi
+
+#指定app挂载共享文件系统信息,如果系统挂载共享文件系统请删除大括号并移除注释
+volumes: {} 
+ #path: /opt/newhope/files/
+ #server: 3531c4887f-xic35.cn-shanghai.nas.aliyuncs.com
+
+#指定镜像仓库用户名密码
+imagePullSecrets:
+  name: myregistrykey
+
+
+#指定app启动环境变量
+env:
+- name: KAFKA_BOOTSTRAP_SERVERS
+  value: 172.16.10.214:9092
+- name: NEWHOPE_PROFILE_GROUP
+  value: RD-DGP1
+- name: NEWHOPE_PROFILE
+  value: dev

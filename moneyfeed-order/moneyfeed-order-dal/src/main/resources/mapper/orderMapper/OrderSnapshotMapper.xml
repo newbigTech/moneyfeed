@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.order.dal.dao.OrderSnapshotDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.order.api.bean.OrderSnapshotModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="order_id" jdbcType="BIGINT" property="orderId" />
+    <result column="product_code" jdbcType="VARCHAR" property="productCode" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="company_id" jdbcType="BIGINT" property="companyId" />
+    <result column="supplies_code" jdbcType="VARCHAR" property="suppliesCode" />
+    <result column="supplies_id" jdbcType="VARCHAR" property="suppliesId" />
+    <result column="supplies_describe" jdbcType="VARCHAR" property="suppliesDescribe" />
+    <result column="secondary_uom" jdbcType="VARCHAR" property="secondaryUom" />
+    <result column="primary_uom" jdbcType="VARCHAR" property="primaryUom" />
+    <result column="one_cate_id" jdbcType="VARCHAR" property="oneCateId" />
+    <result column="one_cate_desc" jdbcType="VARCHAR" property="oneCateDesc" />
+    <result column="two_cate_id" jdbcType="VARCHAR" property="twoCateId" />
+    <result column="two_cate_desc" jdbcType="VARCHAR" property="twoCateDesc" />
+    <result column="three_cate_id" jdbcType="VARCHAR" property="threeCateId" />
+    <result column="three_cate_desc" jdbcType="VARCHAR" property="threeCateDesc" />
+    <result column="four_cate_id" jdbcType="VARCHAR" property="fourCateId" />
+    <result column="four_cate_desc" jdbcType="VARCHAR" property="fourCateDesc" />
+    <result column="cate_code" jdbcType="VARCHAR" property="cateCode" />
+    <result column="shop_id" jdbcType="BIGINT" property="shopId" />
+    <result column="sku_id" jdbcType="BIGINT" property="skuId" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="ebs_price" jdbcType="DECIMAL" property="ebsPrice" />
+    <result column="ebs_total_amount" jdbcType="DECIMAL" property="ebsTotalAmount" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="company_name" jdbcType="VARCHAR" property="companyName" />
+    <result column="org_id" jdbcType="VARCHAR" property="orgId" />
+    <result column="company_short_code" jdbcType="VARCHAR" property="companyShortCode" />
+    <result column="organization_name" jdbcType="VARCHAR" property="organizationName" />
+    <result column="organization_code" jdbcType="VARCHAR" property="organizationCode" />
+    <result column="sku_attr_params" jdbcType="VARCHAR" property="skuAttrParams" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gmt_created, gmt_modified, creator, modifier, version, order_no, order_id, product_code, 
+    product_name, company_id, supplies_code, supplies_id, supplies_describe, secondary_uom, 
+    primary_uom, one_cate_id, one_cate_desc, two_cate_id, two_cate_desc, three_cate_id, 
+    three_cate_desc, four_cate_id, four_cate_desc, cate_code, shop_id, sku_id, price, 
+    ebs_price, ebs_total_amount, quantity, company_name, org_id, company_short_code, 
+    organization_name, organization_code, sku_attr_params
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.order.api.bean.OrderSnapshotModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.oc_order_snapshot
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="orderNo != null">
+         and order_no = #{orderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="orderId != null">
+         and order_id = #{orderId,jdbcType=BIGINT}
+      </if>
+      <if test="productCode != null">
+         and product_code = #{productCode,jdbcType=VARCHAR}
+      </if>
+      <if test="productName != null">
+         and product_name = #{productName,jdbcType=VARCHAR}
+      </if>
+      <if test="companyId != null">
+         and company_id = #{companyId,jdbcType=BIGINT}
+      </if>
+      <if test="suppliesCode != null">
+         and supplies_code = #{suppliesCode,jdbcType=VARCHAR}
+      </if>
+      <if test="suppliesId != null">
+         and supplies_id = #{suppliesId,jdbcType=VARCHAR}
+      </if>
+      <if test="suppliesDescribe != null">
+         and supplies_describe = #{suppliesDescribe,jdbcType=VARCHAR}
+      </if>
+      <if test="secondaryUom != null">
+         and secondary_uom = #{secondaryUom,jdbcType=VARCHAR}
+      </if>
+      <if test="primaryUom != null">
+         and primary_uom = #{primaryUom,jdbcType=VARCHAR}
+      </if>
+      <if test="oneCateId != null">
+         and one_cate_id = #{oneCateId,jdbcType=VARCHAR}
+      </if>
+      <if test="oneCateDesc != null">
+         and one_cate_desc = #{oneCateDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="twoCateId != null">
+         and two_cate_id = #{twoCateId,jdbcType=VARCHAR}
+      </if>
+      <if test="twoCateDesc != null">
+         and two_cate_desc = #{twoCateDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="threeCateId != null">
+         and three_cate_id = #{threeCateId,jdbcType=VARCHAR}
+      </if>
+      <if test="threeCateDesc != null">
+         and three_cate_desc = #{threeCateDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="fourCateId != null">
+         and four_cate_id = #{fourCateId,jdbcType=VARCHAR}
+      </if>
+      <if test="fourCateDesc != null">
+         and four_cate_desc = #{fourCateDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="cateCode != null">
+         and cate_code = #{cateCode,jdbcType=VARCHAR}
+      </if>
+      <if test="shopId != null">
+         and shop_id = #{shopId,jdbcType=BIGINT}
+      </if>
+      <if test="skuId != null">
+         and sku_id = #{skuId,jdbcType=BIGINT}
+      </if>
+      <if test="price != null">
+         and price = #{price,jdbcType=DECIMAL}
+      </if>
+      <if test="ebsPrice != null">
+         and ebs_price = #{ebsPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="ebsTotalAmount != null">
+         and ebs_total_amount = #{ebsTotalAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="quantity != null">
+         and quantity = #{quantity,jdbcType=INTEGER}
+      </if>
+      <if test="companyName != null">
+         and company_name = #{companyName,jdbcType=VARCHAR}
+      </if>
+      <if test="orgId != null">
+         and org_id = #{orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="companyShortCode != null">
+         and company_short_code = #{companyShortCode,jdbcType=VARCHAR}
+      </if>
+      <if test="organizationName != null">
+         and organization_name = #{organizationName,jdbcType=VARCHAR}
+      </if>
+      <if test="organizationCode != null">
+         and organization_code = #{organizationCode,jdbcType=VARCHAR}
+      </if>
+      <if test="skuAttrParams != null">
+         and sku_attr_params = #{skuAttrParams,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.oc_order_snapshot (gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      order_no, 
+      order_id, 
+      product_code, 
+      product_name, 
+      company_id, 
+      supplies_code, 
+      supplies_id, 
+      supplies_describe, 
+      secondary_uom, 
+      primary_uom, 
+      one_cate_id, 
+      one_cate_desc, 
+      two_cate_id, 
+      two_cate_desc, 
+      three_cate_id, 
+      three_cate_desc, 
+      four_cate_id, 
+      four_cate_desc, 
+      cate_code, 
+      shop_id, 
+      sku_id, 
+      price, 
+      ebs_price, 
+      ebs_total_amount, 
+      quantity, 
+      company_name, 
+      org_id, 
+      company_short_code, 
+      organization_name, 
+      organization_code, 
+      sku_attr_params
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.orderNo,jdbcType=VARCHAR}, #{model.orderId,jdbcType=BIGINT}, #{model.productCode,jdbcType=VARCHAR}, 
+      #{model.productName,jdbcType=VARCHAR}, #{model.companyId,jdbcType=BIGINT}, #{model.suppliesCode,jdbcType=VARCHAR}, 
+      #{model.suppliesId,jdbcType=VARCHAR}, #{model.suppliesDescribe,jdbcType=VARCHAR}, 
+      #{model.secondaryUom,jdbcType=VARCHAR}, #{model.primaryUom,jdbcType=VARCHAR}, #{model.oneCateId,jdbcType=VARCHAR}, 
+      #{model.oneCateDesc,jdbcType=VARCHAR}, #{model.twoCateId,jdbcType=VARCHAR}, #{model.twoCateDesc,jdbcType=VARCHAR}, 
+      #{model.threeCateId,jdbcType=VARCHAR}, #{model.threeCateDesc,jdbcType=VARCHAR}, 
+      #{model.fourCateId,jdbcType=VARCHAR}, #{model.fourCateDesc,jdbcType=VARCHAR}, #{model.cateCode,jdbcType=VARCHAR}, 
+      #{model.shopId,jdbcType=BIGINT}, #{model.skuId,jdbcType=BIGINT}, #{model.price,jdbcType=DECIMAL}, 
+      #{model.ebsPrice,jdbcType=DECIMAL}, #{model.ebsTotalAmount,jdbcType=DECIMAL}, #{model.quantity,jdbcType=INTEGER}, 
+      #{model.companyName,jdbcType=VARCHAR}, #{model.orgId,jdbcType=VARCHAR}, #{model.companyShortCode,jdbcType=VARCHAR}, 
+      #{model.organizationName,jdbcType=VARCHAR}, #{model.organizationCode,jdbcType=VARCHAR}, 
+      #{model.skuAttrParams,jdbcType=VARCHAR}	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.oc_order_snapshot
+    <set>
+      <if test="newModel.orderNo != null">
+        order_no = #{newModel.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.orderId != null">
+        order_id = #{newModel.orderId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.productCode != null">
+        product_code = #{newModel.productCode,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.productName != null">
+        product_name = #{newModel.productName,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.companyId != null">
+        company_id = #{newModel.companyId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.suppliesCode != null">
+        supplies_code = #{newModel.suppliesCode,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.suppliesId != null">
+        supplies_id = #{newModel.suppliesId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.suppliesDescribe != null">
+        supplies_describe = #{newModel.suppliesDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.secondaryUom != null">
+        secondary_uom = #{newModel.secondaryUom,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.primaryUom != null">
+        primary_uom = #{newModel.primaryUom,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.oneCateId != null">
+        one_cate_id = #{newModel.oneCateId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.oneCateDesc != null">
+        one_cate_desc = #{newModel.oneCateDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.twoCateId != null">
+        two_cate_id = #{newModel.twoCateId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.twoCateDesc != null">
+        two_cate_desc = #{newModel.twoCateDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.threeCateId != null">
+        three_cate_id = #{newModel.threeCateId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.threeCateDesc != null">
+        three_cate_desc = #{newModel.threeCateDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.fourCateId != null">
+        four_cate_id = #{newModel.fourCateId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.fourCateDesc != null">
+        four_cate_desc = #{newModel.fourCateDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.cateCode != null">
+        cate_code = #{newModel.cateCode,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.shopId != null">
+        shop_id = #{newModel.shopId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.skuId != null">
+        sku_id = #{newModel.skuId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.price != null">
+        price = #{newModel.price,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.ebsPrice != null">
+        ebs_price = #{newModel.ebsPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.ebsTotalAmount != null">
+        ebs_total_amount = #{newModel.ebsTotalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.quantity != null">
+        quantity = #{newModel.quantity,jdbcType=INTEGER},
+      </if>
+      <if test="newModel.companyName != null">
+        company_name = #{newModel.companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.orgId != null">
+        org_id = #{newModel.orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.companyShortCode != null">
+        company_short_code = #{newModel.companyShortCode,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.organizationName != null">
+        organization_name = #{newModel.organizationName,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.organizationCode != null">
+        organization_code = #{newModel.organizationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.skuAttrParams != null">
+        sku_attr_params = #{newModel.skuAttrParams,jdbcType=VARCHAR},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.orderNo != null">
+         and order_no = #{oldModel.orderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.orderId != null">
+         and order_id = #{oldModel.orderId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.productCode != null">
+         and product_code = #{oldModel.productCode,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.productName != null">
+         and product_name = #{oldModel.productName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.companyId != null">
+         and company_id = #{oldModel.companyId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.suppliesCode != null">
+         and supplies_code = #{oldModel.suppliesCode,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.suppliesId != null">
+         and supplies_id = #{oldModel.suppliesId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.suppliesDescribe != null">
+         and supplies_describe = #{oldModel.suppliesDescribe,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.secondaryUom != null">
+         and secondary_uom = #{oldModel.secondaryUom,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.primaryUom != null">
+         and primary_uom = #{oldModel.primaryUom,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.oneCateId != null">
+         and one_cate_id = #{oldModel.oneCateId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.oneCateDesc != null">
+         and one_cate_desc = #{oldModel.oneCateDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.twoCateId != null">
+         and two_cate_id = #{oldModel.twoCateId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.twoCateDesc != null">
+         and two_cate_desc = #{oldModel.twoCateDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.threeCateId != null">
+         and three_cate_id = #{oldModel.threeCateId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.threeCateDesc != null">
+         and three_cate_desc = #{oldModel.threeCateDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.fourCateId != null">
+         and four_cate_id = #{oldModel.fourCateId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.fourCateDesc != null">
+         and four_cate_desc = #{oldModel.fourCateDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.cateCode != null">
+         and cate_code = #{oldModel.cateCode,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.shopId != null">
+         and shop_id = #{oldModel.shopId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.skuId != null">
+         and sku_id = #{oldModel.skuId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.price != null">
+         and price = #{oldModel.price,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.ebsPrice != null">
+         and ebs_price = #{oldModel.ebsPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.ebsTotalAmount != null">
+         and ebs_total_amount = #{oldModel.ebsTotalAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.quantity != null">
+         and quantity = #{oldModel.quantity,jdbcType=INTEGER}
+      </if>
+      <if test="oldModel.companyName != null">
+         and company_name = #{oldModel.companyName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.orgId != null">
+         and org_id = #{oldModel.orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.companyShortCode != null">
+         and company_short_code = #{oldModel.companyShortCode,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.organizationName != null">
+         and organization_name = #{oldModel.organizationName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.organizationCode != null">
+         and organization_code = #{oldModel.organizationCode,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.skuAttrParams != null">
+         and sku_attr_params = #{oldModel.skuAttrParams,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.order.api.bean.OrderSnapshotModel">
+    delete from moneyfeed.oc_order_snapshot
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="orderNo != null">
+         and order_no = #{orderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="orderId != null">
+         and order_id = #{orderId,jdbcType=BIGINT}
+      </if>
+      <if test="productCode != null">
+         and product_code = #{productCode,jdbcType=VARCHAR}
+      </if>
+      <if test="productName != null">
+         and product_name = #{productName,jdbcType=VARCHAR}
+      </if>
+      <if test="companyId != null">
+         and company_id = #{companyId,jdbcType=BIGINT}
+      </if>
+      <if test="suppliesCode != null">
+         and supplies_code = #{suppliesCode,jdbcType=VARCHAR}
+      </if>
+      <if test="suppliesId != null">
+         and supplies_id = #{suppliesId,jdbcType=VARCHAR}
+      </if>
+      <if test="suppliesDescribe != null">
+         and supplies_describe = #{suppliesDescribe,jdbcType=VARCHAR}
+      </if>
+      <if test="secondaryUom != null">
+         and secondary_uom = #{secondaryUom,jdbcType=VARCHAR}
+      </if>
+      <if test="primaryUom != null">
+         and primary_uom = #{primaryUom,jdbcType=VARCHAR}
+      </if>
+      <if test="oneCateId != null">
+         and one_cate_id = #{oneCateId,jdbcType=VARCHAR}
+      </if>
+      <if test="oneCateDesc != null">
+         and one_cate_desc = #{oneCateDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="twoCateId != null">
+         and two_cate_id = #{twoCateId,jdbcType=VARCHAR}
+      </if>
+      <if test="twoCateDesc != null">
+         and two_cate_desc = #{twoCateDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="threeCateId != null">
+         and three_cate_id = #{threeCateId,jdbcType=VARCHAR}
+      </if>
+      <if test="threeCateDesc != null">
+         and three_cate_desc = #{threeCateDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="fourCateId != null">
+         and four_cate_id = #{fourCateId,jdbcType=VARCHAR}
+      </if>
+      <if test="fourCateDesc != null">
+         and four_cate_desc = #{fourCateDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="cateCode != null">
+         and cate_code = #{cateCode,jdbcType=VARCHAR}
+      </if>
+      <if test="shopId != null">
+         and shop_id = #{shopId,jdbcType=BIGINT}
+      </if>
+      <if test="skuId != null">
+         and sku_id = #{skuId,jdbcType=BIGINT}
+      </if>
+      <if test="price != null">
+         and price = #{price,jdbcType=DECIMAL}
+      </if>
+      <if test="ebsPrice != null">
+         and ebs_price = #{ebsPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="ebsTotalAmount != null">
+         and ebs_total_amount = #{ebsTotalAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="quantity != null">
+         and quantity = #{quantity,jdbcType=INTEGER}
+      </if>
+      <if test="companyName != null">
+         and company_name = #{companyName,jdbcType=VARCHAR}
+      </if>
+      <if test="orgId != null">
+         and org_id = #{orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="companyShortCode != null">
+         and company_short_code = #{companyShortCode,jdbcType=VARCHAR}
+      </if>
+      <if test="organizationName != null">
+         and organization_name = #{organizationName,jdbcType=VARCHAR}
+      </if>
+      <if test="organizationCode != null">
+         and organization_code = #{organizationCode,jdbcType=VARCHAR}
+      </if>
+      <if test="skuAttrParams != null">
+         and sku_attr_params = #{skuAttrParams,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+</mapper>

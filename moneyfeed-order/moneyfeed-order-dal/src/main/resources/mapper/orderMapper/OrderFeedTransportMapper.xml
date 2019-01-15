@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.order.dal.dao.OrderFeedTransportDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.order.api.bean.OrderFeedTransportModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="order_id" jdbcType="BIGINT" property="orderId" />
+    <result column="driver_name" jdbcType="VARCHAR" property="driverName" />
+    <result column="driver_mobile" jdbcType="VARCHAR" property="driverMobile" />
+    <result column="car_no" jdbcType="VARCHAR" property="carNo" />
+    <result column="id_card" jdbcType="VARCHAR" property="idCard" />
+    <result column="source" jdbcType="VARCHAR" property="source" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="ebs_car_no" jdbcType="VARCHAR" property="ebsCarNo" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gmt_created, gmt_modified, creator, modifier, version, order_id, driver_name, 
+    driver_mobile, car_no, id_card, source, order_no, ebs_car_no, remark
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.order.api.bean.OrderFeedTransportModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.oc_order_feed_transport
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="orderId != null">
+         and order_id = #{orderId,jdbcType=BIGINT}
+      </if>
+      <if test="driverName != null">
+         and driver_name = #{driverName,jdbcType=VARCHAR}
+      </if>
+      <if test="driverMobile != null">
+         and driver_mobile = #{driverMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="carNo != null">
+         and car_no = #{carNo,jdbcType=VARCHAR}
+      </if>
+      <if test="idCard != null">
+         and id_card = #{idCard,jdbcType=VARCHAR}
+      </if>
+      <if test="source != null">
+         and source = #{source,jdbcType=VARCHAR}
+      </if>
+      <if test="orderNo != null">
+         and order_no = #{orderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="ebsCarNo != null">
+         and ebs_car_no = #{ebsCarNo,jdbcType=VARCHAR}
+      </if>
+      <if test="remark != null">
+         and remark = #{remark,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.oc_order_feed_transport (gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      order_id, 
+      driver_name, 
+      driver_mobile, 
+      car_no, 
+      id_card, 
+      source, 
+      order_no, 
+      ebs_car_no, 
+      remark
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.orderId,jdbcType=BIGINT}, #{model.driverName,jdbcType=VARCHAR}, #{model.driverMobile,jdbcType=VARCHAR}, 
+      #{model.carNo,jdbcType=VARCHAR}, #{model.idCard,jdbcType=VARCHAR}, #{model.source,jdbcType=VARCHAR}, 
+      #{model.orderNo,jdbcType=VARCHAR}, #{model.ebsCarNo,jdbcType=VARCHAR}, #{model.remark,jdbcType=VARCHAR}
+      	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.oc_order_feed_transport
+    <set>
+      <if test="newModel.orderId != null">
+        order_id = #{newModel.orderId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.driverName != null">
+        driver_name = #{newModel.driverName,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.driverMobile != null">
+        driver_mobile = #{newModel.driverMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.carNo != null">
+        car_no = #{newModel.carNo,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.idCard != null">
+        id_card = #{newModel.idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.source != null">
+        source = #{newModel.source,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.orderNo != null">
+        order_no = #{newModel.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.ebsCarNo != null">
+        ebs_car_no = #{newModel.ebsCarNo,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.remark != null">
+        remark = #{newModel.remark,jdbcType=VARCHAR},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.orderId != null">
+         and order_id = #{oldModel.orderId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.driverName != null">
+         and driver_name = #{oldModel.driverName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.driverMobile != null">
+         and driver_mobile = #{oldModel.driverMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.carNo != null">
+         and car_no = #{oldModel.carNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.idCard != null">
+         and id_card = #{oldModel.idCard,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.source != null">
+         and source = #{oldModel.source,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.orderNo != null">
+         and order_no = #{oldModel.orderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.ebsCarNo != null">
+         and ebs_car_no = #{oldModel.ebsCarNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.remark != null">
+         and remark = #{oldModel.remark,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.order.api.bean.OrderFeedTransportModel">
+    delete from moneyfeed.oc_order_feed_transport
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="orderId != null">
+         and order_id = #{orderId,jdbcType=BIGINT}
+      </if>
+      <if test="driverName != null">
+         and driver_name = #{driverName,jdbcType=VARCHAR}
+      </if>
+      <if test="driverMobile != null">
+         and driver_mobile = #{driverMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="carNo != null">
+         and car_no = #{carNo,jdbcType=VARCHAR}
+      </if>
+      <if test="idCard != null">
+         and id_card = #{idCard,jdbcType=VARCHAR}
+      </if>
+      <if test="source != null">
+         and source = #{source,jdbcType=VARCHAR}
+      </if>
+      <if test="orderNo != null">
+         and order_no = #{orderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="ebsCarNo != null">
+         and ebs_car_no = #{ebsCarNo,jdbcType=VARCHAR}
+      </if>
+      <if test="remark != null">
+         and remark = #{remark,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+</mapper>

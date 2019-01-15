@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.order.dal.dao.OrderInfoDao">
+	<!--查询订单列表-->
+	<select id="queryOrderInfoList"  resultType="com.newhope.moneyfeed.order.api.dto.response.OrderDtoResult">
+      SELECT
+		`order`.id AS id,
+		`order`.order_no AS orderNo,
+		`order`.short_no AS shortNo,
+		`order`.ebs_order_no AS ebsorderNo,
+		`order`.total_feed_weight AS totalFeedWeight,
+		`order`.total_pay_amount AS totalPayAmount,
+		`order`.gmt_created AS gmtCreated,
+		`order`.plan_transport_time AS planTransportTime,
+		`order`.deal_time AS dealTime,
+		`order`.close_time AS closeTime,
+		`order`.`status` AS status,
+		`order`.pay_limit_time AS payLimitTime,
+        `order`.org_id AS orgId,
+		feed.car_no as carNo,
+		feed.id AS feedTransId,
+		`order`.uc_shop_mobile AS ucShopMobile,
+		present.present_weight AS totalPresent,
+		`order`.ebs_refund_order_no AS ebsRefundOrderNo,
+		`order`.limit_time_type AS limitTimeType,
+		`order`.uc_shop_id AS shopId,
+		`order`.uc_shop_name as ucShopName,
+		`order`.uc_shop_address as ucShopAddress,
+		`order`.total_discount_amount AS totalDiscountAmount,
+		`order`.transport_time AS transportTime,
+		`order`.checkin_time AS checkinTime,
+		`order`.end_time AS endTime,
+		`order`.buyer_id AS buyerId,
+		`order`.buyer_mobile AS buyerMobile,
+		`order`.buyer_name AS buyerName,
+		`order`.customer_id AS customerId,
+		`order`.customer_name AS customerName,
+		`order`.total_orginal_amount AS totalOrginalAmount,
+		`order`.order_channel as orderChannel,
+		`order`.prox_name as proxName,
+		`order`.prox_user_id as proxUserId,
+		`order`.pay_flag as payFlag
+		<!-- pm关联查询 -->
+		<if test=" param.relatFlag == true ">
+		,feed.driver_name AS driverName,
+		feed.driver_mobile AS driverMobile,
+		pay.bank_order_no as bankOrderNo,
+		pay.pay_order_no as moneyNo,
+		GROUP_CONCAT(lable.`name`) lableName
+		</if>
+	  FROM moneyfeed.oc_order_info `order`
+	  LEFT JOIN moneyfeed.oc_order_feed_transport feed ON `order`.id = feed.order_id
+	  LEFT JOIN(
+		SELECT
+			order_id,
+			sum(`count`) present_weight
+		FROM
+			moneyfeed.oc_order_present_feed
+		GROUP BY
+			order_id
+	  ) present ON `order`.id = present.order_id
+	  <if test="param.relatFlag == true">
+		  LEFT JOIN moneyfeed.pay_order_info pay ON pay.order_id = `order`.id
+		  LEFT JOIN moneyfeed.uc_pm_label_customer_mapping lcm
+          ON lcm.customer_id = `order`.customer_id AND lcm.enable = 1
+		  LEFT JOIN moneyfeed.uc_pm_label lable
+		  ON lable.id = lcm.label_id AND lable.enable = 1
+	  </if>
+
+	  <where>
+		<if test="param.id != null">
+			AND `order`.id = #{param.id,jdbcType=BIGINT}
+		</if>
+		<if test="param.buyerId != null">
+			AND `order`.buyer_id = #{param.buyerId,jdbcType=BIGINT}
+		</if>
+		<if test="param.ucShopId != null">
+			and `order`.uc_shop_id = #{param.ucShopId,jdbcType=BIGINT}
+		</if>
+		<if test="param.orderNo != null">
+			and `order`.order_no = #{param.orderNo,jdbcType=VARCHAR}
+		</if>
+		<if test="param.ebsorderNo != null">
+			and `order`.ebs_order_no = #{param.ebsorderNo,jdbcType=VARCHAR}
+		</if>
+	    <if test="param.ebsRefundOrderNo != null">
+			and `order`.ebs_refund_order_no = #{param.ebsRefundOrderNo,jdbcType=VARCHAR}
+		</if>
+		<if test="param.customerId != null">
+			and `order`.customer_id = #{param.customerId,jdbcType=BIGINT}
+		</if>
+		<if test="param.payFlag != null">
+			and `order`.pay_flag = #{param.payFlag,jdbcType=BIT}
+		</if>
+		
+		<if test="param.payTypes != null and param.payTypes.size() > 0">
+			AND `order`.`pay_type` in
+			<foreach item="payType" index="index" collection="param.payTypes" open="(" separator="," close=")">
+				#{payType}
+			</foreach>
+		</if>
+		
+		<if test="param.customerName != null and param.customerName != ''">
+			and `order`.customer_name like CONCAT('%', #{param.customerName,jdbcType=VARCHAR}, '%')
+		</if>
+		<if test="param.statusList != null and param.statusList.size() > 0">
+			AND `order`.`status` in
+			<foreach item="status" index="index" collection="param.statusList" open="(" separator="," close=")">
+				#{status}
+			</foreach>
+		</if>
+		<if test="param.notStatusList != null and param.notStatusList.size() > 0">
+			AND `order`.status not in
+			<foreach item="status" index="index" collection="param.notStatusList" open="(" separator="," close=")">
+				#{status}
+			</foreach>
+		</if>
+		<if test="param.orderBeginDate != null">
+			AND `order`.gmt_created >= #{param.orderBeginDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="param.orderEndDate != null">
+			<![CDATA[ AND `order`.gmt_created <= #{param.orderEndDate,jdbcType=TIMESTAMP} ]]>
+		</if>
+		  <if test="param.pullBeginDate != null">
+			  AND `order`.plan_transport_time >= #{param.pullBeginDate,jdbcType=TIMESTAMP}
+		  </if>
+		  <if test="param.pullEndDate != null">
+			  <![CDATA[ AND `order`.plan_transport_time <= #{param.pullEndDate,jdbcType=TIMESTAMP} ]]>
+		  </if>
+		<if test="param.completeBeginDate != null">
+			and `order`.end_time >= #{param.completeBeginDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="param.completeEndDate != null">
+			<![CDATA[ AND `order`.end_time <= #{param.completeEndDate,jdbcType=TIMESTAMP} ]]>
+		</if>
+		<if test="param.closeBeginDate != null">
+			and `order`.close_time >= #{param.closeBeginDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="param.closeEndDate != null">
+			<![CDATA[ AND `order`.close_time <= #{param.closeEndDate,jdbcType=TIMESTAMP} ]]>
+		</if>
+		<if test="param.planTransportBeginDate != null">
+			and `order`.plan_transport_time >= #{param.planTransportBeginDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="param.planTransportEndDate != null">
+			<![CDATA[ AND `order`.plan_transport_time <= #{param.planTransportEndDate,jdbcType=TIMESTAMP} ]]>
+		</if>
+        <if test="param.moneyNo != null">
+			and pay.pay_order_no = #{param.moneyNo,jdbcType=BIGINT}
+        </if>
+        <if test="param.bankOrderNo != null">
+			and pay.bank_order_no = #{param.bankOrderNo,jdbcType=BIGINT}
+        </if>
+		<if test="param.lableList != null and param.lableList.size() > 0">
+			lable.`name` IN
+			<foreach item="lable" index="index" collection="param.lableList" open="(" separator="," close=")">
+				#{lable}
+			</foreach>
+		</if>
+    </where>
+	group by `order`.id
+    <if test="param.orderBy != null">
+        order by
+		<choose>
+			<when test="param.orderBy eq 'order_no desc'">
+				`order`.order_no+0 desc
+			</when>
+			<when test="param.orderBy eq 'gmt_created desc'">
+				`order`.gmt_created desc
+			</when>
+			<when test="param.orderBy eq 'plan_transport_time'">
+				`order`.plan_transport_time
+			</when>
+			<when test="param.orderBy eq 'end_time desc'">
+				`order`.end_time desc
+			</when>
+			<when test="param.orderBy eq 'close_time desc'">
+				`order`.close_time desc
+			</when>
+		</choose>
+    </if>
+  </select>
+
+
+<!-- ====================================== 订单中心聚合查询 =========================================== -->
+ <!-- 聚合查询关联表别名
+   	order_info : ord
+   	order_rule : rule
+ -->
+	<select id="queryOrdersInfo" resultMap="orderInfoDtoResultMap" >
+	SELECT
+		ord.buyer_id,
+		ord.buyer_mobile,
+		ord.order_no
+	<!-- 关联order_rule表 -->
+	<if test=" param.relatRule == true ">
+		,rule.limit_time_create_end as rule_limit_pay_days,
+		rule.uc_shop_mobile as rule_uc_shop_mobile,
+		rule.uc_shop_mobile as rule_uc_shop_mobile,
+		rule.transport_start_day as rule_transport_start_day,
+		rule.transport_end_day as rule_transport_end_day,
+		rule.transport_time as rule_transport_time,
+		rule.limit_time_type as rule_limit_time_type,
+		rule.can_modify_day as rule_can_modify_day,
+		rule.can_modify_time as rule_can_modify_time,
+		rule.limit_time_transport_day as rule_limit_time_transport_day,
+		rule.limit_time_transport_time as rule_limit_time_transport_time,
+		rule.notify_mobile as rule_notify_mobile,
+		rule.oper_user_id as rule_oper_user_id,
+		rule.oper_user_name as rule_oper_user_name
+	</if>
+	FROM
+		oc_order_info ord
+	<if test="param.relatRule == true">
+		LEFT JOIN oc_order_rule rule ON ord.uc_shop_id = rule.uc_shop_id
+	</if>
+	<where>
+		<if test="param.orderStatus != null and param.orderStatus != '' ">
+			and ord.`status` = #{param.orderStatus}
+		</if>
+		<if test=" param.ucShopId != null">
+			and ord.uc_shop_id = #{param.ucShopId}
+		</if>
+	</where>
+	</select>
+
+
+	<!--查询订单商品明细列表-->
+	<select id="queryOrderGoodsDetailList"  resultType="com.newhope.moneyfeed.order.api.dto.response.order.OrderGoodsDetailDtoResult">
+	select
+	`order`.id AS id,
+	`order`.order_no AS orderNo,
+	`order`.short_no AS shortNo,
+	`order`.ebs_order_no AS ebsorderNo,
+	`order`.customer_id AS customerId,
+	`order`.customer_name AS customerName,
+	detail.supplies_code AS productCode,
+    detail.product_name AS productName,
+	detail.product_count AS productCount,
+	detail.total_feed_weight AS totalFeedWeight,
+	`order`.gmt_created AS gmtCreated,
+	`order`.end_time AS endTime,
+	`order`.`status` AS `status`,
+	`order`.ebs_refund_order_no AS ebsRefundOrderNo,
+	`order`.plan_transport_time AS planTransportTime,
+	feed.car_no as carNo,
+	`order`.order_channel as orderChannel,
+	`order`.prox_name as proxName
+	FROM moneyfeed.oc_order_info `order`
+	LEFT JOIN (
+        SELECT
+            detail.order_id,
+            detail.supplies_code,
+            detail.count AS product_count,
+            detail.total_feed_weight,
+            `snapshot`.product_name
+        FROM
+            moneyfeed.oc_order_detail detail
+        LEFT JOIN moneyfeed.oc_order_snapshot `snapshot` ON `snapshot`.order_id = detail.order_id
+        AND `snapshot`.product_code = detail.product_code
+        UNION ALL
+        SELECT
+            present.order_id,
+            present.supplies_code,
+            NULL AS product_count,
+            present.count AS total_feed_weight,
+            present.product_name
+        FROM
+          moneyfeed.oc_order_present_feed present
+    ) detail ON `order`.id = detail.order_id
+    LEFT JOIN moneyfeed.oc_order_feed_transport feed ON `order`.id = feed.order_id
+	<where>
+		<if test="param.id != null">
+			AND `order`.id = #{param.id,jdbcType=BIGINT}
+		</if>
+		<if test="param.buyerId != null">
+			AND `order`.buyer_id = #{param.buyerId,jdbcType=BIGINT}
+		</if>
+		<if test="param.ucShopId != null">
+			and `order`.uc_shop_id = #{param.ucShopId,jdbcType=BIGINT}
+		</if>
+		<if test="param.orderNo != null">
+			and `order`.order_no = #{param.orderNo,jdbcType=VARCHAR}
+		</if>
+		<if test="param.ebsorderNo != null">
+			and `order`.ebs_order_no = #{param.ebsorderNo,jdbcType=VARCHAR}
+		</if>
+		<if test="param.ebsRefundOrderNo != null">
+			and `order`.ebs_refund_order_no = #{param.ebsRefundOrderNo,jdbcType=VARCHAR}
+		</if>
+		<if test="param.customerId != null">
+			and `order`.customer_id = #{param.customerId,jdbcType=BIGINT}
+		</if>
+		<if test="param.customerName != null and param.customerName != ''">
+			and `order`.customer_name like CONCAT('%', #{param.customerName,jdbcType=VARCHAR}, '%')
+		</if>
+		<if test="param.statusList != null and param.statusList.size() > 0">
+			AND `order`.status in
+			<foreach item="status" index="index" collection="param.statusList" open="(" separator="," close=")">
+				#{status}
+			</foreach>
+		</if>
+		<if test="param.notStatusList != null and param.notStatusList.size() > 0">
+			AND `order`.status not in
+			<foreach item="status" index="index" collection="param.notStatusList" open="(" separator="," close=")">
+				#{status}
+			</foreach>
+		</if>
+		<if test="param.orderBeginDate != null">
+			AND `order`.gmt_created >= #{param.orderBeginDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="param.orderEndDate != null">
+			<![CDATA[ AND `order`.gmt_created <= #{param.orderEndDate,jdbcType=TIMESTAMP} ]]>
+		</if>
+		<if test="param.pullBeginDate != null">
+			AND `order`.plan_transport_time >= #{param.pullBeginDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="param.pullEndDate != null">
+			<![CDATA[ AND `order`.plan_transport_time <= #{param.pullEndDate,jdbcType=TIMESTAMP} ]]>
+		</if>
+		<if test="param.completeBeginDate != null">
+			and `order`.deal_time >= #{param.completeBeginDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="param.completeEndDate != null">
+			<![CDATA[ AND `order`.deal_time <= #{param.completeEndDate,jdbcType=TIMESTAMP} ]]>
+		</if>
+		<if test="param.closeBeginDate != null">
+			and `order`.close_time >= #{param.closeBeginDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="param.closeEndDate != null">
+			<![CDATA[ AND `order`.close_time <= #{param.closeEndDate,jdbcType=TIMESTAMP} ]]>
+		</if>
+		<if test="param.planTransportBeginDate != null">
+			and `order`.plan_transport_time >= #{param.planTransportBeginDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="param.planTransportEndDate != null">
+			<![CDATA[ AND `order`.plan_transport_time <= #{param.planTransportEndDate,jdbcType=TIMESTAMP} ]]>
+		</if>
+	</where>
+		order by `order`.gmt_created desc
+	</select>
+	
+	<select id="queryOrderBaseInfoList"  resultMap="BaseResultMap">
+      SELECT
+        <include refid="Base_Column_List" />
+      FROM moneyfeed.oc_order_info `order`
+      <where>
+        <if test="param.statusList != null and param.statusList.size() > 0">
+            AND `order`.`status` in
+            <foreach item="status" index="index" collection="param.statusList" open="(" separator="," close=")">
+                #{status}
+            </foreach>
+        </if>
+        <if test="param.payFlag != null">
+           <![CDATA[ AND `order`.pay_flag = #{param.payFlag,jdbcType=BIT} ]]>
+        </if>
+        <if test="param.payLimitEndTime != null">
+            <![CDATA[ AND `order`.pay_limit_time <= #{param.payLimitEndTime,jdbcType=TIMESTAMP} ]]>
+        </if>
+        <if test="param.notOrderPayType != null">
+            <![CDATA[ AND IFNULL(`order`.pay_type, 'null') <> #{param.notOrderPayType,jdbcType=VARCHAR} ]]>
+        </if>
+          
+    </where>
+    
+  </select>
+</mapper>

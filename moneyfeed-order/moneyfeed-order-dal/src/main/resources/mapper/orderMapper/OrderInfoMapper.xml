@@ -1,0 +1,713 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.order.dal.dao.OrderInfoDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.order.api.bean.OrderInfoModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="short_no" jdbcType="VARCHAR" property="shortNo" />
+    <result column="uc_shop_name" jdbcType="VARCHAR" property="ucShopName" />
+    <result column="uc_shop_mobile" jdbcType="VARCHAR" property="ucShopMobile" />
+    <result column="uc_shop_id" jdbcType="BIGINT" property="ucShopId" />
+    <result column="uc_shop_address" jdbcType="VARCHAR" property="ucShopAddress" />
+    <result column="uc_shop_type" jdbcType="VARCHAR" property="ucShopType" />
+    <result column="bank_pay_amount" jdbcType="DECIMAL" property="bankPayAmount" />
+    <result column="buyer_id" jdbcType="BIGINT" property="buyerId" />
+    <result column="buyer_mobile" jdbcType="VARCHAR" property="buyerMobile" />
+    <result column="buyer_name" jdbcType="VARCHAR" property="buyerName" />
+    <result column="customer_id" jdbcType="BIGINT" property="customerId" />
+    <result column="customer_mobile" jdbcType="VARCHAR" property="customerMobile" />
+    <result column="customer_name" jdbcType="VARCHAR" property="customerName" />
+    <result column="plan_transport_time" jdbcType="TIMESTAMP" property="planTransportTime" />
+    <result column="old_plan_transport_time" jdbcType="TIMESTAMP" property="oldPlanTransportTime" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="pay_time" jdbcType="TIMESTAMP" property="payTime" />
+    <result column="deal_time" jdbcType="TIMESTAMP" property="dealTime" />
+    <result column="transport_time" jdbcType="TIMESTAMP" property="transportTime" />
+    <result column="checkin_time" jdbcType="TIMESTAMP" property="checkinTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="close_time" jdbcType="TIMESTAMP" property="closeTime" />
+    <result column="ebs_pay_amount" jdbcType="DECIMAL" property="ebsPayAmount" />
+    <result column="total_feed_weight" jdbcType="DECIMAL" property="totalFeedWeight" />
+    <result column="total_orginal_amount" jdbcType="DECIMAL" property="totalOrginalAmount" />
+    <result column="total_pay_amount" jdbcType="DECIMAL" property="totalPayAmount" />
+    <result column="total_discount_amount" jdbcType="DECIMAL" property="totalDiscountAmount" />
+    <result column="ebs_order_no" jdbcType="VARCHAR" property="ebsOrderNo" />
+    <result column="ebs_refund_order_no" jdbcType="VARCHAR" property="ebsRefundOrderNo" />
+    <result column="customer_num" jdbcType="VARCHAR" property="customerNum" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="pay_limit_time" jdbcType="TIMESTAMP" property="payLimitTime" />
+    <result column="can_modify_time" jdbcType="TIMESTAMP" property="canModifyTime" />
+    <result column="limit_time_type" jdbcType="VARCHAR" property="limitTimeType" />
+    <result column="cus_order_type" jdbcType="VARCHAR" property="cusOrderType" />
+    <result column="company_short_code" jdbcType="VARCHAR" property="companyShortCode" />
+    <result column="pay_remark" jdbcType="VARCHAR" property="payRemark" />
+    <result column="org_id" jdbcType="VARCHAR" property="orgId" />
+    <result column="notify_mobile" jdbcType="VARCHAR" property="notifyMobile" />
+    <result column="pay_type" jdbcType="VARCHAR" property="payType" />
+    <result column="order_channel" jdbcType="VARCHAR" property="orderChannel" />
+    <result column="prox_name" jdbcType="VARCHAR" property="proxName" />
+    <result column="prox_user_id" jdbcType="BIGINT" property="proxUserId" />
+    <result column="pay_flag" jdbcType="BIT" property="payFlag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gmt_created, gmt_modified, creator, modifier, version, order_no, short_no, uc_shop_name, 
+    uc_shop_mobile, uc_shop_id, uc_shop_address, uc_shop_type, bank_pay_amount, buyer_id, 
+    buyer_mobile, buyer_name, customer_id, customer_mobile, customer_name, plan_transport_time, 
+    old_plan_transport_time, status, pay_time, deal_time, transport_time, checkin_time, 
+    end_time, close_time, ebs_pay_amount, total_feed_weight, total_orginal_amount, total_pay_amount, 
+    total_discount_amount, ebs_order_no, ebs_refund_order_no, customer_num, remark, pay_limit_time, 
+    can_modify_time, limit_time_type, cus_order_type, company_short_code, pay_remark, 
+    org_id, notify_mobile, pay_type, order_channel, prox_name, prox_user_id, pay_flag
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.order.api.bean.OrderInfoModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.oc_order_info
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="orderNo != null">
+         and order_no = #{orderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="shortNo != null">
+         and short_no = #{shortNo,jdbcType=VARCHAR}
+      </if>
+      <if test="ucShopName != null">
+         and uc_shop_name = #{ucShopName,jdbcType=VARCHAR}
+      </if>
+      <if test="ucShopMobile != null">
+         and uc_shop_mobile = #{ucShopMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="ucShopId != null">
+         and uc_shop_id = #{ucShopId,jdbcType=BIGINT}
+      </if>
+      <if test="ucShopAddress != null">
+         and uc_shop_address = #{ucShopAddress,jdbcType=VARCHAR}
+      </if>
+      <if test="ucShopType != null">
+         and uc_shop_type = #{ucShopType,jdbcType=VARCHAR}
+      </if>
+      <if test="bankPayAmount != null">
+         and bank_pay_amount = #{bankPayAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="buyerId != null">
+         and buyer_id = #{buyerId,jdbcType=BIGINT}
+      </if>
+      <if test="buyerMobile != null">
+         and buyer_mobile = #{buyerMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerName != null">
+         and buyer_name = #{buyerName,jdbcType=VARCHAR}
+      </if>
+      <if test="customerId != null">
+         and customer_id = #{customerId,jdbcType=BIGINT}
+      </if>
+      <if test="customerMobile != null">
+         and customer_mobile = #{customerMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="customerName != null">
+         and customer_name = #{customerName,jdbcType=VARCHAR}
+      </if>
+      <if test="planTransportTime != null">
+         and plan_transport_time = #{planTransportTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="oldPlanTransportTime != null">
+         and old_plan_transport_time = #{oldPlanTransportTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="status != null">
+         and status = #{status,jdbcType=VARCHAR}
+      </if>
+      <if test="payTime != null">
+         and pay_time = #{payTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="dealTime != null">
+         and deal_time = #{dealTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="transportTime != null">
+         and transport_time = #{transportTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="checkinTime != null">
+         and checkin_time = #{checkinTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="endTime != null">
+         and end_time = #{endTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="closeTime != null">
+         and close_time = #{closeTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="ebsPayAmount != null">
+         and ebs_pay_amount = #{ebsPayAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="totalFeedWeight != null">
+         and total_feed_weight = #{totalFeedWeight,jdbcType=DECIMAL}
+      </if>
+      <if test="totalOrginalAmount != null">
+         and total_orginal_amount = #{totalOrginalAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="totalPayAmount != null">
+         and total_pay_amount = #{totalPayAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="totalDiscountAmount != null">
+         and total_discount_amount = #{totalDiscountAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="ebsOrderNo != null">
+         and ebs_order_no = #{ebsOrderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="ebsRefundOrderNo != null">
+         and ebs_refund_order_no = #{ebsRefundOrderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="customerNum != null">
+         and customer_num = #{customerNum,jdbcType=VARCHAR}
+      </if>
+      <if test="remark != null">
+         and remark = #{remark,jdbcType=VARCHAR}
+      </if>
+      <if test="payLimitTime != null">
+         and pay_limit_time = #{payLimitTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="canModifyTime != null">
+         and can_modify_time = #{canModifyTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="limitTimeType != null">
+         and limit_time_type = #{limitTimeType,jdbcType=VARCHAR}
+      </if>
+      <if test="cusOrderType != null">
+         and cus_order_type = #{cusOrderType,jdbcType=VARCHAR}
+      </if>
+      <if test="companyShortCode != null">
+         and company_short_code = #{companyShortCode,jdbcType=VARCHAR}
+      </if>
+      <if test="payRemark != null">
+         and pay_remark = #{payRemark,jdbcType=VARCHAR}
+      </if>
+      <if test="orgId != null">
+         and org_id = #{orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="notifyMobile != null">
+         and notify_mobile = #{notifyMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="payType != null">
+         and pay_type = #{payType,jdbcType=VARCHAR}
+      </if>
+      <if test="orderChannel != null">
+         and order_channel = #{orderChannel,jdbcType=VARCHAR}
+      </if>
+      <if test="proxName != null">
+         and prox_name = #{proxName,jdbcType=VARCHAR}
+      </if>
+      <if test="proxUserId != null">
+         and prox_user_id = #{proxUserId,jdbcType=BIGINT}
+      </if>
+      <if test="payFlag != null">
+         and pay_flag = #{payFlag,jdbcType=BIT}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.oc_order_info (gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      order_no, 
+      short_no, 
+      uc_shop_name, 
+      uc_shop_mobile, 
+      uc_shop_id, 
+      uc_shop_address, 
+      uc_shop_type, 
+      bank_pay_amount, 
+      buyer_id, 
+      buyer_mobile, 
+      buyer_name, 
+      customer_id, 
+      customer_mobile, 
+      customer_name, 
+      plan_transport_time, 
+      old_plan_transport_time, 
+      status, 
+      pay_time, 
+      deal_time, 
+      transport_time, 
+      checkin_time, 
+      end_time, 
+      close_time, 
+      ebs_pay_amount, 
+      total_feed_weight, 
+      total_orginal_amount, 
+      total_pay_amount, 
+      total_discount_amount, 
+      ebs_order_no, 
+      ebs_refund_order_no, 
+      customer_num, 
+      remark, 
+      pay_limit_time, 
+      can_modify_time, 
+      limit_time_type, 
+      cus_order_type, 
+      company_short_code, 
+      pay_remark, 
+      org_id, 
+      notify_mobile, 
+      pay_type, 
+      order_channel, 
+      prox_name, 
+      prox_user_id, 
+      pay_flag
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.orderNo,jdbcType=VARCHAR}, #{model.shortNo,jdbcType=VARCHAR}, #{model.ucShopName,jdbcType=VARCHAR}, 
+      #{model.ucShopMobile,jdbcType=VARCHAR}, #{model.ucShopId,jdbcType=BIGINT}, #{model.ucShopAddress,jdbcType=VARCHAR}, 
+      #{model.ucShopType,jdbcType=VARCHAR}, #{model.bankPayAmount,jdbcType=DECIMAL}, 
+      #{model.buyerId,jdbcType=BIGINT}, #{model.buyerMobile,jdbcType=VARCHAR}, #{model.buyerName,jdbcType=VARCHAR}, 
+      #{model.customerId,jdbcType=BIGINT}, #{model.customerMobile,jdbcType=VARCHAR}, 
+      #{model.customerName,jdbcType=VARCHAR}, #{model.planTransportTime,jdbcType=TIMESTAMP}, 
+      #{model.oldPlanTransportTime,jdbcType=TIMESTAMP}, #{model.status,jdbcType=VARCHAR}, 
+      #{model.payTime,jdbcType=TIMESTAMP}, #{model.dealTime,jdbcType=TIMESTAMP}, #{model.transportTime,jdbcType=TIMESTAMP}, 
+      #{model.checkinTime,jdbcType=TIMESTAMP}, #{model.endTime,jdbcType=TIMESTAMP}, #{model.closeTime,jdbcType=TIMESTAMP}, 
+      #{model.ebsPayAmount,jdbcType=DECIMAL}, #{model.totalFeedWeight,jdbcType=DECIMAL}, 
+      #{model.totalOrginalAmount,jdbcType=DECIMAL}, #{model.totalPayAmount,jdbcType=DECIMAL}, 
+      #{model.totalDiscountAmount,jdbcType=DECIMAL}, #{model.ebsOrderNo,jdbcType=VARCHAR}, 
+      #{model.ebsRefundOrderNo,jdbcType=VARCHAR}, #{model.customerNum,jdbcType=VARCHAR}, 
+      #{model.remark,jdbcType=VARCHAR}, #{model.payLimitTime,jdbcType=TIMESTAMP}, #{model.canModifyTime,jdbcType=TIMESTAMP}, 
+      #{model.limitTimeType,jdbcType=VARCHAR}, #{model.cusOrderType,jdbcType=VARCHAR}, 
+      #{model.companyShortCode,jdbcType=VARCHAR}, #{model.payRemark,jdbcType=VARCHAR}, 
+      #{model.orgId,jdbcType=VARCHAR}, #{model.notifyMobile,jdbcType=VARCHAR}, #{model.payType,jdbcType=VARCHAR}, 
+      #{model.orderChannel,jdbcType=VARCHAR}, #{model.proxName,jdbcType=VARCHAR}, #{model.proxUserId,jdbcType=BIGINT}, 
+      #{model.payFlag,jdbcType=BIT}	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.oc_order_info
+    <set>
+      <if test="newModel.orderNo != null">
+        order_no = #{newModel.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.shortNo != null">
+        short_no = #{newModel.shortNo,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.ucShopName != null">
+        uc_shop_name = #{newModel.ucShopName,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.ucShopMobile != null">
+        uc_shop_mobile = #{newModel.ucShopMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.ucShopId != null">
+        uc_shop_id = #{newModel.ucShopId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.ucShopAddress != null">
+        uc_shop_address = #{newModel.ucShopAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.ucShopType != null">
+        uc_shop_type = #{newModel.ucShopType,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.bankPayAmount != null">
+        bank_pay_amount = #{newModel.bankPayAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.buyerId != null">
+        buyer_id = #{newModel.buyerId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.buyerMobile != null">
+        buyer_mobile = #{newModel.buyerMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.buyerName != null">
+        buyer_name = #{newModel.buyerName,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.customerId != null">
+        customer_id = #{newModel.customerId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.customerMobile != null">
+        customer_mobile = #{newModel.customerMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.customerName != null">
+        customer_name = #{newModel.customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.planTransportTime != null">
+        plan_transport_time = #{newModel.planTransportTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newModel.oldPlanTransportTime != null">
+        old_plan_transport_time = #{newModel.oldPlanTransportTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newModel.status != null">
+        status = #{newModel.status,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.payTime != null">
+        pay_time = #{newModel.payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newModel.dealTime != null">
+        deal_time = #{newModel.dealTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newModel.transportTime != null">
+        transport_time = #{newModel.transportTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newModel.checkinTime != null">
+        checkin_time = #{newModel.checkinTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newModel.endTime != null">
+        end_time = #{newModel.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newModel.closeTime != null">
+        close_time = #{newModel.closeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newModel.ebsPayAmount != null">
+        ebs_pay_amount = #{newModel.ebsPayAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.totalFeedWeight != null">
+        total_feed_weight = #{newModel.totalFeedWeight,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.totalOrginalAmount != null">
+        total_orginal_amount = #{newModel.totalOrginalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.totalPayAmount != null">
+        total_pay_amount = #{newModel.totalPayAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.totalDiscountAmount != null">
+        total_discount_amount = #{newModel.totalDiscountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.ebsOrderNo != null">
+        ebs_order_no = #{newModel.ebsOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.ebsRefundOrderNo != null">
+        ebs_refund_order_no = #{newModel.ebsRefundOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.customerNum != null">
+        customer_num = #{newModel.customerNum,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.remark != null">
+        remark = #{newModel.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.payLimitTime != null">
+        pay_limit_time = #{newModel.payLimitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newModel.canModifyTime != null">
+        can_modify_time = #{newModel.canModifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newModel.limitTimeType != null">
+        limit_time_type = #{newModel.limitTimeType,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.cusOrderType != null">
+        cus_order_type = #{newModel.cusOrderType,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.companyShortCode != null">
+        company_short_code = #{newModel.companyShortCode,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.payRemark != null">
+        pay_remark = #{newModel.payRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.orgId != null">
+        org_id = #{newModel.orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.notifyMobile != null">
+        notify_mobile = #{newModel.notifyMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.payType != null">
+        pay_type = #{newModel.payType,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.orderChannel != null">
+        order_channel = #{newModel.orderChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.proxName != null">
+        prox_name = #{newModel.proxName,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.proxUserId != null">
+        prox_user_id = #{newModel.proxUserId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.payFlag != null">
+        pay_flag = #{newModel.payFlag,jdbcType=BIT},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.orderNo != null">
+         and order_no = #{oldModel.orderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.shortNo != null">
+         and short_no = #{oldModel.shortNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.ucShopName != null">
+         and uc_shop_name = #{oldModel.ucShopName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.ucShopMobile != null">
+         and uc_shop_mobile = #{oldModel.ucShopMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.ucShopId != null">
+         and uc_shop_id = #{oldModel.ucShopId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.ucShopAddress != null">
+         and uc_shop_address = #{oldModel.ucShopAddress,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.ucShopType != null">
+         and uc_shop_type = #{oldModel.ucShopType,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.bankPayAmount != null">
+         and bank_pay_amount = #{oldModel.bankPayAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.buyerId != null">
+         and buyer_id = #{oldModel.buyerId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.buyerMobile != null">
+         and buyer_mobile = #{oldModel.buyerMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.buyerName != null">
+         and buyer_name = #{oldModel.buyerName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.customerId != null">
+         and customer_id = #{oldModel.customerId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.customerMobile != null">
+         and customer_mobile = #{oldModel.customerMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.customerName != null">
+         and customer_name = #{oldModel.customerName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.planTransportTime != null">
+         and plan_transport_time = #{oldModel.planTransportTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="oldModel.oldPlanTransportTime != null">
+         and old_plan_transport_time = #{oldModel.oldPlanTransportTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="oldModel.status != null">
+         and status = #{oldModel.status,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.payTime != null">
+         and pay_time = #{oldModel.payTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="oldModel.dealTime != null">
+         and deal_time = #{oldModel.dealTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="oldModel.transportTime != null">
+         and transport_time = #{oldModel.transportTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="oldModel.checkinTime != null">
+         and checkin_time = #{oldModel.checkinTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="oldModel.endTime != null">
+         and end_time = #{oldModel.endTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="oldModel.closeTime != null">
+         and close_time = #{oldModel.closeTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="oldModel.ebsPayAmount != null">
+         and ebs_pay_amount = #{oldModel.ebsPayAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.totalFeedWeight != null">
+         and total_feed_weight = #{oldModel.totalFeedWeight,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.totalOrginalAmount != null">
+         and total_orginal_amount = #{oldModel.totalOrginalAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.totalPayAmount != null">
+         and total_pay_amount = #{oldModel.totalPayAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.totalDiscountAmount != null">
+         and total_discount_amount = #{oldModel.totalDiscountAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.ebsOrderNo != null">
+         and ebs_order_no = #{oldModel.ebsOrderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.ebsRefundOrderNo != null">
+         and ebs_refund_order_no = #{oldModel.ebsRefundOrderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.customerNum != null">
+         and customer_num = #{oldModel.customerNum,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.remark != null">
+         and remark = #{oldModel.remark,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.payLimitTime != null">
+         and pay_limit_time = #{oldModel.payLimitTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="oldModel.canModifyTime != null">
+         and can_modify_time = #{oldModel.canModifyTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="oldModel.limitTimeType != null">
+         and limit_time_type = #{oldModel.limitTimeType,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.cusOrderType != null">
+         and cus_order_type = #{oldModel.cusOrderType,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.companyShortCode != null">
+         and company_short_code = #{oldModel.companyShortCode,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.payRemark != null">
+         and pay_remark = #{oldModel.payRemark,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.orgId != null">
+         and org_id = #{oldModel.orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.notifyMobile != null">
+         and notify_mobile = #{oldModel.notifyMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.payType != null">
+         and pay_type = #{oldModel.payType,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.orderChannel != null">
+         and order_channel = #{oldModel.orderChannel,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.proxName != null">
+         and prox_name = #{oldModel.proxName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.proxUserId != null">
+         and prox_user_id = #{oldModel.proxUserId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.payFlag != null">
+         and pay_flag = #{oldModel.payFlag,jdbcType=BIT}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.order.api.bean.OrderInfoModel">
+    delete from moneyfeed.oc_order_info
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="orderNo != null">
+         and order_no = #{orderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="shortNo != null">
+         and short_no = #{shortNo,jdbcType=VARCHAR}
+      </if>
+      <if test="ucShopName != null">
+         and uc_shop_name = #{ucShopName,jdbcType=VARCHAR}
+      </if>
+      <if test="ucShopMobile != null">
+         and uc_shop_mobile = #{ucShopMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="ucShopId != null">
+         and uc_shop_id = #{ucShopId,jdbcType=BIGINT}
+      </if>
+      <if test="ucShopAddress != null">
+         and uc_shop_address = #{ucShopAddress,jdbcType=VARCHAR}
+      </if>
+      <if test="ucShopType != null">
+         and uc_shop_type = #{ucShopType,jdbcType=VARCHAR}
+      </if>
+      <if test="bankPayAmount != null">
+         and bank_pay_amount = #{bankPayAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="buyerId != null">
+         and buyer_id = #{buyerId,jdbcType=BIGINT}
+      </if>
+      <if test="buyerMobile != null">
+         and buyer_mobile = #{buyerMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerName != null">
+         and buyer_name = #{buyerName,jdbcType=VARCHAR}
+      </if>
+      <if test="customerId != null">
+         and customer_id = #{customerId,jdbcType=BIGINT}
+      </if>
+      <if test="customerMobile != null">
+         and customer_mobile = #{customerMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="customerName != null">
+         and customer_name = #{customerName,jdbcType=VARCHAR}
+      </if>
+      <if test="planTransportTime != null">
+         and plan_transport_time = #{planTransportTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="oldPlanTransportTime != null">
+         and old_plan_transport_time = #{oldPlanTransportTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="status != null">
+         and status = #{status,jdbcType=VARCHAR}
+      </if>
+      <if test="payTime != null">
+         and pay_time = #{payTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="dealTime != null">
+         and deal_time = #{dealTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="transportTime != null">
+         and transport_time = #{transportTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="checkinTime != null">
+         and checkin_time = #{checkinTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="endTime != null">
+         and end_time = #{endTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="closeTime != null">
+         and close_time = #{closeTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="ebsPayAmount != null">
+         and ebs_pay_amount = #{ebsPayAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="totalFeedWeight != null">
+         and total_feed_weight = #{totalFeedWeight,jdbcType=DECIMAL}
+      </if>
+      <if test="totalOrginalAmount != null">
+         and total_orginal_amount = #{totalOrginalAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="totalPayAmount != null">
+         and total_pay_amount = #{totalPayAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="totalDiscountAmount != null">
+         and total_discount_amount = #{totalDiscountAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="ebsOrderNo != null">
+         and ebs_order_no = #{ebsOrderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="ebsRefundOrderNo != null">
+         and ebs_refund_order_no = #{ebsRefundOrderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="customerNum != null">
+         and customer_num = #{customerNum,jdbcType=VARCHAR}
+      </if>
+      <if test="remark != null">
+         and remark = #{remark,jdbcType=VARCHAR}
+      </if>
+      <if test="payLimitTime != null">
+         and pay_limit_time = #{payLimitTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="canModifyTime != null">
+         and can_modify_time = #{canModifyTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="limitTimeType != null">
+         and limit_time_type = #{limitTimeType,jdbcType=VARCHAR}
+      </if>
+      <if test="cusOrderType != null">
+         and cus_order_type = #{cusOrderType,jdbcType=VARCHAR}
+      </if>
+      <if test="companyShortCode != null">
+         and company_short_code = #{companyShortCode,jdbcType=VARCHAR}
+      </if>
+      <if test="payRemark != null">
+         and pay_remark = #{payRemark,jdbcType=VARCHAR}
+      </if>
+      <if test="orgId != null">
+         and org_id = #{orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="notifyMobile != null">
+         and notify_mobile = #{notifyMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="payType != null">
+         and pay_type = #{payType,jdbcType=VARCHAR}
+      </if>
+      <if test="orderChannel != null">
+         and order_channel = #{orderChannel,jdbcType=VARCHAR}
+      </if>
+      <if test="proxName != null">
+         and prox_name = #{proxName,jdbcType=VARCHAR}
+      </if>
+      <if test="proxUserId != null">
+         and prox_user_id = #{proxUserId,jdbcType=BIGINT}
+      </if>
+      <if test="payFlag != null">
+         and pay_flag = #{payFlag,jdbcType=BIT}
+      </if>
+    </where>
+  </delete>
+</mapper>

@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.order.dal.dao.OrderRuleDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.order.api.bean.OrderRuleModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="uc_shop_id" jdbcType="BIGINT" property="ucShopId" />
+    <result column="uc_shop_mobile" jdbcType="VARCHAR" property="ucShopMobile" />
+    <result column="transport_start_day" jdbcType="INTEGER" property="transportStartDay" />
+    <result column="transport_end_day" jdbcType="INTEGER" property="transportEndDay" />
+    <result column="transport_time" jdbcType="VARCHAR" property="transportTime" />
+    <result column="limit_time_create_end" jdbcType="INTEGER" property="limitTimeCreateEnd" />
+    <result column="limit_time_type" jdbcType="VARCHAR" property="limitTimeType" />
+    <result column="can_modify_day" jdbcType="INTEGER" property="canModifyDay" />
+    <result column="can_modify_time" jdbcType="VARCHAR" property="canModifyTime" />
+    <result column="limit_time_transport_day" jdbcType="INTEGER" property="limitTimeTransportDay" />
+    <result column="limit_time_transport_time" jdbcType="VARCHAR" property="limitTimeTransportTime" />
+    <result column="notify_mobile" jdbcType="VARCHAR" property="notifyMobile" />
+    <result column="oper_user_id" jdbcType="BIGINT" property="operUserId" />
+    <result column="oper_user_name" jdbcType="VARCHAR" property="operUserName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gmt_created, gmt_modified, creator, modifier, version, uc_shop_id, uc_shop_mobile, 
+    transport_start_day, transport_end_day, transport_time, limit_time_create_end, limit_time_type, 
+    can_modify_day, can_modify_time, limit_time_transport_day, limit_time_transport_time, 
+    notify_mobile, oper_user_id, oper_user_name
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.order.api.bean.OrderRuleModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.oc_order_rule
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="ucShopId != null">
+         and uc_shop_id = #{ucShopId,jdbcType=BIGINT}
+      </if>
+      <if test="ucShopMobile != null">
+         and uc_shop_mobile = #{ucShopMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="transportStartDay != null">
+         and transport_start_day = #{transportStartDay,jdbcType=INTEGER}
+      </if>
+      <if test="transportEndDay != null">
+         and transport_end_day = #{transportEndDay,jdbcType=INTEGER}
+      </if>
+      <if test="transportTime != null">
+         and transport_time = #{transportTime,jdbcType=VARCHAR}
+      </if>
+      <if test="limitTimeCreateEnd != null">
+         and limit_time_create_end = #{limitTimeCreateEnd,jdbcType=INTEGER}
+      </if>
+      <if test="limitTimeType != null">
+         and limit_time_type = #{limitTimeType,jdbcType=VARCHAR}
+      </if>
+      <if test="canModifyDay != null">
+         and can_modify_day = #{canModifyDay,jdbcType=INTEGER}
+      </if>
+      <if test="canModifyTime != null">
+         and can_modify_time = #{canModifyTime,jdbcType=VARCHAR}
+      </if>
+      <if test="limitTimeTransportDay != null">
+         and limit_time_transport_day = #{limitTimeTransportDay,jdbcType=INTEGER}
+      </if>
+      <if test="limitTimeTransportTime != null">
+         and limit_time_transport_time = #{limitTimeTransportTime,jdbcType=VARCHAR}
+      </if>
+      <if test="notifyMobile != null">
+         and notify_mobile = #{notifyMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="operUserId != null">
+         and oper_user_id = #{operUserId,jdbcType=BIGINT}
+      </if>
+      <if test="operUserName != null">
+         and oper_user_name = #{operUserName,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.oc_order_rule (gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      uc_shop_id, 
+      uc_shop_mobile, 
+      transport_start_day, 
+      transport_end_day, 
+      transport_time, 
+      limit_time_create_end, 
+      limit_time_type, 
+      can_modify_day, 
+      can_modify_time, 
+      limit_time_transport_day, 
+      limit_time_transport_time, 
+      notify_mobile, 
+      oper_user_id, 
+      oper_user_name
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.ucShopId,jdbcType=BIGINT}, #{model.ucShopMobile,jdbcType=VARCHAR}, #{model.transportStartDay,jdbcType=INTEGER}, 
+      #{model.transportEndDay,jdbcType=INTEGER}, #{model.transportTime,jdbcType=VARCHAR}, 
+      #{model.limitTimeCreateEnd,jdbcType=INTEGER}, #{model.limitTimeType,jdbcType=VARCHAR}, 
+      #{model.canModifyDay,jdbcType=INTEGER}, #{model.canModifyTime,jdbcType=VARCHAR}, 
+      #{model.limitTimeTransportDay,jdbcType=INTEGER}, #{model.limitTimeTransportTime,jdbcType=VARCHAR}, 
+      #{model.notifyMobile,jdbcType=VARCHAR}, #{model.operUserId,jdbcType=BIGINT}, #{model.operUserName,jdbcType=VARCHAR}
+      	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.oc_order_rule
+    <set>
+      <if test="newModel.ucShopId != null">
+        uc_shop_id = #{newModel.ucShopId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.ucShopMobile != null">
+        uc_shop_mobile = #{newModel.ucShopMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.transportStartDay != null">
+        transport_start_day = #{newModel.transportStartDay,jdbcType=INTEGER},
+      </if>
+      <if test="newModel.transportEndDay != null">
+        transport_end_day = #{newModel.transportEndDay,jdbcType=INTEGER},
+      </if>
+      <if test="newModel.transportTime != null">
+        transport_time = #{newModel.transportTime,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.limitTimeCreateEnd != null">
+        limit_time_create_end = #{newModel.limitTimeCreateEnd,jdbcType=INTEGER},
+      </if>
+      <if test="newModel.limitTimeType != null">
+        limit_time_type = #{newModel.limitTimeType,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.canModifyDay != null">
+        can_modify_day = #{newModel.canModifyDay,jdbcType=INTEGER},
+      </if>
+      <if test="newModel.canModifyTime != null">
+        can_modify_time = #{newModel.canModifyTime,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.limitTimeTransportDay != null">
+        limit_time_transport_day = #{newModel.limitTimeTransportDay,jdbcType=INTEGER},
+      </if>
+      <if test="newModel.limitTimeTransportTime != null">
+        limit_time_transport_time = #{newModel.limitTimeTransportTime,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.notifyMobile != null">
+        notify_mobile = #{newModel.notifyMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.operUserId != null">
+        oper_user_id = #{newModel.operUserId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.operUserName != null">
+        oper_user_name = #{newModel.operUserName,jdbcType=VARCHAR},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.ucShopId != null">
+         and uc_shop_id = #{oldModel.ucShopId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.ucShopMobile != null">
+         and uc_shop_mobile = #{oldModel.ucShopMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.transportStartDay != null">
+         and transport_start_day = #{oldModel.transportStartDay,jdbcType=INTEGER}
+      </if>
+      <if test="oldModel.transportEndDay != null">
+         and transport_end_day = #{oldModel.transportEndDay,jdbcType=INTEGER}
+      </if>
+      <if test="oldModel.transportTime != null">
+         and transport_time = #{oldModel.transportTime,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.limitTimeCreateEnd != null">
+         and limit_time_create_end = #{oldModel.limitTimeCreateEnd,jdbcType=INTEGER}
+      </if>
+      <if test="oldModel.limitTimeType != null">
+         and limit_time_type = #{oldModel.limitTimeType,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.canModifyDay != null">
+         and can_modify_day = #{oldModel.canModifyDay,jdbcType=INTEGER}
+      </if>
+      <if test="oldModel.canModifyTime != null">
+         and can_modify_time = #{oldModel.canModifyTime,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.limitTimeTransportDay != null">
+         and limit_time_transport_day = #{oldModel.limitTimeTransportDay,jdbcType=INTEGER}
+      </if>
+      <if test="oldModel.limitTimeTransportTime != null">
+         and limit_time_transport_time = #{oldModel.limitTimeTransportTime,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.notifyMobile != null">
+         and notify_mobile = #{oldModel.notifyMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.operUserId != null">
+         and oper_user_id = #{oldModel.operUserId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.operUserName != null">
+         and oper_user_name = #{oldModel.operUserName,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.order.api.bean.OrderRuleModel">
+    delete from moneyfeed.oc_order_rule
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="ucShopId != null">
+         and uc_shop_id = #{ucShopId,jdbcType=BIGINT}
+      </if>
+      <if test="ucShopMobile != null">
+         and uc_shop_mobile = #{ucShopMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="transportStartDay != null">
+         and transport_start_day = #{transportStartDay,jdbcType=INTEGER}
+      </if>
+      <if test="transportEndDay != null">
+         and transport_end_day = #{transportEndDay,jdbcType=INTEGER}
+      </if>
+      <if test="transportTime != null">
+         and transport_time = #{transportTime,jdbcType=VARCHAR}
+      </if>
+      <if test="limitTimeCreateEnd != null">
+         and limit_time_create_end = #{limitTimeCreateEnd,jdbcType=INTEGER}
+      </if>
+      <if test="limitTimeType != null">
+         and limit_time_type = #{limitTimeType,jdbcType=VARCHAR}
+      </if>
+      <if test="canModifyDay != null">
+         and can_modify_day = #{canModifyDay,jdbcType=INTEGER}
+      </if>
+      <if test="canModifyTime != null">
+         and can_modify_time = #{canModifyTime,jdbcType=VARCHAR}
+      </if>
+      <if test="limitTimeTransportDay != null">
+         and limit_time_transport_day = #{limitTimeTransportDay,jdbcType=INTEGER}
+      </if>
+      <if test="limitTimeTransportTime != null">
+         and limit_time_transport_time = #{limitTimeTransportTime,jdbcType=VARCHAR}
+      </if>
+      <if test="notifyMobile != null">
+         and notify_mobile = #{notifyMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="operUserId != null">
+         and oper_user_id = #{operUserId,jdbcType=BIGINT}
+      </if>
+      <if test="operUserName != null">
+         and oper_user_name = #{operUserName,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+</mapper>

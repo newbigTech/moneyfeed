@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.order.dal.dao.OrderRollbackDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.order.api.bean.OrderRollbackModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="rollback_flag" jdbcType="BIT" property="rollbackFlag" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="biz_data" jdbcType="VARCHAR" property="bizData" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gmt_created, gmt_modified, creator, modifier, version, order_id, order_no, rollback_flag, 
+    type, biz_data
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.order.api.bean.OrderRollbackModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.oc_order_rollback
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="orderId != null">
+         and order_id = #{orderId,jdbcType=VARCHAR}
+      </if>
+      <if test="orderNo != null">
+         and order_no = #{orderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="rollbackFlag != null">
+         and rollback_flag = #{rollbackFlag,jdbcType=BIT}
+      </if>
+      <if test="type != null">
+         and type = #{type,jdbcType=VARCHAR}
+      </if>
+      <if test="bizData != null">
+         and biz_data = #{bizData,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.oc_order_rollback (gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      order_id, 
+      order_no, 
+      rollback_flag, 
+      type, 
+      biz_data
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.orderId,jdbcType=VARCHAR}, #{model.orderNo,jdbcType=VARCHAR}, #{model.rollbackFlag,jdbcType=BIT}, 
+      #{model.type,jdbcType=VARCHAR}, #{model.bizData,jdbcType=VARCHAR}	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.oc_order_rollback
+    <set>
+      <if test="newModel.orderId != null">
+        order_id = #{newModel.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.orderNo != null">
+        order_no = #{newModel.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.rollbackFlag != null">
+        rollback_flag = #{newModel.rollbackFlag,jdbcType=BIT},
+      </if>
+      <if test="newModel.type != null">
+        type = #{newModel.type,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.bizData != null">
+        biz_data = #{newModel.bizData,jdbcType=VARCHAR},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.orderId != null">
+         and order_id = #{oldModel.orderId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.orderNo != null">
+         and order_no = #{oldModel.orderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.rollbackFlag != null">
+         and rollback_flag = #{oldModel.rollbackFlag,jdbcType=BIT}
+      </if>
+      <if test="oldModel.type != null">
+         and type = #{oldModel.type,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.bizData != null">
+         and biz_data = #{oldModel.bizData,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.order.api.bean.OrderRollbackModel">
+    delete from moneyfeed.oc_order_rollback
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="orderId != null">
+         and order_id = #{orderId,jdbcType=VARCHAR}
+      </if>
+      <if test="orderNo != null">
+         and order_no = #{orderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="rollbackFlag != null">
+         and rollback_flag = #{rollbackFlag,jdbcType=BIT}
+      </if>
+      <if test="type != null">
+         and type = #{type,jdbcType=VARCHAR}
+      </if>
+      <if test="bizData != null">
+         and biz_data = #{bizData,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+</mapper>

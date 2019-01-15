@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.order.dal.dao.OrderInfoDao">
+	<resultMap type="com.newhope.moneyfeed.order.api.dto.response.order.OrderInfoDtoResult" id="orderInfoDtoResultMap">
+	<!-- 订单主表数据 -->
+	<id column="id" jdbcType="BIGINT" property="order.id" />
+	<result column="gmt_created" jdbcType="TIMESTAMP" property="order.gmtCreated" />
+    <result column="order_no" jdbcType="VARCHAR" property="order.orderNo" />
+    <result column="uc_shop_name" jdbcType="VARCHAR" property="order.ucShopName" />
+    <result column="uc_shop_mobile" jdbcType="VARCHAR" property="order.ucShopMobile" />
+    <result column="uc_shop_id" jdbcType="BIGINT" property="order.ucShopId" />
+    <result column="bank_pay_amount" jdbcType="DECIMAL" property="order.bankPayAmount" />
+    <result column="buyer_id" jdbcType="BIGINT" property="order.buyerId" />
+    <result column="buyer_mobile" jdbcType="VARCHAR" property="order.buyerMobile" />
+    <result column="buyer_name" jdbcType="VARCHAR" property="order.buyerName" />
+    <result column="customer_id" jdbcType="BIGINT" property="order.customerId" />
+    <result column="customer_mobile" jdbcType="VARCHAR" property="order.customerMobile" />
+    <result column="customer_name" jdbcType="VARCHAR" property="order.customerName" />
+    <result column="plan_transport_time" jdbcType="TIMESTAMP" property="order.planTransportTime" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="pay_time" jdbcType="TIMESTAMP" property="order.payTime" />
+    <result column="transport_time" jdbcType="TIMESTAMP" property="order.transportTime" />
+    <result column="deal_time" jdbcType="TIMESTAMP" property="order.dealTime" />
+    <result column="checkin_time" jdbcType="TIMESTAMP" property="order.checkinTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="order.endTime" />
+    <result column="close_time" jdbcType="TIMESTAMP" property="order.closeTime" />
+    <result column="ebs_pay_amount" jdbcType="DECIMAL" property="order.ebsPayAmount" />
+    <result column="total_feed_weight" jdbcType="DECIMAL" property="order.totalFeedWeight" />
+    <result column="total_orginal_amount" jdbcType="DECIMAL" property="order.totalOrginalAmount" />
+    <result column="total_pay_amount" jdbcType="DECIMAL" property="order.totalPayAmount" />
+    <result column="total_discount_amount" jdbcType="DECIMAL" property="order.totalDiscountAmount" />
+    <result column="ebs_order_no" jdbcType="VARCHAR" property="order.ebsOrderNo" />
+    <result column="ebs_refund_order_no" jdbcType="VARCHAR" property="order.ebsRefundOrderNo" />
+    <result column="customer_num" jdbcType="VARCHAR" property="order.customerNum" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="pay_limit_time" jdbcType="TIMESTAMP" property="order.payLimitTime" />
+    <result column="can_modify_time" jdbcType="TIMESTAMP" property="order.canModifyTime" />
+    <result column="limit_time_type" jdbcType="VARCHAR" property="order.limitTimeType" />
+    <result column="cus_order_type" jdbcType="VARCHAR" property="order.cusOrderType" />
+    <result column="company_short_code" jdbcType="VARCHAR" property="order.companyShortCode" />
+    <result column="pay_remark" jdbcType="VARCHAR" property="order.payRemark" />
+    <result column="org_id" jdbcType="VARCHAR" property="order.orgId" />
+    <result column="notify_mobile" jdbcType="VARCHAR" property="order.notifyMobile" />
+    <result column="pay_type" jdbcType="VARCHAR" property="order.payType" />
+    <association property="rule" resultMap="ruleResulttMap"/>
+	</resultMap>
+	
+	<resultMap id="ruleResulttMap" type="com.newhope.moneyfeed.order.api.bean.OrderRuleModel">
+    <result column="rule_id" jdbcType="BIGINT" property="id" />
+    <result column="rule_gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="rule_gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="rule_uc_shop_id" jdbcType="BIGINT" property="ucShopId" />
+    <result column="rule_uc_shop_mobile" jdbcType="VARCHAR" property="ucShopMobile" />
+    <result column="rule_transport_start_day" jdbcType="INTEGER" property="transportStartDay" />
+    <result column="rule_transport_end_day" jdbcType="INTEGER" property="transportEndDay" />
+    <result column="rule_transport_time" jdbcType="VARCHAR" property="transportTime" />
+    <result column="rule_limit_pay_days" jdbcType="INTEGER" property="limitTimeCreateEnd" />
+    <result column="rule_limit_time_type" jdbcType="VARCHAR" property="limitTimeType" />
+    <result column="rule_can_modify_day" jdbcType="INTEGER" property="canModifyDay" />
+    <result column="rule_can_modify_time" jdbcType="VARCHAR" property="canModifyTime" />
+    <result column="rule_limit_time_transport_day" jdbcType="INTEGER" property="limitTimeTransportDay" />
+    <result column="rule_limit_time_transport_time" jdbcType="VARCHAR" property="limitTimeTransportTime" />
+    <result column="rule_notify_mobile" jdbcType="VARCHAR" property="notifyMobile" />
+    <result column="rule_oper_user_id" jdbcType="BIGINT" property="operUserId" />
+    <result column="rule_oper_user_name" jdbcType="VARCHAR" property="operUserName" />
+  </resultMap>
+</mapper>
