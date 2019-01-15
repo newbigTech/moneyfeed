@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.integration.dal.dao.ebs.baseData.EbsMaterialDao">
+
+  <select id="selectExist" resultType="java.lang.Integer">
+
+    SELECT  COUNT(0) from  ebs_material where item_id = #{itemId} and org_id=#{orgId}
+
+  </select>
+
+
+  <insert id="insertSingle">
+
+    insert into  ebs_material (
+     gmt_created,
+      gmt_modified,
+      creator,
+      modifier,
+      version,
+    company_name,
+    company_short_code,
+    organization_name,
+    organization_code,
+    item_number,
+    item_id,
+    item_desc,
+      guige,
+      secondary_uom,
+      primary_uom,
+    pp_code,
+    pp_des,
+    breed_code,
+    breed_des,
+    pm_code,
+    pm_des,
+    one_cat,
+    one_cat_des,
+    two_cat,
+    two_cat_des,
+    three_cat,
+    three_cat_des,
+    four_cat,
+    four_cat_des,
+    status,
+    calculate,
+    org_id,
+    base_price,
+    organization_id
+    )
+    values
+    (#{model.gmtModified,jdbcType=TIMESTAMP},
+    #{model.gmtModified,jdbcType=TIMESTAMP}, 0, 0,0,
+    #{model.companyName,jdbcType=VARCHAR},
+    #{model.companyShortCode,jdbcType=VARCHAR}, #{model.organizationName,jdbcType=VARCHAR},
+    #{model.organizationCode,jdbcType=VARCHAR}, #{model.itemNumber,jdbcType=VARCHAR},
+    #{model.itemId,jdbcType=VARCHAR}, #{model.itemDesc,jdbcType=VARCHAR},
+    #{model.guige,jdbcType=VARCHAR}, #{model.secondaryUom,jdbcType=VARCHAR}, #{model.primaryUom,jdbcType=VARCHAR},
+    #{model.ppCode,jdbcType=VARCHAR},
+    #{model.ppDes,jdbcType=VARCHAR}, #{model.breedCode,jdbcType=VARCHAR}, #{model.breedDes,jdbcType=VARCHAR},
+    #{model.pmCode,jdbcType=VARCHAR}, #{model.pmDes,jdbcType=VARCHAR}, #{model.oneCat,jdbcType=VARCHAR},
+    #{model.oneCatDes,jdbcType=VARCHAR}, #{model.twoCat,jdbcType=VARCHAR}, #{model.twoCatDes,jdbcType=VARCHAR},
+    #{model.threeCat,jdbcType=VARCHAR}, #{model.threeCatDes,jdbcType=VARCHAR}, #{model.fourCat,jdbcType=VARCHAR},
+    #{model.fourCatDes,jdbcType=VARCHAR}, #{model.status,jdbcType=VARCHAR},
+    #{model.calculate,jdbcType=DECIMAL},
+    #{model.orgId,jdbcType=VARCHAR},
+    #{model.basePrice,jdbcType=DECIMAL},
+    #{model.organizationId,jdbcType=VARCHAR}
+    )
+  </insert>
+
+</mapper>

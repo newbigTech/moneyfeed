@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.integration.dal.dao.ebs.bill.EbsCustomerBillDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.integration.api.bean.ebs.bill.EbsCustomerBillModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="data_status" jdbcType="VARCHAR" property="dataStatus" />
+    <result column="org_id" jdbcType="VARCHAR" property="orgId" />
+    <result column="customer_no" jdbcType="VARCHAR" property="customerNo" />
+    <result column="begin_plan_payment" jdbcType="DECIMAL" property="beginPlanPayment" />
+    <result column="end_plan_payment" jdbcType="DECIMAL" property="endPlanPayment" />
+    <result column="pay_quantity" jdbcType="INTEGER" property="payQuantity" />
+    <result column="buy_quantity" jdbcType="DECIMAL" property="buyQuantity" />
+    <result column="give_quantity" jdbcType="DECIMAL" property="giveQuantity" />
+    <result column="must_payable" jdbcType="DECIMAL" property="mustPayable" />
+    <result column="real_payable" jdbcType="DECIMAL" property="realPayable" />
+    <result column="balance_pay" jdbcType="DECIMAL" property="balancePay" />
+    <result column="card_pay" jdbcType="DECIMAL" property="cardPay" />
+    <result column="year" jdbcType="INTEGER" property="year" />
+    <result column="month" jdbcType="INTEGER" property="month" />
+    <result column="sync_detail_flag" jdbcType="VARCHAR" property="syncDetailFlag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gmt_created, gmt_modified, creator, modifier, version, data_status, org_id, customer_no, 
+    begin_plan_payment, end_plan_payment, pay_quantity, buy_quantity, give_quantity, 
+    must_payable, real_payable, balance_pay, card_pay, year, month, sync_detail_flag
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.integration.api.bean.ebs.bill.EbsCustomerBillModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.ebs_customer_bill
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="dataStatus != null">
+         and data_status = #{dataStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="orgId != null">
+         and org_id = #{orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="customerNo != null">
+         and customer_no = #{customerNo,jdbcType=VARCHAR}
+      </if>
+      <if test="beginPlanPayment != null">
+         and begin_plan_payment = #{beginPlanPayment,jdbcType=DECIMAL}
+      </if>
+      <if test="endPlanPayment != null">
+         and end_plan_payment = #{endPlanPayment,jdbcType=DECIMAL}
+      </if>
+      <if test="payQuantity != null">
+         and pay_quantity = #{payQuantity,jdbcType=INTEGER}
+      </if>
+      <if test="buyQuantity != null">
+         and buy_quantity = #{buyQuantity,jdbcType=DECIMAL}
+      </if>
+      <if test="giveQuantity != null">
+         and give_quantity = #{giveQuantity,jdbcType=DECIMAL}
+      </if>
+      <if test="mustPayable != null">
+         and must_payable = #{mustPayable,jdbcType=DECIMAL}
+      </if>
+      <if test="realPayable != null">
+         and real_payable = #{realPayable,jdbcType=DECIMAL}
+      </if>
+      <if test="balancePay != null">
+         and balance_pay = #{balancePay,jdbcType=DECIMAL}
+      </if>
+      <if test="cardPay != null">
+         and card_pay = #{cardPay,jdbcType=DECIMAL}
+      </if>
+      <if test="year != null">
+         and year = #{year,jdbcType=INTEGER}
+      </if>
+      <if test="month != null">
+         and month = #{month,jdbcType=INTEGER}
+      </if>
+      <if test="syncDetailFlag != null">
+         and sync_detail_flag = #{syncDetailFlag,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.ebs_customer_bill (gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      data_status, 
+      org_id, 
+      customer_no, 
+      begin_plan_payment, 
+      end_plan_payment, 
+      pay_quantity, 
+      buy_quantity, 
+      give_quantity, 
+      must_payable, 
+      real_payable, 
+      balance_pay, 
+      card_pay, 
+      year, 
+      month, 
+      sync_detail_flag
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.dataStatus,jdbcType=VARCHAR}, #{model.orgId,jdbcType=VARCHAR}, #{model.customerNo,jdbcType=VARCHAR}, 
+      #{model.beginPlanPayment,jdbcType=DECIMAL}, #{model.endPlanPayment,jdbcType=DECIMAL}, 
+      #{model.payQuantity,jdbcType=INTEGER}, #{model.buyQuantity,jdbcType=DECIMAL}, #{model.giveQuantity,jdbcType=DECIMAL}, 
+      #{model.mustPayable,jdbcType=DECIMAL}, #{model.realPayable,jdbcType=DECIMAL}, #{model.balancePay,jdbcType=DECIMAL}, 
+      #{model.cardPay,jdbcType=DECIMAL}, #{model.year,jdbcType=INTEGER}, #{model.month,jdbcType=INTEGER}, 
+      #{model.syncDetailFlag,jdbcType=VARCHAR}	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.ebs_customer_bill
+    <set>
+      <if test="newModel.dataStatus != null">
+        data_status = #{newModel.dataStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.orgId != null">
+        org_id = #{newModel.orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.customerNo != null">
+        customer_no = #{newModel.customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.beginPlanPayment != null">
+        begin_plan_payment = #{newModel.beginPlanPayment,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.endPlanPayment != null">
+        end_plan_payment = #{newModel.endPlanPayment,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.payQuantity != null">
+        pay_quantity = #{newModel.payQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="newModel.buyQuantity != null">
+        buy_quantity = #{newModel.buyQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.giveQuantity != null">
+        give_quantity = #{newModel.giveQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.mustPayable != null">
+        must_payable = #{newModel.mustPayable,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.realPayable != null">
+        real_payable = #{newModel.realPayable,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.balancePay != null">
+        balance_pay = #{newModel.balancePay,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.cardPay != null">
+        card_pay = #{newModel.cardPay,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.year != null">
+        year = #{newModel.year,jdbcType=INTEGER},
+      </if>
+      <if test="newModel.month != null">
+        month = #{newModel.month,jdbcType=INTEGER},
+      </if>
+      <if test="newModel.syncDetailFlag != null">
+        sync_detail_flag = #{newModel.syncDetailFlag,jdbcType=VARCHAR},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.dataStatus != null">
+         and data_status = #{oldModel.dataStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.orgId != null">
+         and org_id = #{oldModel.orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.customerNo != null">
+         and customer_no = #{oldModel.customerNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.beginPlanPayment != null">
+         and begin_plan_payment = #{oldModel.beginPlanPayment,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.endPlanPayment != null">
+         and end_plan_payment = #{oldModel.endPlanPayment,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.payQuantity != null">
+         and pay_quantity = #{oldModel.payQuantity,jdbcType=INTEGER}
+      </if>
+      <if test="oldModel.buyQuantity != null">
+         and buy_quantity = #{oldModel.buyQuantity,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.giveQuantity != null">
+         and give_quantity = #{oldModel.giveQuantity,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.mustPayable != null">
+         and must_payable = #{oldModel.mustPayable,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.realPayable != null">
+         and real_payable = #{oldModel.realPayable,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.balancePay != null">
+         and balance_pay = #{oldModel.balancePay,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.cardPay != null">
+         and card_pay = #{oldModel.cardPay,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.year != null">
+         and year = #{oldModel.year,jdbcType=INTEGER}
+      </if>
+      <if test="oldModel.month != null">
+         and month = #{oldModel.month,jdbcType=INTEGER}
+      </if>
+      <if test="oldModel.syncDetailFlag != null">
+         and sync_detail_flag = #{oldModel.syncDetailFlag,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.integration.api.bean.ebs.bill.EbsCustomerBillModel">
+    delete from moneyfeed.ebs_customer_bill
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="dataStatus != null">
+         and data_status = #{dataStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="orgId != null">
+         and org_id = #{orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="customerNo != null">
+         and customer_no = #{customerNo,jdbcType=VARCHAR}
+      </if>
+      <if test="beginPlanPayment != null">
+         and begin_plan_payment = #{beginPlanPayment,jdbcType=DECIMAL}
+      </if>
+      <if test="endPlanPayment != null">
+         and end_plan_payment = #{endPlanPayment,jdbcType=DECIMAL}
+      </if>
+      <if test="payQuantity != null">
+         and pay_quantity = #{payQuantity,jdbcType=INTEGER}
+      </if>
+      <if test="buyQuantity != null">
+         and buy_quantity = #{buyQuantity,jdbcType=DECIMAL}
+      </if>
+      <if test="giveQuantity != null">
+         and give_quantity = #{giveQuantity,jdbcType=DECIMAL}
+      </if>
+      <if test="mustPayable != null">
+         and must_payable = #{mustPayable,jdbcType=DECIMAL}
+      </if>
+      <if test="realPayable != null">
+         and real_payable = #{realPayable,jdbcType=DECIMAL}
+      </if>
+      <if test="balancePay != null">
+         and balance_pay = #{balancePay,jdbcType=DECIMAL}
+      </if>
+      <if test="cardPay != null">
+         and card_pay = #{cardPay,jdbcType=DECIMAL}
+      </if>
+      <if test="year != null">
+         and year = #{year,jdbcType=INTEGER}
+      </if>
+      <if test="month != null">
+         and month = #{month,jdbcType=INTEGER}
+      </if>
+      <if test="syncDetailFlag != null">
+         and sync_detail_flag = #{syncDetailFlag,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+</mapper>

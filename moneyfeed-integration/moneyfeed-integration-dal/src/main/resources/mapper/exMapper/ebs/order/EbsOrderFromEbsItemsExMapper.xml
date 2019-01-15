@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.integration.dal.dao.ebs.order.EbsOrderFromEbsItemsDao">
+
+
+  <select id="exSelect" parameterType="com.newhope.moneyfeed.integration.api.bean.ebs.order.EbsOrderFromEbsItemsModel" resultMap="BaseResultMap">
+    select
+    id, gmt_created, gmt_modified, creator,
+    modifier, version, data_status, order_id,
+    order_from_ebs_id, item_type, materiel_no,
+    quantity,
+   ifnull(( select calculate from ebs_material where org_id=a.org_id and item_number=a.materiel_no and status='Active' limit 1 ),1) as factor,
+    unit, second_unit, plan_amount,
+    discount_amount, real_pay_amount, organization_code,
+    org_id
+    from moneyfeed.ebs_order_from_ebs_items a
+    <where>
+      <if test="id != null">
+        and a.id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+        and a.gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP}
+      </if>
+
+      <if test="orderId != null">
+        and a.order_id = #{orderId,jdbcType=BIGINT}
+      </if>
+      <if test="orderFromEbsId != null">
+        and a.order_from_ebs_id = #{orderFromEbsId,jdbcType=BIGINT}
+      </if>
+      <if test="itemType != null">
+        and a.item_type = #{itemType,jdbcType=VARCHAR}
+      </if>
+      <if test="materielNo != null">
+        and a.materiel_no = #{materielNo,jdbcType=VARCHAR}
+      </if>
+      <if test="quantity != null">
+        and a.quantity = #{quantity,jdbcType=DECIMAL}
+      </if>
+      <if test="factor != null">
+        and a.factor = #{factor,jdbcType=DECIMAL}
+      </if>
+      <if test="unit != null">
+        and a.unit = #{unit,jdbcType=VARCHAR}
+      </if>
+      <if test="secondUnit != null">
+        and a.second_unit = #{secondUnit,jdbcType=VARCHAR}
+      </if>
+      <if test="planAmount != null">
+        and a.plan_amount = #{planAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="discountAmount != null">
+        and a.discount_amount = #{discountAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="realPayAmount != null">
+        and a.real_pay_amount = #{realPayAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="organizationCode != null">
+        and a.organization_code = #{organizationCode,jdbcType=VARCHAR}
+      </if>
+      <if test="ebsOrderItemJson != null">
+        and a.ebs_order_item_json = #{ebsOrderItemJson,jdbcType=VARCHAR}
+      </if>
+      <if test="orgId != null">
+        and a.org_id = #{orgId,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+
+</mapper>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.integration.dal.dao.ebs.order.EbsOrderDao">
+  <select id="queryBookOrderInfo" resultMap="BaseResultMap">
+        select a.ebs_order_no,a.ebs_org_id from ebs_order a
+    inner join ebs_order_detail b on a.id =b.order_id
+   where
+    a.order_create_status='BIZ_OPERATION_SUCCESS'
+   and b.ebs_order_status  in ( 'BOOKED','ENTERED')
+   order by  a.gmt_created asc
+  </select>
+    
+    <select id="queryEbsOrderList" parameterType="com.newhope.moneyfeed.integration.api.exbean.ebs.order.EbsOrderExModel"
+            resultMap="BaseResultMap">
+        select
+        *
+        from
+        ebs_order as t
+        <where>
+            <if test="excludeOrderUpdateStatusList != null and excludeOrderUpdateStatusList.size() > 0">
+                and t.order_update_status not in
+                (
+                <foreach collection="excludeOrderUpdateStatusList" item="excludeOrderUpdateStatusSearch" index="index" separator=",">
+                    #{excludeOrderUpdateStatusSearch, jdbcType=VARCHAR}
+                </foreach>
+                )
+            </if>
+        </where>
+    </select>
+    
+    
+    <select id="getEbsOrderListByIdList" parameterType="java.util.List"
+            resultMap="BaseResultMap">
+        select
+        *
+        from
+        ebs_order 
+        where
+        1=1  
+            <if test="orderIdList != null and orderIdList.size() > 0">
+                and id in
+                (
+                <foreach collection="orderIdList" item="orderIdItem" index="index" separator=",">
+                    #{orderIdItem, jdbcType=BIGINT}
+                </foreach>
+                )
+            </if>
+    </select>
+    
+    <select id="getEbsOrderModelById" parameterType="java.lang.Long"
+            resultMap="BaseResultMap">
+        select
+        *
+        from
+        ebs_order 
+        where
+        1=1 and id = #{id,jdbcType=BIGINT}
+    </select>
+</mapper>

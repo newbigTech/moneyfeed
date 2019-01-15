@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>moneyfeed-integration</artifactId>
+		<groupId>com.newhope.moneyfeed</groupId>
+		<version>1.0.0.SNAPSHOT</version>
+	</parent>
+	<artifactId>moneyfeed-integration-biz</artifactId>
+	<name>moneyfeed-integration-biz</name>
+	
+	<dependencies>
+		<dependency>
+			<groupId>com.newhope.moneyfeed</groupId>
+			<artifactId>moneyfeed-integration-dal</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.newhope.ejob.boot</groupId>
+			<artifactId>ejob-spring-boot-starter</artifactId>
+			<version>1.0.0.SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>guava</artifactId>
+					<groupId>com.google.guava</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.newhope.moneyfeed</groupId>
+			<artifactId>moneyfeed-order-api</artifactId>
+			<version>1.0.0.SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.newhope.moneyfeed</groupId>
+			<artifactId>moneyfeed-user-api</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.newhope.moneyfeed</groupId>
+			<artifactId>moneyfeed-api</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.newhope.moneyfeed</groupId>
+			<artifactId>moneyfeed-mq</artifactId>
+			<version>1.0.0.SNAPSHOT</version>
+		</dependency>
+    </dependencies>
+</project>

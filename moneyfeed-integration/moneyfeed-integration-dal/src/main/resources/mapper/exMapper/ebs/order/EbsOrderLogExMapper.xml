@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.integration.dal.dao.ebs.order.EbsOrderLogDao">
+    <select id="queryEbsOrderLogLatestLogByOrderIdAndLogType" parameterType="com.newhope.moneyfeed.integration.api.bean.ebs.order.EbsOrderLogModel"
+            resultMap="BaseResultMap">
+        select
+        *
+        from
+        ebs_order_log as t
+        where
+        t.order_id = #{orderId, jdbcType=INTEGER}
+        and
+        t.log_type = #{logType, jdbcType=VARCHAR}
+        order by t.gmt_created desc
+        limit 1
+    </select>
+
+    <select id="queryFailSendMqLog" resultMap="BaseResultMap">
+        <![CDATA[
+        select id,msg_json,fail_count,operation_result,log_type
+        from ebs_order_log
+        where operation_result=0
+        and log_type='SEND_MQ_MSG'
+        and fail_count<4;
+            ]]>
+    </select>
+</mapper>

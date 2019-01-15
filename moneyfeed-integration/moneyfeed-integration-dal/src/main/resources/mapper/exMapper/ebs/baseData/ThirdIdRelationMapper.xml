@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.integration.dal.dao.ebs.baseData.ThirdIdRelationDao">
+  <select id="queryThirdIdRelation" resultMap="BaseResultMap">
+    SELECT
+    	a.id,
+		a.third_id, 
+		a.zxe_id, 
+		a.source, 
+    	a.code, 
+    	a.enable
+	FROM
+	 third_id_relation a,
+	 third_app b
+    <where>
+      a.source = b.third_name
+      <if test="queryParam.apiKey != null">
+         AND b.api_key = #{queryParam.apiKey}
+      </if>
+      <if test="queryParam.code != null">
+         AND a.code = #{queryParam.code}
+      </if>
+      <if test="queryParam.thirdId != null">
+         AND a.third_id like CONCAT(CONCAT('%',#{queryParam.thirdId},'%')) 
+      </if>
+      <if test="queryParam.enable != null">
+         AND a.enable = #{queryParam.enable}
+      </if>
+    </where>
+  </select>
+</mapper>

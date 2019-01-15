@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.integration.dal.dao.ebs.baseData.ThirdIdRelationDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.integration.api.bean.ebs.baseData.ThirdIdRelationModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="third_id" jdbcType="VARCHAR" property="thirdId" />
+    <result column="zxe_id" jdbcType="BIGINT" property="zxeId" />
+    <result column="source" jdbcType="VARCHAR" property="source" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="enable" jdbcType="BIT" property="enable" />
+    <result column="app_code" jdbcType="VARCHAR" property="appCode" />
+    <result column="app_source" jdbcType="VARCHAR" property="appSource" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gmt_created, gmt_modified, creator, modifier, version, third_id, zxe_id, source, 
+    code, enable, app_code, app_source
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.integration.api.bean.ebs.baseData.ThirdIdRelationModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from  third_id_relation
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="thirdId != null">
+         and third_id = #{thirdId,jdbcType=VARCHAR}
+      </if>
+      <if test="zxeId != null">
+         and zxe_id = #{zxeId,jdbcType=BIGINT}
+      </if>
+      <if test="source != null">
+         and source = #{source,jdbcType=VARCHAR}
+      </if>
+      <if test="code != null">
+         and code = #{code,jdbcType=VARCHAR}
+      </if>
+      <if test="enable != null">
+         and enable = #{enable,jdbcType=BIT}
+      </if>
+      <if test="appCode != null">
+         and app_code = #{appCode,jdbcType=VARCHAR}
+      </if>
+      <if test="appSource != null">
+         and app_source = #{appSource,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into  third_id_relation (gmt_created,
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      third_id, 
+      zxe_id, 
+      source, 
+      code, 
+      enable, 
+      app_code, 
+      app_source
+      )
+    values 
+	<foreach collection="list" item="model" index="index" separator="," close=";" >
+	(#{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.thirdId,jdbcType=VARCHAR}, #{model.zxeId,jdbcType=BIGINT}, #{model.source,jdbcType=VARCHAR}, 
+      #{model.code,jdbcType=VARCHAR}, #{model.enable,jdbcType=BIT}, #{model.appCode,jdbcType=VARCHAR}, 
+      #{model.appSource,jdbcType=VARCHAR}
+	)
+	</foreach>
+  </insert>
+  <update id="update">
+    update  third_id_relation
+    <set>
+      <if test="newModel.thirdId != null">
+        third_id = #{newModel.thirdId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.zxeId != null">
+        zxe_id = #{newModel.zxeId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.source != null">
+        source = #{newModel.source,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.code != null">
+        code = #{newModel.code,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.enable != null">
+        enable = #{newModel.enable,jdbcType=BIT},
+      </if>
+      <if test="newModel.appCode != null">
+        app_code = #{newModel.appCode,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.appSource != null">
+        app_source = #{newModel.appSource,jdbcType=VARCHAR},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.thirdId != null">
+         and third_id = #{oldModel.thirdId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.zxeId != null">
+         and zxe_id = #{oldModel.zxeId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.source != null">
+         and source = #{oldModel.source,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.code != null">
+         and code = #{oldModel.code,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.enable != null">
+         and enable = #{oldModel.enable,jdbcType=BIT}
+      </if>
+      <if test="oldModel.appCode != null">
+         and app_code = #{oldModel.appCode,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.appSource != null">
+         and app_source = #{oldModel.appSource,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.integration.api.bean.ebs.baseData.ThirdIdRelationModel">
+    delete from  third_id_relation
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="thirdId != null">
+         and third_id = #{thirdId,jdbcType=VARCHAR}
+      </if>
+      <if test="zxeId != null">
+         and zxe_id = #{zxeId,jdbcType=BIGINT}
+      </if>
+      <if test="source != null">
+         and source = #{source,jdbcType=VARCHAR}
+      </if>
+      <if test="code != null">
+         and code = #{code,jdbcType=VARCHAR}
+      </if>
+      <if test="enable != null">
+         and enable = #{enable,jdbcType=BIT}
+      </if>
+      <if test="appCode != null">
+         and app_code = #{appCode,jdbcType=VARCHAR}
+      </if>
+      <if test="appSource != null">
+         and app_source = #{appSource,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+</mapper>

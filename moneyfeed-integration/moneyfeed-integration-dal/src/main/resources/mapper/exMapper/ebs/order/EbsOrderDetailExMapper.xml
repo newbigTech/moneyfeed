@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.integration.dal.dao.ebs.order.EbsOrderDetailDao">
+
+  <resultMap id="BaseResultExMap" type="com.newhope.moneyfeed.integration.api.exbean.ebs.order.EbsOrderDetailExModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="data_status" jdbcType="VARCHAR" property="dataStatus" />
+    <result column="order_create_date" jdbcType="TIMESTAMP" property="orderCreateDate" />
+    <result column="order_id" jdbcType="BIGINT" property="orderId" />
+    <result column="ebs_order_status" jdbcType="VARCHAR" property="ebsOrderStatus" />
+    <result column="car_in_time" jdbcType="TIMESTAMP" property="carInTime" />
+    <result column="close_order_time" jdbcType="TIMESTAMP" property="closeOrderTime" />
+    <result column="invoice_order_time" jdbcType="TIMESTAMP" property="invoiceOrderTime" />
+    <result column="cancel_order_time" jdbcType="TIMESTAMP" property="cancelOrderTime" />
+    <result column="car_out_time" jdbcType="TIMESTAMP" property="carOutTime" />
+    <result column="car_no" jdbcType="VARCHAR" property="carNo" />
+    <result column="in_car_weight" jdbcType="DECIMAL" property="inCarWeight" />
+    <result column="out_car_weight" jdbcType="DECIMAL" property="outCarWeight" />
+    <result column="stock_can_use" jdbcType="TINYINT" property="stockCanUse" />
+    <result column="saleOrderId" jdbcType="BIGINT" property="saleOrderId" />
+    <result column="compayCode" jdbcType="VARCHAR" property="compayCode" />
+    <result column="plan_transport_time" jdbcType="TIMESTAMP" property="planTransportTime" />
+    <result column="comanyId" jdbcType="VARCHAR" property="comanyId" />
+    <result column="ebsOrderNo" jdbcType="VARCHAR" property="ebsOrderNo" />
+    <result column="material_changed" jdbcType="BIT" property="materialChanged" />
+  </resultMap>
+
+  <select id="queryEbsOrderDetails" resultMap="BaseResultExMap" parameterType="java.util.List">
+    select a.*
+    ,b.sale_order_id as saleOrderId
+    ,c.short_code  as companyCode
+    from ebs_order_detail a
+    inner join ebs_order b on a.order_id = b.id
+    inner join ebs_company c on c.company_id = b.ebs_org_id
+    where b.sale_order_id in
+     (
+      <foreach collection="saleIds" item="uid" index="index" separator=",">
+        #{uid,jdbcType=VARCHAR}
+      </foreach>
+      )
+  </select>
+
+  <select id="queryEbsOrderDetailExModelList" resultMap="BaseResultExMap" parameterType="com.newhope.moneyfeed.integration.api.exbean.ebs.order.EbsOrderDetailExModel">
+    select
+    t.*,
+    a.sale_order_id as saleOrderId,
+    a.ebs_order_no as ebsOrderNo,
+    a.ebs_org_id as comanyId,
+    b.company_id  as companyCode
+    from ebs_order_detail as t
+    inner join ebs_order as a on a.id = t.order_id
+    inner join ebs_company as b on b.company_id = a.ebs_org_id
+    <where>
+      <if test="saleOrderIdList != null and saleOrderIdList.size() > 0">
+        and a.sale_order_id in
+        (
+          <foreach collection="saleOrderIdList" item="saleOrderIdSearch" index="index" separator=",">
+            #{saleOrderIdSearch, jdbcType=VARCHAR}
+          </foreach>
+        )
+      </if>
+      <if test="excludeStockCanUse">
+        and t.stock_can_use != excludeStockCanUse
+      </if>
+      <if test="beginPlanTransportTime != null">
+        and t.plan_transport_time &gt;= #{beginPlanTransportTime, jdbcType=DATE}
+      </if>
+    </where>
+  </select>
+  
+  
+  <select id="queryLockWarehouseDetailList" resultMap="BaseResultExMap">
+  SELECT eod.*, eo.ebs_order_no AS ebsorderno, eo.sale_order_id saleorderid
+  FROM ebs_order eo, ebs_order_detail eod
+ WHERE 1 = 1
+   AND eod.order_id = eo.id
+   AND eo.ebs_org_id = #{orgId, jdbcType=VARCHAR}
+   AND date_format(eod.plan_transport_time, '%Y-%m-%d') =
+       date_format(#{planDate, jdbcType=DATE}, '%Y-%m-%d')
+   AND eod.ebs_order_status = 'BOOKED'
+   AND (eod.stock_can_use IS NULL OR eod.stock_can_use = 1)
+  </select>
+</mapper>

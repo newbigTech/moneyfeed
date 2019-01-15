@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.integration.dal.dao.third.ThirdAppDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.integration.api.bean.ebs.baseData.ThirdAppModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="api_key" jdbcType="VARCHAR" property="apiKey" />
+    <result column="secret_key" jdbcType="VARCHAR" property="secretKey" />
+    <result column="third_name" jdbcType="VARCHAR" property="thirdName" />
+    <result column="app_code" jdbcType="VARCHAR" property="appCode" />
+    <result column="app_source" jdbcType="VARCHAR" property="appSource" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gmt_created, gmt_modified, creator, modifier, version, api_key, secret_key, third_name, 
+    app_code, app_source
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.integration.api.bean.ebs.baseData.ThirdAppModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from  third_app
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="apiKey != null">
+         and api_key = #{apiKey,jdbcType=VARCHAR}
+      </if>
+      <if test="secretKey != null">
+         and secret_key = #{secretKey,jdbcType=VARCHAR}
+      </if>
+      <if test="thirdName != null">
+         and third_name = #{thirdName,jdbcType=VARCHAR}
+      </if>
+      <if test="appCode != null">
+         and app_code = #{appCode,jdbcType=VARCHAR}
+      </if>
+      <if test="appSource != null">
+         and app_source = #{appSource,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into  third_app (gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      api_key, 
+      secret_key, 
+      third_name, 
+      app_code, 
+      app_source
+      )
+    values 
+	<foreach collection="list" item="model" index="index" separator="," close=";" >
+	(#{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.apiKey,jdbcType=VARCHAR}, #{model.secretKey,jdbcType=VARCHAR}, #{model.thirdName,jdbcType=VARCHAR}, 
+      #{model.appCode,jdbcType=VARCHAR}, #{model.appSource,jdbcType=VARCHAR}
+	)
+	</foreach>
+  </insert>
+  <update id="update">
+    update  third_app
+    <set>
+      <if test="newModel.apiKey != null">
+        api_key = #{newModel.apiKey,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.secretKey != null">
+        secret_key = #{newModel.secretKey,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.thirdName != null">
+        third_name = #{newModel.thirdName,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.appCode != null">
+        app_code = #{newModel.appCode,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.appSource != null">
+        app_source = #{newModel.appSource,jdbcType=VARCHAR},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.apiKey != null">
+         and api_key = #{oldModel.apiKey,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.secretKey != null">
+         and secret_key = #{oldModel.secretKey,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.thirdName != null">
+         and third_name = #{oldModel.thirdName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.appCode != null">
+         and app_code = #{oldModel.appCode,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.appSource != null">
+         and app_source = #{oldModel.appSource,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.integration.api.bean.ebs.baseData.ThirdAppModel">
+    delete from  third_app
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="apiKey != null">
+         and api_key = #{apiKey,jdbcType=VARCHAR}
+      </if>
+      <if test="secretKey != null">
+         and secret_key = #{secretKey,jdbcType=VARCHAR}
+      </if>
+      <if test="thirdName != null">
+         and third_name = #{thirdName,jdbcType=VARCHAR}
+      </if>
+      <if test="appCode != null">
+         and app_code = #{appCode,jdbcType=VARCHAR}
+      </if>
+      <if test="appSource != null">
+         and app_source = #{appSource,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+</mapper>

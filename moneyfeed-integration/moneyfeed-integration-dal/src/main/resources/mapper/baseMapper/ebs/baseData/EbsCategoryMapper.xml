@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.integration.dal.dao.ebs.baseData.EbsCategoryDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.integration.api.bean.ebs.baseData.EbsCategoryModel">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="category_id" jdbcType="VARCHAR" property="categoryId" />
+    <result column="one_cat" jdbcType="VARCHAR" property="oneCat" />
+    <result column="one_cat_desc" jdbcType="VARCHAR" property="oneCatDesc" />
+    <result column="two_cat" jdbcType="VARCHAR" property="twoCat" />
+    <result column="two_cat_desc" jdbcType="VARCHAR" property="twoCatDesc" />
+    <result column="three_cat" jdbcType="VARCHAR" property="threeCat" />
+    <result column="three_cat_desc" jdbcType="VARCHAR" property="threeCatDesc" />
+    <result column="four_cat" jdbcType="VARCHAR" property="fourCat" />
+    <result column="four_cat_desc" jdbcType="VARCHAR" property="fourCatDesc" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, category_id, one_cat, one_cat_desc, two_cat, two_cat_desc, three_cat, three_cat_desc, 
+    four_cat, four_cat_desc
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.integration.api.bean.ebs.baseData.EbsCategoryModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from  ebs_category
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="categoryId != null">
+         and category_id = #{categoryId,jdbcType=VARCHAR}
+      </if>
+      <if test="oneCat != null">
+         and one_cat = #{oneCat,jdbcType=VARCHAR}
+      </if>
+      <if test="oneCatDesc != null">
+         and one_cat_desc = #{oneCatDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="twoCat != null">
+         and two_cat = #{twoCat,jdbcType=VARCHAR}
+      </if>
+      <if test="twoCatDesc != null">
+         and two_cat_desc = #{twoCatDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="threeCat != null">
+         and three_cat = #{threeCat,jdbcType=VARCHAR}
+      </if>
+      <if test="threeCatDesc != null">
+         and three_cat_desc = #{threeCatDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="fourCat != null">
+         and four_cat = #{fourCat,jdbcType=VARCHAR}
+      </if>
+      <if test="fourCatDesc != null">
+         and four_cat_desc = #{fourCatDesc,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into  ebs_category (category_id,
+      one_cat, 
+      one_cat_desc, 
+      two_cat, 
+      two_cat_desc, 
+      three_cat, 
+      three_cat_desc, 
+      four_cat, 
+      four_cat_desc
+      )
+    values 
+	<foreach collection="list" item="model" index="index" separator="," close=";" >
+	(#{model.categoryId,jdbcType=VARCHAR}, 
+      #{model.oneCat,jdbcType=VARCHAR}, #{model.oneCatDesc,jdbcType=VARCHAR}, #{model.twoCat,jdbcType=VARCHAR}, 
+      #{model.twoCatDesc,jdbcType=VARCHAR}, #{model.threeCat,jdbcType=VARCHAR}, #{model.threeCatDesc,jdbcType=VARCHAR}, 
+      #{model.fourCat,jdbcType=VARCHAR}, #{model.fourCatDesc,jdbcType=VARCHAR}
+	)
+	</foreach>
+  </insert>
+  <update id="update">
+    update  ebs_category
+    <set>
+      <if test="newModel.categoryId != null">
+        category_id = #{newModel.categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.oneCat != null">
+        one_cat = #{newModel.oneCat,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.oneCatDesc != null">
+        one_cat_desc = #{newModel.oneCatDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.twoCat != null">
+        two_cat = #{newModel.twoCat,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.twoCatDesc != null">
+        two_cat_desc = #{newModel.twoCatDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.threeCat != null">
+        three_cat = #{newModel.threeCat,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.threeCatDesc != null">
+        three_cat_desc = #{newModel.threeCatDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.fourCat != null">
+        four_cat = #{newModel.fourCat,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.fourCatDesc != null">
+        four_cat_desc = #{newModel.fourCatDesc,jdbcType=VARCHAR},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=INTEGER}
+      </if>
+      <if test="oldModel.categoryId != null">
+         and category_id = #{oldModel.categoryId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.oneCat != null">
+         and one_cat = #{oldModel.oneCat,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.oneCatDesc != null">
+         and one_cat_desc = #{oldModel.oneCatDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.twoCat != null">
+         and two_cat = #{oldModel.twoCat,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.twoCatDesc != null">
+         and two_cat_desc = #{oldModel.twoCatDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.threeCat != null">
+         and three_cat = #{oldModel.threeCat,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.threeCatDesc != null">
+         and three_cat_desc = #{oldModel.threeCatDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.fourCat != null">
+         and four_cat = #{oldModel.fourCat,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.fourCatDesc != null">
+         and four_cat_desc = #{oldModel.fourCatDesc,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.integration.api.bean.ebs.baseData.EbsCategoryModel">
+    delete from  ebs_category
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="categoryId != null">
+         and category_id = #{categoryId,jdbcType=VARCHAR}
+      </if>
+      <if test="oneCat != null">
+         and one_cat = #{oneCat,jdbcType=VARCHAR}
+      </if>
+      <if test="oneCatDesc != null">
+         and one_cat_desc = #{oneCatDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="twoCat != null">
+         and two_cat = #{twoCat,jdbcType=VARCHAR}
+      </if>
+      <if test="twoCatDesc != null">
+         and two_cat_desc = #{twoCatDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="threeCat != null">
+         and three_cat = #{threeCat,jdbcType=VARCHAR}
+      </if>
+      <if test="threeCatDesc != null">
+         and three_cat_desc = #{threeCatDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="fourCat != null">
+         and four_cat = #{fourCat,jdbcType=VARCHAR}
+      </if>
+      <if test="fourCatDesc != null">
+         and four_cat_desc = #{fourCatDesc,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+</mapper>

@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.integration.dal.dao.ebs.bill.EbsCustomerBillDetailDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.integration.api.bean.ebs.bill.EbsCustomerBillDetailModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="data_status" jdbcType="VARCHAR" property="dataStatus" />
+    <result column="org_id" jdbcType="VARCHAR" property="orgId" />
+    <result column="customer_code" jdbcType="VARCHAR" property="customerCode" />
+    <result column="year" jdbcType="INTEGER" property="year" />
+    <result column="month" jdbcType="INTEGER" property="month" />
+    <result column="picking_date" jdbcType="TIMESTAMP" property="pickingDate" />
+    <result column="bill_type" jdbcType="VARCHAR" property="billType" />
+    <result column="docment_num" jdbcType="VARCHAR" property="docmentNum" />
+    <result column="car_num" jdbcType="VARCHAR" property="carNum" />
+    <result column="materiel_num" jdbcType="VARCHAR" property="materielNum" />
+    <result column="materiel_name" jdbcType="VARCHAR" property="materielName" />
+    <result column="quantity" jdbcType="DECIMAL" property="quantity" />
+    <result column="uom_code" jdbcType="VARCHAR" property="uomCode" />
+    <result column="base_price" jdbcType="DECIMAL" property="basePrice" />
+    <result column="sale_price" jdbcType="DECIMAL" property="salePrice" />
+    <result column="t_are_fold" jdbcType="DECIMAL" property="tAreFold" />
+    <result column="account_receivable" jdbcType="DECIMAL" property="accountReceivable" />
+    <result column="funds_received" jdbcType="DECIMAL" property="fundsReceived" />
+    <result column="balance" jdbcType="DECIMAL" property="balance" />
+    <result column="balance_pay" jdbcType="DECIMAL" property="balancePay" />
+    <result column="card_pay" jdbcType="DECIMAL" property="cardPay" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gmt_created, gmt_modified, creator, modifier, version, data_status, org_id, customer_code, 
+    year, month, picking_date, bill_type, docment_num, car_num, materiel_num, materiel_name, 
+    quantity, uom_code, base_price, sale_price, t_are_fold, account_receivable, funds_received, 
+    balance, balance_pay, card_pay
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.integration.api.bean.ebs.bill.EbsCustomerBillDetailModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.ebs_customer_bill_detail
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="dataStatus != null">
+         and data_status = #{dataStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="orgId != null">
+         and org_id = #{orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="customerCode != null">
+         and customer_code = #{customerCode,jdbcType=VARCHAR}
+      </if>
+      <if test="year != null">
+         and year = #{year,jdbcType=INTEGER}
+      </if>
+      <if test="month != null">
+         and month = #{month,jdbcType=INTEGER}
+      </if>
+      <if test="pickingDate != null">
+         and picking_date = #{pickingDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="billType != null">
+         and bill_type = #{billType,jdbcType=VARCHAR}
+      </if>
+      <if test="docmentNum != null">
+         and docment_num = #{docmentNum,jdbcType=VARCHAR}
+      </if>
+      <if test="carNum != null">
+         and car_num = #{carNum,jdbcType=VARCHAR}
+      </if>
+      <if test="materielNum != null">
+         and materiel_num = #{materielNum,jdbcType=VARCHAR}
+      </if>
+      <if test="materielName != null">
+         and materiel_name = #{materielName,jdbcType=VARCHAR}
+      </if>
+      <if test="quantity != null">
+         and quantity = #{quantity,jdbcType=DECIMAL}
+      </if>
+      <if test="uomCode != null">
+         and uom_code = #{uomCode,jdbcType=VARCHAR}
+      </if>
+      <if test="basePrice != null">
+         and base_price = #{basePrice,jdbcType=DECIMAL}
+      </if>
+      <if test="salePrice != null">
+         and sale_price = #{salePrice,jdbcType=DECIMAL}
+      </if>
+      <if test="tAreFold != null">
+         and t_are_fold = #{tAreFold,jdbcType=DECIMAL}
+      </if>
+      <if test="accountReceivable != null">
+         and account_receivable = #{accountReceivable,jdbcType=DECIMAL}
+      </if>
+      <if test="fundsReceived != null">
+         and funds_received = #{fundsReceived,jdbcType=DECIMAL}
+      </if>
+      <if test="balance != null">
+         and balance = #{balance,jdbcType=DECIMAL}
+      </if>
+      <if test="balancePay != null">
+         and balance_pay = #{balancePay,jdbcType=DECIMAL}
+      </if>
+      <if test="cardPay != null">
+         and card_pay = #{cardPay,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.ebs_customer_bill_detail (gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      data_status, 
+      org_id, 
+      customer_code, 
+      year, 
+      month, 
+      picking_date, 
+      bill_type, 
+      docment_num, 
+      car_num, 
+      materiel_num, 
+      materiel_name, 
+      quantity, 
+      uom_code, 
+      base_price, 
+      sale_price, 
+      t_are_fold, 
+      account_receivable, 
+      funds_received, 
+      balance, 
+      balance_pay, 
+      card_pay
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.dataStatus,jdbcType=VARCHAR}, #{model.orgId,jdbcType=VARCHAR}, #{model.customerCode,jdbcType=VARCHAR}, 
+      #{model.year,jdbcType=INTEGER}, #{model.month,jdbcType=INTEGER}, #{model.pickingDate,jdbcType=TIMESTAMP}, 
+      #{model.billType,jdbcType=VARCHAR}, #{model.docmentNum,jdbcType=VARCHAR}, #{model.carNum,jdbcType=VARCHAR}, 
+      #{model.materielNum,jdbcType=VARCHAR}, #{model.materielName,jdbcType=VARCHAR}, 
+      #{model.quantity,jdbcType=DECIMAL}, #{model.uomCode,jdbcType=VARCHAR}, #{model.basePrice,jdbcType=DECIMAL}, 
+      #{model.salePrice,jdbcType=DECIMAL}, #{model.tAreFold,jdbcType=DECIMAL}, #{model.accountReceivable,jdbcType=DECIMAL}, 
+      #{model.fundsReceived,jdbcType=DECIMAL}, #{model.balance,jdbcType=DECIMAL}, #{model.balancePay,jdbcType=DECIMAL}, 
+      #{model.cardPay,jdbcType=DECIMAL}	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.ebs_customer_bill_detail
+    <set>
+      <if test="newModel.dataStatus != null">
+        data_status = #{newModel.dataStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.orgId != null">
+        org_id = #{newModel.orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.customerCode != null">
+        customer_code = #{newModel.customerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.year != null">
+        year = #{newModel.year,jdbcType=INTEGER},
+      </if>
+      <if test="newModel.month != null">
+        month = #{newModel.month,jdbcType=INTEGER},
+      </if>
+      <if test="newModel.pickingDate != null">
+        picking_date = #{newModel.pickingDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newModel.billType != null">
+        bill_type = #{newModel.billType,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.docmentNum != null">
+        docment_num = #{newModel.docmentNum,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.carNum != null">
+        car_num = #{newModel.carNum,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.materielNum != null">
+        materiel_num = #{newModel.materielNum,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.materielName != null">
+        materiel_name = #{newModel.materielName,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.quantity != null">
+        quantity = #{newModel.quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.uomCode != null">
+        uom_code = #{newModel.uomCode,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.basePrice != null">
+        base_price = #{newModel.basePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.salePrice != null">
+        sale_price = #{newModel.salePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.tAreFold != null">
+        t_are_fold = #{newModel.tAreFold,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.accountReceivable != null">
+        account_receivable = #{newModel.accountReceivable,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.fundsReceived != null">
+        funds_received = #{newModel.fundsReceived,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.balance != null">
+        balance = #{newModel.balance,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.balancePay != null">
+        balance_pay = #{newModel.balancePay,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.cardPay != null">
+        card_pay = #{newModel.cardPay,jdbcType=DECIMAL},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.dataStatus != null">
+         and data_status = #{oldModel.dataStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.orgId != null">
+         and org_id = #{oldModel.orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.customerCode != null">
+         and customer_code = #{oldModel.customerCode,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.year != null">
+         and year = #{oldModel.year,jdbcType=INTEGER}
+      </if>
+      <if test="oldModel.month != null">
+         and month = #{oldModel.month,jdbcType=INTEGER}
+      </if>
+      <if test="oldModel.pickingDate != null">
+         and picking_date = #{oldModel.pickingDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="oldModel.billType != null">
+         and bill_type = #{oldModel.billType,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.docmentNum != null">
+         and docment_num = #{oldModel.docmentNum,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.carNum != null">
+         and car_num = #{oldModel.carNum,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.materielNum != null">
+         and materiel_num = #{oldModel.materielNum,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.materielName != null">
+         and materiel_name = #{oldModel.materielName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.quantity != null">
+         and quantity = #{oldModel.quantity,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.uomCode != null">
+         and uom_code = #{oldModel.uomCode,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.basePrice != null">
+         and base_price = #{oldModel.basePrice,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.salePrice != null">
+         and sale_price = #{oldModel.salePrice,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.tAreFold != null">
+         and t_are_fold = #{oldModel.tAreFold,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.accountReceivable != null">
+         and account_receivable = #{oldModel.accountReceivable,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.fundsReceived != null">
+         and funds_received = #{oldModel.fundsReceived,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.balance != null">
+         and balance = #{oldModel.balance,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.balancePay != null">
+         and balance_pay = #{oldModel.balancePay,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.cardPay != null">
+         and card_pay = #{oldModel.cardPay,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.integration.api.bean.ebs.bill.EbsCustomerBillDetailModel">
+    delete from moneyfeed.ebs_customer_bill_detail
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="dataStatus != null">
+         and data_status = #{dataStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="orgId != null">
+         and org_id = #{orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="customerCode != null">
+         and customer_code = #{customerCode,jdbcType=VARCHAR}
+      </if>
+      <if test="year != null">
+         and year = #{year,jdbcType=INTEGER}
+      </if>
+      <if test="month != null">
+         and month = #{month,jdbcType=INTEGER}
+      </if>
+      <if test="pickingDate != null">
+         and picking_date = #{pickingDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="billType != null">
+         and bill_type = #{billType,jdbcType=VARCHAR}
+      </if>
+      <if test="docmentNum != null">
+         and docment_num = #{docmentNum,jdbcType=VARCHAR}
+      </if>
+      <if test="carNum != null">
+         and car_num = #{carNum,jdbcType=VARCHAR}
+      </if>
+      <if test="materielNum != null">
+         and materiel_num = #{materielNum,jdbcType=VARCHAR}
+      </if>
+      <if test="materielName != null">
+         and materiel_name = #{materielName,jdbcType=VARCHAR}
+      </if>
+      <if test="quantity != null">
+         and quantity = #{quantity,jdbcType=DECIMAL}
+      </if>
+      <if test="uomCode != null">
+         and uom_code = #{uomCode,jdbcType=VARCHAR}
+      </if>
+      <if test="basePrice != null">
+         and base_price = #{basePrice,jdbcType=DECIMAL}
+      </if>
+      <if test="salePrice != null">
+         and sale_price = #{salePrice,jdbcType=DECIMAL}
+      </if>
+      <if test="tAreFold != null">
+         and t_are_fold = #{tAreFold,jdbcType=DECIMAL}
+      </if>
+      <if test="accountReceivable != null">
+         and account_receivable = #{accountReceivable,jdbcType=DECIMAL}
+      </if>
+      <if test="fundsReceived != null">
+         and funds_received = #{fundsReceived,jdbcType=DECIMAL}
+      </if>
+      <if test="balance != null">
+         and balance = #{balance,jdbcType=DECIMAL}
+      </if>
+      <if test="balancePay != null">
+         and balance_pay = #{balancePay,jdbcType=DECIMAL}
+      </if>
+      <if test="cardPay != null">
+         and card_pay = #{cardPay,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </delete>
+</mapper>

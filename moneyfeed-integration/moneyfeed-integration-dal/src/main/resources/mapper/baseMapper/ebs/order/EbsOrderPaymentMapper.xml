@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.integration.dal.dao.ebs.order.EbsOrderPaymentDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.integration.api.bean.ebs.order.EbsOrderPaymentModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="order_id" jdbcType="BIGINT" property="orderId" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="data_status" jdbcType="VARCHAR" property="dataStatus" />
+    <result column="pay_type" jdbcType="VARCHAR" property="payType" />
+    <result column="total_pay_amount" jdbcType="DECIMAL" property="totalPayAmount" />
+    <result column="balance_amount" jdbcType="DECIMAL" property="balanceAmount" />
+    <result column="discount_amount" jdbcType="DECIMAL" property="discountAmount" />
+    <result column="currency" jdbcType="VARCHAR" property="currency" />
+    <result column="temp_owe" jdbcType="BIT" property="tempOwe" />
+    <result column="pay_date" jdbcType="TIMESTAMP" property="payDate" />
+    <result column="moneyfeed_pay_no" jdbcType="VARCHAR" property="moneyfeedPayNo" />
+    <result column="acc_no" jdbcType="VARCHAR" property="accNo" />
+    <result column="ebs_real_account" jdbcType="VARCHAR" property="ebsRealAccount" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, order_id, gmt_created, gmt_modified, creator, modifier, version, data_status,
+    pay_type, total_pay_amount, balance_amount, discount_amount, currency, temp_owe,
+    pay_date, moneyfeed_pay_no, acc_no, ebs_real_account
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.integration.api.bean.ebs.order.EbsOrderPaymentModel" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from moneyfeed.ebs_order_payment
+    <where>
+      <if test="id != null">
+        and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="orderId != null">
+        and order_id = #{orderId,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+        and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="dataStatus != null">
+        and data_status = #{dataStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="payType != null">
+        and pay_type = #{payType,jdbcType=VARCHAR}
+      </if>
+      <if test="totalPayAmount != null">
+        and total_pay_amount = #{totalPayAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="balanceAmount != null">
+        and balance_amount = #{balanceAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="discountAmount != null">
+        and discount_amount = #{discountAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="currency != null">
+        and currency = #{currency,jdbcType=VARCHAR}
+      </if>
+      <if test="tempOwe != null">
+        and temp_owe = #{tempOwe,jdbcType=BIT}
+      </if>
+      <if test="payDate != null">
+        and pay_date = #{payDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="moneyfeedPayNo != null">
+        and moneyfeed_pay_no = #{moneyfeedPayNo,jdbcType=VARCHAR}
+      </if>
+      <if test="accNo != null">
+        and acc_no = #{accNo,jdbcType=VARCHAR}
+      </if>
+      <if test="ebsRealAccount != null">
+        and ebs_real_account = #{ebsRealAccount,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.ebs_order_payment (order_id,
+    gmt_created,
+    gmt_modified,
+    creator,
+    modifier,
+    version,
+    data_status,
+    pay_type,
+    total_pay_amount,
+    balance_amount,
+    discount_amount,
+    currency,
+    temp_owe,
+    pay_date,
+    moneyfeed_pay_no,
+    acc_no,
+    ebs_real_account
+    )
+    values
+    <foreach collection="list" item="model" index="index" separator="," close=";" >
+      (#{model.orderId,jdbcType=BIGINT},
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.gmtModified,jdbcType=TIMESTAMP},
+      #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 0, #{model.dataStatus,jdbcType=VARCHAR},
+      #{model.payType,jdbcType=VARCHAR}, #{model.totalPayAmount,jdbcType=DECIMAL}, #{model.balanceAmount,jdbcType=DECIMAL},
+      #{model.discountAmount,jdbcType=DECIMAL}, #{model.currency,jdbcType=VARCHAR}, #{model.tempOwe,jdbcType=BIT},
+      #{model.payDate,jdbcType=TIMESTAMP}, #{model.moneyfeedPayNo,jdbcType=VARCHAR},
+      #{model.accNo,jdbcType=VARCHAR}, #{model.ebsRealAccount,jdbcType=VARCHAR}
+      )
+    </foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.ebs_order_payment
+    <set>
+      <if test="newModel.orderId != null">
+        order_id = #{newModel.orderId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.dataStatus != null">
+        data_status = #{newModel.dataStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.payType != null">
+        pay_type = #{newModel.payType,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.totalPayAmount != null">
+        total_pay_amount = #{newModel.totalPayAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.balanceAmount != null">
+        balance_amount = #{newModel.balanceAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.discountAmount != null">
+        discount_amount = #{newModel.discountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.currency != null">
+        currency = #{newModel.currency,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.tempOwe != null">
+        temp_owe = #{newModel.tempOwe,jdbcType=BIT},
+      </if>
+      <if test="newModel.payDate != null">
+        pay_date = #{newModel.payDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newModel.moneyfeedPayNo != null">
+        moneyfeed_pay_no = #{newModel.moneyfeedPayNo,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.accNo != null">
+        acc_no = #{newModel.accNo,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.ebsRealAccount != null">
+        ebs_real_account = #{newModel.ebsRealAccount,jdbcType=VARCHAR},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+        and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.orderId != null">
+        and order_id = #{oldModel.orderId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.dataStatus != null">
+        and data_status = #{oldModel.dataStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.payType != null">
+        and pay_type = #{oldModel.payType,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.totalPayAmount != null">
+        and total_pay_amount = #{oldModel.totalPayAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.balanceAmount != null">
+        and balance_amount = #{oldModel.balanceAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.discountAmount != null">
+        and discount_amount = #{oldModel.discountAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.currency != null">
+        and currency = #{oldModel.currency,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.tempOwe != null">
+        and temp_owe = #{oldModel.tempOwe,jdbcType=BIT}
+      </if>
+      <if test="oldModel.payDate != null">
+        and pay_date = #{oldModel.payDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="oldModel.moneyfeedPayNo != null">
+        and moneyfeed_pay_no = #{oldModel.moneyfeedPayNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.accNo != null">
+        and acc_no = #{oldModel.accNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.ebsRealAccount != null">
+        and ebs_real_account = #{oldModel.ebsRealAccount,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.integration.api.bean.ebs.order.EbsOrderPaymentModel">
+    delete from moneyfeed.ebs_order_payment
+    <where>
+      <if test="id != null">
+        and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="orderId != null">
+        and order_id = #{orderId,jdbcType=BIGINT}
+      </if>
+      <if test="dataStatus != null">
+        and data_status = #{dataStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="payType != null">
+        and pay_type = #{payType,jdbcType=VARCHAR}
+      </if>
+      <if test="totalPayAmount != null">
+        and total_pay_amount = #{totalPayAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="balanceAmount != null">
+        and balance_amount = #{balanceAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="discountAmount != null">
+        and discount_amount = #{discountAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="currency != null">
+        and currency = #{currency,jdbcType=VARCHAR}
+      </if>
+      <if test="tempOwe != null">
+        and temp_owe = #{tempOwe,jdbcType=BIT}
+      </if>
+      <if test="payDate != null">
+        and pay_date = #{payDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="moneyfeedPayNo != null">
+        and moneyfeed_pay_no = #{moneyfeedPayNo,jdbcType=VARCHAR}
+      </if>
+      <if test="accNo != null">
+        and acc_no = #{accNo,jdbcType=VARCHAR}
+      </if>
+      <if test="ebsRealAccount != null">
+        and ebs_real_account = #{ebsRealAccount,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+</mapper>

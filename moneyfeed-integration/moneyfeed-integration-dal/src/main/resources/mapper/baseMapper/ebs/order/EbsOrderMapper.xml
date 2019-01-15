@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.integration.dal.dao.ebs.order.EbsOrderDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.integration.api.bean.ebs.order.EbsOrderModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="sale_order_no" jdbcType="VARCHAR" property="saleOrderNo" />
+    <result column="sale_order_id" jdbcType="VARCHAR" property="saleOrderId" />
+    <result column="ebs_order_no" jdbcType="VARCHAR" property="ebsOrderNo" />
+    <result column="ebs_order_id" jdbcType="VARCHAR" property="ebsOrderId" />
+    <result column="order_type" jdbcType="VARCHAR" property="orderType" />
+    <result column="order_create_status" jdbcType="VARCHAR" property="orderCreateStatus" />
+    <result column="order_pay_status" jdbcType="VARCHAR" property="orderPayStatus" />
+    <result column="order_cancel_status" jdbcType="VARCHAR" property="orderCancelStatus" />
+    <result column="order_update_status" jdbcType="VARCHAR" property="orderUpdateStatus" />
+    <result column="total_amount" jdbcType="DECIMAL" property="totalAmount" />
+    <result column="ebs_pay_amount" jdbcType="DECIMAL" property="ebsPayAmount" />
+    <result column="card_pay_amount" jdbcType="DECIMAL" property="cardPayAmount" />
+    <result column="ebs_org_id" jdbcType="VARCHAR" property="ebsOrgId" />
+    <result column="ebs_customer_no" jdbcType="VARCHAR" property="ebsCustomerNo" />
+    <result column="bank_pay_no" jdbcType="VARCHAR" property="bankPayNo" />
+    <result column="pay_type" jdbcType="VARCHAR" property="payType" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="data_status" jdbcType="VARCHAR" property="dataStatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, sale_order_no, sale_order_id, ebs_order_no, ebs_order_id, order_type, order_create_status, 
+    order_pay_status, order_cancel_status, order_update_status, total_amount, ebs_pay_amount, 
+    card_pay_amount, ebs_org_id, ebs_customer_no, bank_pay_no, pay_type, gmt_created, 
+    gmt_modified, creator, modifier, version, data_status
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.integration.api.bean.ebs.order.EbsOrderModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.ebs_order
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="saleOrderNo != null">
+         and sale_order_no = #{saleOrderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="saleOrderId != null">
+         and sale_order_id = #{saleOrderId,jdbcType=VARCHAR}
+      </if>
+      <if test="ebsOrderNo != null">
+         and ebs_order_no = #{ebsOrderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="ebsOrderId != null">
+         and ebs_order_id = #{ebsOrderId,jdbcType=VARCHAR}
+      </if>
+      <if test="orderType != null">
+         and order_type = #{orderType,jdbcType=VARCHAR}
+      </if>
+      <if test="orderCreateStatus != null">
+         and order_create_status = #{orderCreateStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="orderPayStatus != null">
+         and order_pay_status = #{orderPayStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="orderCancelStatus != null">
+         and order_cancel_status = #{orderCancelStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="orderUpdateStatus != null">
+         and order_update_status = #{orderUpdateStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="totalAmount != null">
+         and total_amount = #{totalAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="ebsPayAmount != null">
+         and ebs_pay_amount = #{ebsPayAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="cardPayAmount != null">
+         and card_pay_amount = #{cardPayAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="ebsOrgId != null">
+         and ebs_org_id = #{ebsOrgId,jdbcType=VARCHAR}
+      </if>
+      <if test="ebsCustomerNo != null">
+         and ebs_customer_no = #{ebsCustomerNo,jdbcType=VARCHAR}
+      </if>
+      <if test="bankPayNo != null">
+         and bank_pay_no = #{bankPayNo,jdbcType=VARCHAR}
+      </if>
+      <if test="payType != null">
+         and pay_type = #{payType,jdbcType=VARCHAR}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="dataStatus != null">
+         and data_status = #{dataStatus,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.ebs_order (sale_order_no, 
+      sale_order_id, 
+      ebs_order_no, 
+      ebs_order_id, 
+      order_type, 
+      order_create_status, 
+      order_pay_status, 
+      order_cancel_status, 
+      order_update_status, 
+      total_amount, 
+      ebs_pay_amount, 
+      card_pay_amount, 
+      ebs_org_id, 
+      ebs_customer_no, 
+      bank_pay_no, 
+      pay_type, 
+      gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      data_status
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.saleOrderNo,jdbcType=VARCHAR}, 
+      #{model.saleOrderId,jdbcType=VARCHAR}, #{model.ebsOrderNo,jdbcType=VARCHAR}, #{model.ebsOrderId,jdbcType=VARCHAR}, 
+      #{model.orderType,jdbcType=VARCHAR}, #{model.orderCreateStatus,jdbcType=VARCHAR}, 
+      #{model.orderPayStatus,jdbcType=VARCHAR}, #{model.orderCancelStatus,jdbcType=VARCHAR}, 
+      #{model.orderUpdateStatus,jdbcType=VARCHAR}, #{model.totalAmount,jdbcType=DECIMAL}, 
+      #{model.ebsPayAmount,jdbcType=DECIMAL}, #{model.cardPayAmount,jdbcType=DECIMAL}, 
+      #{model.ebsOrgId,jdbcType=VARCHAR}, #{model.ebsCustomerNo,jdbcType=VARCHAR}, #{model.bankPayNo,jdbcType=VARCHAR}, 
+      #{model.payType,jdbcType=VARCHAR}, #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 0, #{model.dataStatus,jdbcType=VARCHAR}
+      	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.ebs_order
+    <set>
+      <if test="newModel.saleOrderNo != null">
+        sale_order_no = #{newModel.saleOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.saleOrderId != null">
+        sale_order_id = #{newModel.saleOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.ebsOrderNo != null">
+        ebs_order_no = #{newModel.ebsOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.ebsOrderId != null">
+        ebs_order_id = #{newModel.ebsOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.orderType != null">
+        order_type = #{newModel.orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.orderCreateStatus != null">
+        order_create_status = #{newModel.orderCreateStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.orderPayStatus != null">
+        order_pay_status = #{newModel.orderPayStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.orderCancelStatus != null">
+        order_cancel_status = #{newModel.orderCancelStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.orderUpdateStatus != null">
+        order_update_status = #{newModel.orderUpdateStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.totalAmount != null">
+        total_amount = #{newModel.totalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.ebsPayAmount != null">
+        ebs_pay_amount = #{newModel.ebsPayAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.cardPayAmount != null">
+        card_pay_amount = #{newModel.cardPayAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.ebsOrgId != null">
+        ebs_org_id = #{newModel.ebsOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.ebsCustomerNo != null">
+        ebs_customer_no = #{newModel.ebsCustomerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.bankPayNo != null">
+        bank_pay_no = #{newModel.bankPayNo,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.payType != null">
+        pay_type = #{newModel.payType,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.dataStatus != null">
+        data_status = #{newModel.dataStatus,jdbcType=VARCHAR},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.saleOrderNo != null">
+         and sale_order_no = #{oldModel.saleOrderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.saleOrderId != null">
+         and sale_order_id = #{oldModel.saleOrderId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.ebsOrderNo != null">
+         and ebs_order_no = #{oldModel.ebsOrderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.ebsOrderId != null">
+         and ebs_order_id = #{oldModel.ebsOrderId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.orderType != null">
+         and order_type = #{oldModel.orderType,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.orderCreateStatus != null">
+         and order_create_status = #{oldModel.orderCreateStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.orderPayStatus != null">
+         and order_pay_status = #{oldModel.orderPayStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.orderCancelStatus != null">
+         and order_cancel_status = #{oldModel.orderCancelStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.orderUpdateStatus != null">
+         and order_update_status = #{oldModel.orderUpdateStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.totalAmount != null">
+         and total_amount = #{oldModel.totalAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.ebsPayAmount != null">
+         and ebs_pay_amount = #{oldModel.ebsPayAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.cardPayAmount != null">
+         and card_pay_amount = #{oldModel.cardPayAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.ebsOrgId != null">
+         and ebs_org_id = #{oldModel.ebsOrgId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.ebsCustomerNo != null">
+         and ebs_customer_no = #{oldModel.ebsCustomerNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.bankPayNo != null">
+         and bank_pay_no = #{oldModel.bankPayNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.payType != null">
+         and pay_type = #{oldModel.payType,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.dataStatus != null">
+         and data_status = #{oldModel.dataStatus,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.integration.api.bean.ebs.order.EbsOrderModel">
+    delete from moneyfeed.ebs_order
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="saleOrderNo != null">
+         and sale_order_no = #{saleOrderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="saleOrderId != null">
+         and sale_order_id = #{saleOrderId,jdbcType=VARCHAR}
+      </if>
+      <if test="ebsOrderNo != null">
+         and ebs_order_no = #{ebsOrderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="ebsOrderId != null">
+         and ebs_order_id = #{ebsOrderId,jdbcType=VARCHAR}
+      </if>
+      <if test="orderType != null">
+         and order_type = #{orderType,jdbcType=VARCHAR}
+      </if>
+      <if test="orderCreateStatus != null">
+         and order_create_status = #{orderCreateStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="orderPayStatus != null">
+         and order_pay_status = #{orderPayStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="orderCancelStatus != null">
+         and order_cancel_status = #{orderCancelStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="orderUpdateStatus != null">
+         and order_update_status = #{orderUpdateStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="totalAmount != null">
+         and total_amount = #{totalAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="ebsPayAmount != null">
+         and ebs_pay_amount = #{ebsPayAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="cardPayAmount != null">
+         and card_pay_amount = #{cardPayAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="ebsOrgId != null">
+         and ebs_org_id = #{ebsOrgId,jdbcType=VARCHAR}
+      </if>
+      <if test="ebsCustomerNo != null">
+         and ebs_customer_no = #{ebsCustomerNo,jdbcType=VARCHAR}
+      </if>
+      <if test="bankPayNo != null">
+         and bank_pay_no = #{bankPayNo,jdbcType=VARCHAR}
+      </if>
+      <if test="payType != null">
+         and pay_type = #{payType,jdbcType=VARCHAR}
+      </if>
+      <if test="dataStatus != null">
+         and data_status = #{dataStatus,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+</mapper>

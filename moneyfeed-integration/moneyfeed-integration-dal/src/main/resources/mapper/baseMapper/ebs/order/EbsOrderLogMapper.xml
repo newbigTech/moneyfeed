@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.integration.dal.dao.ebs.order.EbsOrderLogDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.integration.api.bean.ebs.order.EbsOrderLogModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="order_id" jdbcType="BIGINT" property="orderId" />
+    <result column="sale_order_id" jdbcType="VARCHAR" property="saleOrderId" />
+    <result column="log_type" jdbcType="VARCHAR" property="logType" />
+    <result column="send_time" jdbcType="TIMESTAMP" property="sendTime" />
+    <result column="error_msg" jdbcType="VARCHAR" property="errorMsg" />
+    <result column="msg_json" jdbcType="VARCHAR" property="msgJson" />
+    <result column="fail_count" jdbcType="INTEGER" property="failCount" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="operation_result" jdbcType="TINYINT" property="operationResult" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, order_id, sale_order_id, log_type, send_time, error_msg, msg_json, fail_count, 
+    gmt_created, gmt_modified, creator, modifier, version, operation_result
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.integration.api.bean.ebs.order.EbsOrderLogModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.ebs_order_log
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="orderId != null">
+         and order_id = #{orderId,jdbcType=BIGINT}
+      </if>
+      <if test="saleOrderId != null">
+         and sale_order_id = #{saleOrderId,jdbcType=VARCHAR}
+      </if>
+      <if test="logType != null">
+         and log_type = #{logType,jdbcType=VARCHAR}
+      </if>
+      <if test="sendTime != null">
+         and send_time = #{sendTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="errorMsg != null">
+         and error_msg = #{errorMsg,jdbcType=VARCHAR}
+      </if>
+      <if test="msgJson != null">
+         and msg_json = #{msgJson,jdbcType=VARCHAR}
+      </if>
+      <if test="failCount != null">
+         and fail_count = #{failCount,jdbcType=INTEGER}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="operationResult != null">
+         and operation_result = #{operationResult,jdbcType=TINYINT}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.ebs_order_log (order_id, 
+      sale_order_id, 
+      log_type, 
+      send_time, 
+      error_msg, 
+      msg_json, 
+      fail_count, 
+      gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      operation_result
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.orderId,jdbcType=BIGINT}, 
+      #{model.saleOrderId,jdbcType=VARCHAR}, #{model.logType,jdbcType=VARCHAR}, #{model.sendTime,jdbcType=TIMESTAMP}, 
+      #{model.errorMsg,jdbcType=VARCHAR}, #{model.msgJson,jdbcType=VARCHAR}, #{model.failCount,jdbcType=INTEGER}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 0, #{model.operationResult,jdbcType=TINYINT}
+      	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.ebs_order_log
+    <set>
+      <if test="newModel.orderId != null">
+        order_id = #{newModel.orderId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.saleOrderId != null">
+        sale_order_id = #{newModel.saleOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.logType != null">
+        log_type = #{newModel.logType,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.sendTime != null">
+        send_time = #{newModel.sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newModel.errorMsg != null">
+        error_msg = #{newModel.errorMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.msgJson != null">
+        msg_json = #{newModel.msgJson,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.failCount != null">
+        fail_count = #{newModel.failCount,jdbcType=INTEGER},
+      </if>
+      <if test="newModel.operationResult != null">
+        operation_result = #{newModel.operationResult,jdbcType=TINYINT},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.orderId != null">
+         and order_id = #{oldModel.orderId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.saleOrderId != null">
+         and sale_order_id = #{oldModel.saleOrderId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.logType != null">
+         and log_type = #{oldModel.logType,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.sendTime != null">
+         and send_time = #{oldModel.sendTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="oldModel.errorMsg != null">
+         and error_msg = #{oldModel.errorMsg,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.msgJson != null">
+         and msg_json = #{oldModel.msgJson,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.failCount != null">
+         and fail_count = #{oldModel.failCount,jdbcType=INTEGER}
+      </if>
+      <if test="oldModel.operationResult != null">
+         and operation_result = #{oldModel.operationResult,jdbcType=TINYINT}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.integration.api.bean.ebs.order.EbsOrderLogModel">
+    delete from moneyfeed.ebs_order_log
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="orderId != null">
+         and order_id = #{orderId,jdbcType=BIGINT}
+      </if>
+      <if test="saleOrderId != null">
+         and sale_order_id = #{saleOrderId,jdbcType=VARCHAR}
+      </if>
+      <if test="logType != null">
+         and log_type = #{logType,jdbcType=VARCHAR}
+      </if>
+      <if test="sendTime != null">
+         and send_time = #{sendTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="errorMsg != null">
+         and error_msg = #{errorMsg,jdbcType=VARCHAR}
+      </if>
+      <if test="msgJson != null">
+         and msg_json = #{msgJson,jdbcType=VARCHAR}
+      </if>
+      <if test="failCount != null">
+         and fail_count = #{failCount,jdbcType=INTEGER}
+      </if>
+      <if test="operationResult != null">
+         and operation_result = #{operationResult,jdbcType=TINYINT}
+      </if>
+    </where>
+  </delete>
+</mapper>

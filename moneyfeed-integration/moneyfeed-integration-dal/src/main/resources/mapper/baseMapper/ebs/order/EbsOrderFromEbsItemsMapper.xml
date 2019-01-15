@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.integration.dal.dao.ebs.order.EbsOrderFromEbsItemsDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.integration.api.bean.ebs.order.EbsOrderFromEbsItemsModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="data_status" jdbcType="VARCHAR" property="dataStatus" />
+    <result column="order_id" jdbcType="BIGINT" property="orderId" />
+    <result column="order_from_ebs_id" jdbcType="BIGINT" property="orderFromEbsId" />
+    <result column="item_type" jdbcType="VARCHAR" property="itemType" />
+    <result column="materiel_no" jdbcType="VARCHAR" property="materielNo" />
+    <result column="quantity" jdbcType="DECIMAL" property="quantity" />
+    <result column="factor" jdbcType="DECIMAL" property="factor" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="second_unit" jdbcType="VARCHAR" property="secondUnit" />
+    <result column="plan_amount" jdbcType="DECIMAL" property="planAmount" />
+    <result column="discount_amount" jdbcType="DECIMAL" property="discountAmount" />
+    <result column="real_pay_amount" jdbcType="DECIMAL" property="realPayAmount" />
+    <result column="organization_code" jdbcType="VARCHAR" property="organizationCode" />
+    <result column="ebs_order_item_json" jdbcType="VARCHAR" property="ebsOrderItemJson" />
+    <result column="org_id" jdbcType="VARCHAR" property="orgId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gmt_created, gmt_modified, creator, modifier, version, data_status, order_id, 
+    order_from_ebs_id, item_type, materiel_no, quantity, factor, unit, second_unit, plan_amount, 
+    discount_amount, real_pay_amount, organization_code, ebs_order_item_json, org_id
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.integration.api.bean.ebs.order.EbsOrderFromEbsItemsModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.ebs_order_from_ebs_items
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="dataStatus != null">
+         and data_status = #{dataStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="orderId != null">
+         and order_id = #{orderId,jdbcType=BIGINT}
+      </if>
+      <if test="orderFromEbsId != null">
+         and order_from_ebs_id = #{orderFromEbsId,jdbcType=BIGINT}
+      </if>
+      <if test="itemType != null">
+         and item_type = #{itemType,jdbcType=VARCHAR}
+      </if>
+      <if test="materielNo != null">
+         and materiel_no = #{materielNo,jdbcType=VARCHAR}
+      </if>
+      <if test="quantity != null">
+         and quantity = #{quantity,jdbcType=DECIMAL}
+      </if>
+      <if test="factor != null">
+         and factor = #{factor,jdbcType=DECIMAL}
+      </if>
+      <if test="unit != null">
+         and unit = #{unit,jdbcType=VARCHAR}
+      </if>
+      <if test="secondUnit != null">
+         and second_unit = #{secondUnit,jdbcType=VARCHAR}
+      </if>
+      <if test="planAmount != null">
+         and plan_amount = #{planAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="discountAmount != null">
+         and discount_amount = #{discountAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="realPayAmount != null">
+         and real_pay_amount = #{realPayAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="organizationCode != null">
+         and organization_code = #{organizationCode,jdbcType=VARCHAR}
+      </if>
+      <if test="ebsOrderItemJson != null">
+         and ebs_order_item_json = #{ebsOrderItemJson,jdbcType=VARCHAR}
+      </if>
+      <if test="orgId != null">
+         and org_id = #{orgId,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.ebs_order_from_ebs_items (gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      data_status, 
+      order_id, 
+      order_from_ebs_id, 
+      item_type, 
+      materiel_no, 
+      quantity, 
+      factor, 
+      unit, 
+      second_unit, 
+      plan_amount, 
+      discount_amount, 
+      real_pay_amount, 
+      organization_code, 
+      ebs_order_item_json, 
+      org_id
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.dataStatus,jdbcType=VARCHAR}, #{model.orderId,jdbcType=BIGINT}, #{model.orderFromEbsId,jdbcType=BIGINT}, 
+      #{model.itemType,jdbcType=VARCHAR}, #{model.materielNo,jdbcType=VARCHAR}, #{model.quantity,jdbcType=DECIMAL}, 
+      #{model.factor,jdbcType=DECIMAL}, #{model.unit,jdbcType=VARCHAR}, #{model.secondUnit,jdbcType=VARCHAR}, 
+      #{model.planAmount,jdbcType=DECIMAL}, #{model.discountAmount,jdbcType=DECIMAL}, 
+      #{model.realPayAmount,jdbcType=DECIMAL}, #{model.organizationCode,jdbcType=VARCHAR}, 
+      #{model.ebsOrderItemJson,jdbcType=VARCHAR}, #{model.orgId,jdbcType=VARCHAR}	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.ebs_order_from_ebs_items
+    <set>
+      <if test="newModel.dataStatus != null">
+        data_status = #{newModel.dataStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.orderId != null">
+        order_id = #{newModel.orderId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.orderFromEbsId != null">
+        order_from_ebs_id = #{newModel.orderFromEbsId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.itemType != null">
+        item_type = #{newModel.itemType,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.materielNo != null">
+        materiel_no = #{newModel.materielNo,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.quantity != null">
+        quantity = #{newModel.quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.factor != null">
+        factor = #{newModel.factor,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.unit != null">
+        unit = #{newModel.unit,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.secondUnit != null">
+        second_unit = #{newModel.secondUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.planAmount != null">
+        plan_amount = #{newModel.planAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.discountAmount != null">
+        discount_amount = #{newModel.discountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.realPayAmount != null">
+        real_pay_amount = #{newModel.realPayAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.organizationCode != null">
+        organization_code = #{newModel.organizationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.ebsOrderItemJson != null">
+        ebs_order_item_json = #{newModel.ebsOrderItemJson,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.orgId != null">
+        org_id = #{newModel.orgId,jdbcType=VARCHAR},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.dataStatus != null">
+         and data_status = #{oldModel.dataStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.orderId != null">
+         and order_id = #{oldModel.orderId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.orderFromEbsId != null">
+         and order_from_ebs_id = #{oldModel.orderFromEbsId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.itemType != null">
+         and item_type = #{oldModel.itemType,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.materielNo != null">
+         and materiel_no = #{oldModel.materielNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.quantity != null">
+         and quantity = #{oldModel.quantity,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.factor != null">
+         and factor = #{oldModel.factor,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.unit != null">
+         and unit = #{oldModel.unit,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.secondUnit != null">
+         and second_unit = #{oldModel.secondUnit,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.planAmount != null">
+         and plan_amount = #{oldModel.planAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.discountAmount != null">
+         and discount_amount = #{oldModel.discountAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.realPayAmount != null">
+         and real_pay_amount = #{oldModel.realPayAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.organizationCode != null">
+         and organization_code = #{oldModel.organizationCode,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.ebsOrderItemJson != null">
+         and ebs_order_item_json = #{oldModel.ebsOrderItemJson,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.orgId != null">
+         and org_id = #{oldModel.orgId,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.integration.api.bean.ebs.order.EbsOrderFromEbsItemsModel">
+    delete from moneyfeed.ebs_order_from_ebs_items
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="dataStatus != null">
+         and data_status = #{dataStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="orderId != null">
+         and order_id = #{orderId,jdbcType=BIGINT}
+      </if>
+      <if test="orderFromEbsId != null">
+         and order_from_ebs_id = #{orderFromEbsId,jdbcType=BIGINT}
+      </if>
+      <if test="itemType != null">
+         and item_type = #{itemType,jdbcType=VARCHAR}
+      </if>
+      <if test="materielNo != null">
+         and materiel_no = #{materielNo,jdbcType=VARCHAR}
+      </if>
+      <if test="quantity != null">
+         and quantity = #{quantity,jdbcType=DECIMAL}
+      </if>
+      <if test="factor != null">
+         and factor = #{factor,jdbcType=DECIMAL}
+      </if>
+      <if test="unit != null">
+         and unit = #{unit,jdbcType=VARCHAR}
+      </if>
+      <if test="secondUnit != null">
+         and second_unit = #{secondUnit,jdbcType=VARCHAR}
+      </if>
+      <if test="planAmount != null">
+         and plan_amount = #{planAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="discountAmount != null">
+         and discount_amount = #{discountAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="realPayAmount != null">
+         and real_pay_amount = #{realPayAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="organizationCode != null">
+         and organization_code = #{organizationCode,jdbcType=VARCHAR}
+      </if>
+      <if test="ebsOrderItemJson != null">
+         and ebs_order_item_json = #{ebsOrderItemJson,jdbcType=VARCHAR}
+      </if>
+      <if test="orgId != null">
+         and org_id = #{orgId,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+</mapper>

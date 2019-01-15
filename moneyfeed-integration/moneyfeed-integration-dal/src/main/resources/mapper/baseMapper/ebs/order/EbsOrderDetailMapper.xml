@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.integration.dal.dao.ebs.order.EbsOrderDetailDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.integration.api.bean.ebs.order.EbsOrderDetailModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="data_status" jdbcType="VARCHAR" property="dataStatus" />
+    <result column="order_create_date" jdbcType="TIMESTAMP" property="orderCreateDate" />
+    <result column="order_id" jdbcType="BIGINT" property="orderId" />
+    <result column="ebs_order_status" jdbcType="VARCHAR" property="ebsOrderStatus" />
+    <result column="car_in_time" jdbcType="TIMESTAMP" property="carInTime" />
+    <result column="close_order_time" jdbcType="TIMESTAMP" property="closeOrderTime" />
+    <result column="invoice_order_time" jdbcType="TIMESTAMP" property="invoiceOrderTime" />
+    <result column="cancel_order_time" jdbcType="TIMESTAMP" property="cancelOrderTime" />
+    <result column="car_out_time" jdbcType="TIMESTAMP" property="carOutTime" />
+    <result column="car_no" jdbcType="VARCHAR" property="carNo" />
+    <result column="in_car_weight" jdbcType="DECIMAL" property="inCarWeight" />
+    <result column="out_car_weight" jdbcType="DECIMAL" property="outCarWeight" />
+    <result column="stock_can_use" jdbcType="BIT" property="stockCanUse" />
+    <result column="plan_transport_time" jdbcType="TIMESTAMP" property="planTransportTime" />
+    <result column="weight_num" jdbcType="VARCHAR" property="weightNum" />
+    <result column="material_changed" jdbcType="BIT" property="materialChanged" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gmt_created, gmt_modified, creator, modifier, version, data_status, order_create_date, 
+    order_id, ebs_order_status, car_in_time, close_order_time, invoice_order_time, cancel_order_time, 
+    car_out_time, car_no, in_car_weight, out_car_weight, stock_can_use, plan_transport_time, 
+    weight_num, material_changed
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.integration.api.bean.ebs.order.EbsOrderDetailModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.ebs_order_detail
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="dataStatus != null">
+         and data_status = #{dataStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="orderCreateDate != null">
+         and order_create_date = #{orderCreateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="orderId != null">
+         and order_id = #{orderId,jdbcType=BIGINT}
+      </if>
+      <if test="ebsOrderStatus != null">
+         and ebs_order_status = #{ebsOrderStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="carInTime != null">
+         and car_in_time = #{carInTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="closeOrderTime != null">
+         and close_order_time = #{closeOrderTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="invoiceOrderTime != null">
+         and invoice_order_time = #{invoiceOrderTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="cancelOrderTime != null">
+         and cancel_order_time = #{cancelOrderTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="carOutTime != null">
+         and car_out_time = #{carOutTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="carNo != null">
+         and car_no = #{carNo,jdbcType=VARCHAR}
+      </if>
+      <if test="inCarWeight != null">
+         and in_car_weight = #{inCarWeight,jdbcType=DECIMAL}
+      </if>
+      <if test="outCarWeight != null">
+         and out_car_weight = #{outCarWeight,jdbcType=DECIMAL}
+      </if>
+      <if test="stockCanUse != null">
+         and stock_can_use = #{stockCanUse,jdbcType=BIT}
+      </if>
+      <if test="planTransportTime != null">
+         and plan_transport_time = #{planTransportTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="weightNum != null">
+         and weight_num = #{weightNum,jdbcType=VARCHAR}
+      </if>
+      <if test="materialChanged != null">
+         and material_changed = #{materialChanged,jdbcType=BIT}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.ebs_order_detail (gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      data_status, 
+      order_create_date, 
+      order_id, 
+      ebs_order_status, 
+      car_in_time, 
+      close_order_time, 
+      invoice_order_time, 
+      cancel_order_time, 
+      car_out_time, 
+      car_no, 
+      in_car_weight, 
+      out_car_weight, 
+      stock_can_use, 
+      plan_transport_time, 
+      weight_num, 
+      material_changed
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.dataStatus,jdbcType=VARCHAR}, #{model.orderCreateDate,jdbcType=TIMESTAMP}, 
+      #{model.orderId,jdbcType=BIGINT}, #{model.ebsOrderStatus,jdbcType=VARCHAR}, #{model.carInTime,jdbcType=TIMESTAMP}, 
+      #{model.closeOrderTime,jdbcType=TIMESTAMP}, #{model.invoiceOrderTime,jdbcType=TIMESTAMP}, 
+      #{model.cancelOrderTime,jdbcType=TIMESTAMP}, #{model.carOutTime,jdbcType=TIMESTAMP}, 
+      #{model.carNo,jdbcType=VARCHAR}, #{model.inCarWeight,jdbcType=DECIMAL}, #{model.outCarWeight,jdbcType=DECIMAL}, 
+      #{model.stockCanUse,jdbcType=BIT}, #{model.planTransportTime,jdbcType=TIMESTAMP}, 
+      #{model.weightNum,jdbcType=VARCHAR}, #{model.materialChanged,jdbcType=BIT}	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.ebs_order_detail
+    <set>
+      <if test="newModel.dataStatus != null">
+        data_status = #{newModel.dataStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.orderCreateDate != null">
+        order_create_date = #{newModel.orderCreateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newModel.orderId != null">
+        order_id = #{newModel.orderId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.ebsOrderStatus != null">
+        ebs_order_status = #{newModel.ebsOrderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.carInTime != null">
+        car_in_time = #{newModel.carInTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newModel.closeOrderTime != null">
+        close_order_time = #{newModel.closeOrderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newModel.invoiceOrderTime != null">
+        invoice_order_time = #{newModel.invoiceOrderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newModel.cancelOrderTime != null">
+        cancel_order_time = #{newModel.cancelOrderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newModel.carOutTime != null">
+        car_out_time = #{newModel.carOutTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newModel.carNo != null">
+        car_no = #{newModel.carNo,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.inCarWeight != null">
+        in_car_weight = #{newModel.inCarWeight,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.outCarWeight != null">
+        out_car_weight = #{newModel.outCarWeight,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.stockCanUse != null">
+        stock_can_use = #{newModel.stockCanUse,jdbcType=BIT},
+      </if>
+      <if test="newModel.planTransportTime != null">
+        plan_transport_time = #{newModel.planTransportTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newModel.weightNum != null">
+        weight_num = #{newModel.weightNum,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.materialChanged != null">
+        material_changed = #{newModel.materialChanged,jdbcType=BIT},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.dataStatus != null">
+         and data_status = #{oldModel.dataStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.orderCreateDate != null">
+         and order_create_date = #{oldModel.orderCreateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="oldModel.orderId != null">
+         and order_id = #{oldModel.orderId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.ebsOrderStatus != null">
+         and ebs_order_status = #{oldModel.ebsOrderStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.carInTime != null">
+         and car_in_time = #{oldModel.carInTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="oldModel.closeOrderTime != null">
+         and close_order_time = #{oldModel.closeOrderTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="oldModel.invoiceOrderTime != null">
+         and invoice_order_time = #{oldModel.invoiceOrderTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="oldModel.cancelOrderTime != null">
+         and cancel_order_time = #{oldModel.cancelOrderTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="oldModel.carOutTime != null">
+         and car_out_time = #{oldModel.carOutTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="oldModel.carNo != null">
+         and car_no = #{oldModel.carNo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.inCarWeight != null">
+         and in_car_weight = #{oldModel.inCarWeight,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.outCarWeight != null">
+         and out_car_weight = #{oldModel.outCarWeight,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.stockCanUse != null">
+         and stock_can_use = #{oldModel.stockCanUse,jdbcType=BIT}
+      </if>
+      <if test="oldModel.planTransportTime != null">
+         and plan_transport_time = #{oldModel.planTransportTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="oldModel.weightNum != null">
+         and weight_num = #{oldModel.weightNum,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.materialChanged != null">
+         and material_changed = #{oldModel.materialChanged,jdbcType=BIT}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.integration.api.bean.ebs.order.EbsOrderDetailModel">
+    delete from moneyfeed.ebs_order_detail
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="dataStatus != null">
+         and data_status = #{dataStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="orderCreateDate != null">
+         and order_create_date = #{orderCreateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="orderId != null">
+         and order_id = #{orderId,jdbcType=BIGINT}
+      </if>
+      <if test="ebsOrderStatus != null">
+         and ebs_order_status = #{ebsOrderStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="carInTime != null">
+         and car_in_time = #{carInTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="closeOrderTime != null">
+         and close_order_time = #{closeOrderTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="invoiceOrderTime != null">
+         and invoice_order_time = #{invoiceOrderTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="cancelOrderTime != null">
+         and cancel_order_time = #{cancelOrderTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="carOutTime != null">
+         and car_out_time = #{carOutTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="carNo != null">
+         and car_no = #{carNo,jdbcType=VARCHAR}
+      </if>
+      <if test="inCarWeight != null">
+         and in_car_weight = #{inCarWeight,jdbcType=DECIMAL}
+      </if>
+      <if test="outCarWeight != null">
+         and out_car_weight = #{outCarWeight,jdbcType=DECIMAL}
+      </if>
+      <if test="stockCanUse != null">
+         and stock_can_use = #{stockCanUse,jdbcType=BIT}
+      </if>
+      <if test="planTransportTime != null">
+         and plan_transport_time = #{planTransportTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="weightNum != null">
+         and weight_num = #{weightNum,jdbcType=VARCHAR}
+      </if>
+      <if test="materialChanged != null">
+         and material_changed = #{materialChanged,jdbcType=BIT}
+      </if>
+    </where>
+  </delete>
+</mapper>

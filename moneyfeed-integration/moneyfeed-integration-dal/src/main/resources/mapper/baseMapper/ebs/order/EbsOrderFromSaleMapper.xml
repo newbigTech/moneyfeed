@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.integration.dal.dao.ebs.order.EbsOrderFromSaleDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.integration.api.bean.ebs.order.EbsOrderFromSaleModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="order_id" jdbcType="BIGINT" property="orderId" />
+    <result column="sale_order_josn" jdbcType="VARCHAR" property="saleOrderJosn" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="data_status" jdbcType="VARCHAR" property="dataStatus" />
+    <result column="plan_pickup_date" jdbcType="DATE" property="planPickupDate" />
+    <result column="shop_id" jdbcType="VARCHAR" property="shopId" />
+    <result column="car_no" jdbcType="VARCHAR" property="carNo" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, order_id, sale_order_josn, gmt_created, gmt_modified, creator, modifier, version, 
+    data_status, plan_pickup_date, shop_id, car_no
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.integration.api.bean.ebs.order.EbsOrderFromSaleModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.ebs_order_from_sale
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="orderId != null">
+         and order_id = #{orderId,jdbcType=BIGINT}
+      </if>
+      <if test="saleOrderJosn != null">
+         and sale_order_josn = #{saleOrderJosn,jdbcType=VARCHAR}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="dataStatus != null">
+         and data_status = #{dataStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="planPickupDate != null">
+         and plan_pickup_date = #{planPickupDate,jdbcType=DATE}
+      </if>
+      <if test="shopId != null">
+         and shop_id = #{shopId,jdbcType=VARCHAR}
+      </if>
+      <if test="carNo != null">
+         and car_no = #{carNo,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.ebs_order_from_sale (order_id, 
+      sale_order_josn, 
+      gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      data_status, 
+      plan_pickup_date, 
+      shop_id, 
+      car_no
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.orderId,jdbcType=BIGINT}, 
+      #{model.saleOrderJosn,jdbcType=VARCHAR}, #{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.dataStatus,jdbcType=VARCHAR}, #{model.planPickupDate,jdbcType=DATE}, 
+      #{model.shopId,jdbcType=VARCHAR}, #{model.carNo,jdbcType=VARCHAR}	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.ebs_order_from_sale
+    <set>
+      <if test="newModel.orderId != null">
+        order_id = #{newModel.orderId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.saleOrderJosn != null">
+        sale_order_josn = #{newModel.saleOrderJosn,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.dataStatus != null">
+        data_status = #{newModel.dataStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.planPickupDate != null">
+        plan_pickup_date = #{newModel.planPickupDate,jdbcType=DATE},
+      </if>
+      <if test="newModel.shopId != null">
+        shop_id = #{newModel.shopId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.carNo != null">
+        car_no = #{newModel.carNo,jdbcType=VARCHAR},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.orderId != null">
+         and order_id = #{oldModel.orderId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.saleOrderJosn != null">
+         and sale_order_josn = #{oldModel.saleOrderJosn,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.dataStatus != null">
+         and data_status = #{oldModel.dataStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.planPickupDate != null">
+         and plan_pickup_date = #{oldModel.planPickupDate,jdbcType=DATE}
+      </if>
+      <if test="oldModel.shopId != null">
+         and shop_id = #{oldModel.shopId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.carNo != null">
+         and car_no = #{oldModel.carNo,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.integration.api.bean.ebs.order.EbsOrderFromSaleModel">
+    delete from moneyfeed.ebs_order_from_sale
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="orderId != null">
+         and order_id = #{orderId,jdbcType=BIGINT}
+      </if>
+      <if test="saleOrderJosn != null">
+         and sale_order_josn = #{saleOrderJosn,jdbcType=VARCHAR}
+      </if>
+      <if test="dataStatus != null">
+         and data_status = #{dataStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="planPickupDate != null">
+         and plan_pickup_date = #{planPickupDate,jdbcType=DATE}
+      </if>
+      <if test="shopId != null">
+         and shop_id = #{shopId,jdbcType=VARCHAR}
+      </if>
+      <if test="carNo != null">
+         and car_no = #{carNo,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+</mapper>

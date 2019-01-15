@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.integration.dal.dao.ebs.baseData.EbsCustomerDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.integration.api.bean.ebs.baseData.EbsCustomerModel">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="company_name" jdbcType="VARCHAR" property="companyName" />
+    <result column="org_id" jdbcType="VARCHAR" property="orgId" />
+    <result column="company_short_code" jdbcType="VARCHAR" property="companyShortCode" />
+    <result column="customer_num" jdbcType="VARCHAR" property="customerNum" />
+    <result column="customer_name" jdbcType="VARCHAR" property="customerName" />
+    <result column="customer_know_as" jdbcType="VARCHAR" property="customerKnowAs" />
+    <result column="tax_reference" jdbcType="VARCHAR" property="taxReference" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="county" jdbcType="VARCHAR" property="county" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="contact_person" jdbcType="VARCHAR" property="contactPerson" />
+    <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber" />
+    <result column="category1" jdbcType="VARCHAR" property="category1" />
+    <result column="category2" jdbcType="VARCHAR" property="category2" />
+    <result column="category3" jdbcType="VARCHAR" property="category3" />
+    <result column="guimo" jdbcType="VARCHAR" property="guimo" />
+    <result column="person_id" jdbcType="VARCHAR" property="personId" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gmt_created, gmt_modified, creator, modifier, version, company_name, org_id, 
+    company_short_code, customer_num, customer_name, customer_know_as, tax_reference, 
+    province, city, county, address, contact_person, phone_number, category1, category2, 
+    category3, guimo, person_id, status
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.integration.api.bean.ebs.baseData.EbsCustomerModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from  ebs_customer
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="companyName != null">
+         and company_name = #{companyName,jdbcType=VARCHAR}
+      </if>
+      <if test="orgId != null">
+         and org_id = #{orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="companyShortCode != null">
+         and company_short_code = #{companyShortCode,jdbcType=VARCHAR}
+      </if>
+      <if test="customerNum != null">
+         and customer_num = #{customerNum,jdbcType=VARCHAR}
+      </if>
+      <if test="customerName != null">
+         and customer_name = #{customerName,jdbcType=VARCHAR}
+      </if>
+      <if test="customerKnowAs != null">
+         and customer_know_as = #{customerKnowAs,jdbcType=VARCHAR}
+      </if>
+      <if test="taxReference != null">
+         and tax_reference = #{taxReference,jdbcType=VARCHAR}
+      </if>
+      <if test="province != null">
+         and province = #{province,jdbcType=VARCHAR}
+      </if>
+      <if test="city != null">
+         and city = #{city,jdbcType=VARCHAR}
+      </if>
+      <if test="county != null">
+         and county = #{county,jdbcType=VARCHAR}
+      </if>
+      <if test="address != null">
+         and address = #{address,jdbcType=VARCHAR}
+      </if>
+      <if test="contactPerson != null">
+         and contact_person = #{contactPerson,jdbcType=VARCHAR}
+      </if>
+      <if test="phoneNumber != null">
+         and phone_number = #{phoneNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="category1 != null">
+         and category1 = #{category1,jdbcType=VARCHAR}
+      </if>
+      <if test="category2 != null">
+         and category2 = #{category2,jdbcType=VARCHAR}
+      </if>
+      <if test="category3 != null">
+         and category3 = #{category3,jdbcType=VARCHAR}
+      </if>
+      <if test="guimo != null">
+         and guimo = #{guimo,jdbcType=VARCHAR}
+      </if>
+      <if test="personId != null">
+         and person_id = #{personId,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null">
+         and status = #{status,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into  ebs_customer (gmt_created,
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      company_name, 
+      org_id, 
+      company_short_code, 
+      customer_num, 
+      customer_name, 
+      customer_know_as, 
+      tax_reference, 
+      province, 
+      city, 
+      county, 
+      address, 
+      contact_person, 
+      phone_number, 
+      category1, 
+      category2, 
+      category3, 
+      guimo, 
+      person_id, 
+      status
+      )
+    values 
+	<foreach collection="list" item="model" index="index" separator="," close=";" >
+	(#{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 
+      0, #{model.companyName,jdbcType=VARCHAR}, #{model.orgId,jdbcType=VARCHAR}, #{model.companyShortCode,jdbcType=VARCHAR}, 
+      #{model.customerNum,jdbcType=VARCHAR}, #{model.customerName,jdbcType=VARCHAR}, 
+      #{model.customerKnowAs,jdbcType=VARCHAR}, #{model.taxReference,jdbcType=VARCHAR}, 
+      #{model.province,jdbcType=VARCHAR}, #{model.city,jdbcType=VARCHAR}, #{model.county,jdbcType=VARCHAR}, 
+      #{model.address,jdbcType=VARCHAR}, #{model.contactPerson,jdbcType=VARCHAR}, #{model.phoneNumber,jdbcType=VARCHAR}, 
+      #{model.category1,jdbcType=VARCHAR}, #{model.category2,jdbcType=VARCHAR}, #{model.category3,jdbcType=VARCHAR}, 
+      #{model.guimo,jdbcType=VARCHAR}, #{model.personId,jdbcType=VARCHAR}, #{model.status,jdbcType=VARCHAR}
+      
+	)
+	</foreach>
+  </insert>
+  <update id="update">
+    update  ebs_customer
+    <set>
+      <if test="newModel.companyName != null">
+        company_name = #{newModel.companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.orgId != null">
+        org_id = #{newModel.orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.companyShortCode != null">
+        company_short_code = #{newModel.companyShortCode,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.customerNum != null">
+        customer_num = #{newModel.customerNum,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.customerName != null">
+        customer_name = #{newModel.customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.customerKnowAs != null">
+        customer_know_as = #{newModel.customerKnowAs,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.taxReference != null">
+        tax_reference = #{newModel.taxReference,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.province != null">
+        province = #{newModel.province,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.city != null">
+        city = #{newModel.city,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.county != null">
+        county = #{newModel.county,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.address != null">
+        address = #{newModel.address,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.contactPerson != null">
+        contact_person = #{newModel.contactPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.phoneNumber != null">
+        phone_number = #{newModel.phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.category1 != null">
+        category1 = #{newModel.category1,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.category2 != null">
+        category2 = #{newModel.category2,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.category3 != null">
+        category3 = #{newModel.category3,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.guimo != null">
+        guimo = #{newModel.guimo,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.personId != null">
+        person_id = #{newModel.personId,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.status != null">
+        status = #{newModel.status,jdbcType=VARCHAR},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=INTEGER}
+      </if>
+      <if test="oldModel.companyName != null">
+         and company_name = #{oldModel.companyName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.orgId != null">
+         and org_id = #{oldModel.orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.companyShortCode != null">
+         and company_short_code = #{oldModel.companyShortCode,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.customerNum != null">
+         and customer_num = #{oldModel.customerNum,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.customerName != null">
+         and customer_name = #{oldModel.customerName,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.customerKnowAs != null">
+         and customer_know_as = #{oldModel.customerKnowAs,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.taxReference != null">
+         and tax_reference = #{oldModel.taxReference,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.province != null">
+         and province = #{oldModel.province,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.city != null">
+         and city = #{oldModel.city,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.county != null">
+         and county = #{oldModel.county,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.address != null">
+         and address = #{oldModel.address,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.contactPerson != null">
+         and contact_person = #{oldModel.contactPerson,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.phoneNumber != null">
+         and phone_number = #{oldModel.phoneNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.category1 != null">
+         and category1 = #{oldModel.category1,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.category2 != null">
+         and category2 = #{oldModel.category2,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.category3 != null">
+         and category3 = #{oldModel.category3,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.guimo != null">
+         and guimo = #{oldModel.guimo,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.personId != null">
+         and person_id = #{oldModel.personId,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.status != null">
+         and status = #{oldModel.status,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.integration.api.bean.ebs.baseData.EbsCustomerModel">
+    delete from  ebs_customer
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="companyName != null">
+         and company_name = #{companyName,jdbcType=VARCHAR}
+      </if>
+      <if test="orgId != null">
+         and org_id = #{orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="companyShortCode != null">
+         and company_short_code = #{companyShortCode,jdbcType=VARCHAR}
+      </if>
+      <if test="customerNum != null">
+         and customer_num = #{customerNum,jdbcType=VARCHAR}
+      </if>
+      <if test="customerName != null">
+         and customer_name = #{customerName,jdbcType=VARCHAR}
+      </if>
+      <if test="customerKnowAs != null">
+         and customer_know_as = #{customerKnowAs,jdbcType=VARCHAR}
+      </if>
+      <if test="taxReference != null">
+         and tax_reference = #{taxReference,jdbcType=VARCHAR}
+      </if>
+      <if test="province != null">
+         and province = #{province,jdbcType=VARCHAR}
+      </if>
+      <if test="city != null">
+         and city = #{city,jdbcType=VARCHAR}
+      </if>
+      <if test="county != null">
+         and county = #{county,jdbcType=VARCHAR}
+      </if>
+      <if test="address != null">
+         and address = #{address,jdbcType=VARCHAR}
+      </if>
+      <if test="contactPerson != null">
+         and contact_person = #{contactPerson,jdbcType=VARCHAR}
+      </if>
+      <if test="phoneNumber != null">
+         and phone_number = #{phoneNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="category1 != null">
+         and category1 = #{category1,jdbcType=VARCHAR}
+      </if>
+      <if test="category2 != null">
+         and category2 = #{category2,jdbcType=VARCHAR}
+      </if>
+      <if test="category3 != null">
+         and category3 = #{category3,jdbcType=VARCHAR}
+      </if>
+      <if test="guimo != null">
+         and guimo = #{guimo,jdbcType=VARCHAR}
+      </if>
+      <if test="personId != null">
+         and person_id = #{personId,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null">
+         and status = #{status,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+</mapper>

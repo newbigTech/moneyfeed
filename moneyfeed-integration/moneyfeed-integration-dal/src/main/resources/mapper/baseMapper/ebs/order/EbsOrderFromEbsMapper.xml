@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.integration.dal.dao.ebs.order.EbsOrderFromEbsDao">
+  <resultMap id="BaseResultMap" type="com.newhope.moneyfeed.integration.api.bean.ebs.order.EbsOrderFromEbsModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="order_id" jdbcType="BIGINT" property="orderId" />
+    <result column="ebs_order_josn" jdbcType="VARCHAR" property="ebsOrderJosn" />
+    <result column="plan_total_amount" jdbcType="DECIMAL" property="planTotalAmount" />
+    <result column="discount_amount" jdbcType="DECIMAL" property="discountAmount" />
+    <result column="real_pay_amount" jdbcType="DECIMAL" property="realPayAmount" />
+    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="modifier" jdbcType="BIGINT" property="modifier" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="data_status" jdbcType="VARCHAR" property="dataStatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, order_id, ebs_order_josn, plan_total_amount, discount_amount, real_pay_amount, 
+    gmt_created, gmt_modified, creator, modifier, version, data_status
+  </sql>
+  <select id="select" parameterType="com.newhope.moneyfeed.integration.api.bean.ebs.order.EbsOrderFromEbsModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.ebs_order_from_ebs
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="orderId != null">
+         and order_id = #{orderId,jdbcType=BIGINT}
+      </if>
+      <if test="ebsOrderJosn != null">
+         and ebs_order_josn = #{ebsOrderJosn,jdbcType=VARCHAR}
+      </if>
+      <if test="planTotalAmount != null">
+         and plan_total_amount = #{planTotalAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="discountAmount != null">
+         and discount_amount = #{discountAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="realPayAmount != null">
+         and real_pay_amount = #{realPayAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="dataStatus != null">
+         and data_status = #{dataStatus,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into moneyfeed.ebs_order_from_ebs (order_id, 
+      ebs_order_josn, 
+      plan_total_amount, 
+      discount_amount, 
+      real_pay_amount, 
+      gmt_created, 
+      gmt_modified, 
+      creator, 
+      modifier, 
+      version, 
+      data_status
+      )
+    values 	<foreach collection="list" item="model" index="index" separator="," close=";" >	(#{model.orderId,jdbcType=BIGINT}, 
+      #{model.ebsOrderJosn,jdbcType=VARCHAR}, #{model.planTotalAmount,jdbcType=DECIMAL}, 
+      #{model.discountAmount,jdbcType=DECIMAL}, #{model.realPayAmount,jdbcType=DECIMAL}, 
+      #{model.gmtModified,jdbcType=TIMESTAMP}, #{model.gmtModified,jdbcType=TIMESTAMP}, 
+      #{model.creator,jdbcType=BIGINT}, #{model.modifier,jdbcType=BIGINT}, 0, #{model.dataStatus,jdbcType=VARCHAR}
+      	)	</foreach>
+  </insert>
+  <update id="update">
+    update moneyfeed.ebs_order_from_ebs
+    <set>
+      <if test="newModel.orderId != null">
+        order_id = #{newModel.orderId,jdbcType=BIGINT},
+      </if>
+      <if test="newModel.ebsOrderJosn != null">
+        ebs_order_josn = #{newModel.ebsOrderJosn,jdbcType=VARCHAR},
+      </if>
+      <if test="newModel.planTotalAmount != null">
+        plan_total_amount = #{newModel.planTotalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.discountAmount != null">
+        discount_amount = #{newModel.discountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.realPayAmount != null">
+        real_pay_amount = #{newModel.realPayAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="newModel.dataStatus != null">
+        data_status = #{newModel.dataStatus,jdbcType=VARCHAR},
+      </if>
+      gmt_modified = #{newModel.gmtModified,jdbcType=TIMESTAMP},modifier = 0,version = version + 1
+    </set>
+    <where>
+      <if test="oldModel.id != null">
+         and id = #{oldModel.id,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.orderId != null">
+         and order_id = #{oldModel.orderId,jdbcType=BIGINT}
+      </if>
+      <if test="oldModel.ebsOrderJosn != null">
+         and ebs_order_josn = #{oldModel.ebsOrderJosn,jdbcType=VARCHAR}
+      </if>
+      <if test="oldModel.planTotalAmount != null">
+         and plan_total_amount = #{oldModel.planTotalAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.discountAmount != null">
+         and discount_amount = #{oldModel.discountAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.realPayAmount != null">
+         and real_pay_amount = #{oldModel.realPayAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="oldModel.dataStatus != null">
+         and data_status = #{oldModel.dataStatus,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <delete id="delete" parameterType="com.newhope.moneyfeed.integration.api.bean.ebs.order.EbsOrderFromEbsModel">
+    delete from moneyfeed.ebs_order_from_ebs
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="orderId != null">
+         and order_id = #{orderId,jdbcType=BIGINT}
+      </if>
+      <if test="ebsOrderJosn != null">
+         and ebs_order_josn = #{ebsOrderJosn,jdbcType=VARCHAR}
+      </if>
+      <if test="planTotalAmount != null">
+         and plan_total_amount = #{planTotalAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="discountAmount != null">
+         and discount_amount = #{discountAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="realPayAmount != null">
+         and real_pay_amount = #{realPayAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="dataStatus != null">
+         and data_status = #{dataStatus,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+</mapper>

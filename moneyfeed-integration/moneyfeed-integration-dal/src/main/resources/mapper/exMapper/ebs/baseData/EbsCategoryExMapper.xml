@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.integration.dal.dao.ebs.baseData.EbsCategoryDao">
+
+    <select id="selectExist" resultType="java.lang.Integer">
+
+      select count(0) from  ebs_category where  category_id = #{categoryId}
+
+    </select>
+
+
+    <insert id="insertSingle">
+
+        insert into   ebs_category (
+        gmt_created,
+      gmt_modified,
+      creator,
+      modifier,
+      version,
+        category_id,
+        one_cat,
+        one_cat_desc,
+        two_cat,
+        two_cat_desc,
+        three_cat,
+        three_cat_desc,
+        four_cat,
+        four_cat_desc
+        )
+        values
+          (#{model.gmtModified,jdbcType=TIMESTAMP},
+      #{model.gmtModified,jdbcType=TIMESTAMP}, 0, 0,0,#{model.categoryId,jdbcType=VARCHAR},
+          #{model.oneCat,jdbcType=VARCHAR}, #{model.oneCatDesc,jdbcType=VARCHAR}, #{model.twoCat,jdbcType=VARCHAR},
+          #{model.twoCatDesc,jdbcType=VARCHAR}, #{model.threeCat,jdbcType=VARCHAR}, #{model.threeCatDesc,jdbcType=VARCHAR},
+          #{model.fourCat,jdbcType=VARCHAR}, #{model.fourCatDesc,jdbcType=VARCHAR}
+          )
+      </insert>
+</mapper>

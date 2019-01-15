@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newhope.moneyfeed.integration.dal.dao.ebs.bill.EbsCustomerBillDetailDao">
+   
+  <select id="queryPageList" parameterType="com.newhope.moneyfeed.integration.api.bean.ebs.bill.EbsCustomerBillDetailModel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from moneyfeed.ebs_customer_bill_detail
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="virtualCreateTime != null">
+         and gmt_modified &gt;=  #{virtualCreateTime,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="dataStatus != null">
+         and data_status = #{dataStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="orgId != null">
+         and org_id = #{orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="customerCode != null">
+         and customer_code = #{customerCode,jdbcType=VARCHAR}
+      </if>
+      <if test="year != null">
+         and year = #{year,jdbcType=INTEGER}
+      </if>
+      <if test="month != null">
+         and month = #{month,jdbcType=INTEGER}
+      </if>
+      <if test="pickingDate != null">
+         and picking_date = #{pickingDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="billType != null">
+         and bill_type = #{billType,jdbcType=VARCHAR}
+      </if>
+      <if test="docmentNum != null">
+         and docment_num = #{docmentNum,jdbcType=VARCHAR}
+      </if>
+      <if test="carNum != null">
+         and car_num = #{carNum,jdbcType=VARCHAR}
+      </if>
+      <if test="materielNum != null">
+         and materiel_num = #{materielNum,jdbcType=VARCHAR}
+      </if>
+      <if test="materielName != null">
+         and materiel_name = #{materielName,jdbcType=VARCHAR}
+      </if>
+      <if test="quantity != null">
+         and quantity = #{quantity,jdbcType=DECIMAL}
+      </if>
+      <if test="uomCode != null">
+         and uom_code = #{uomCode,jdbcType=VARCHAR}
+      </if>
+      <if test="basePrice != null">
+         and base_price = #{basePrice,jdbcType=DECIMAL}
+      </if>
+      <if test="salePrice != null">
+         and sale_price = #{salePrice,jdbcType=DECIMAL}
+      </if>
+      <if test="tAreFold != null">
+         and t_are_fold = #{tAreFold,jdbcType=DECIMAL}
+      </if>
+      <if test="accountReceivable != null">
+         and account_receivable = #{accountReceivable,jdbcType=DECIMAL}
+      </if>
+      <if test="fundsReceived != null">
+         and funds_received = #{fundsReceived,jdbcType=DECIMAL}
+      </if>
+      <if test="balance != null">
+         and balance = #{balance,jdbcType=DECIMAL}
+      </if>
+      <if test="balancePay != null">
+         and balance_pay = #{balancePay,jdbcType=DECIMAL}
+      </if>
+      <if test="cardPay != null">
+         and card_pay = #{cardPay,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </select>
+  
+</mapper>
